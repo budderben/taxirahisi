@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Usimamizi wa Vyama & Gawio la 3% | TRA TaxRahisi{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('admin.dashboard') }}" class="subnav-link">{{ icon('chart', 'icon-sm') }} Dashibodi Kuu</a>
+        <a href="{{ url_for('admin.taxpayers') }}" class="subnav-link">{{ icon('users', 'icon-sm') }} Walipakodi</a>
+        <a href="{{ url_for('admin.tax_rules') }}" class="subnav-link">{{ icon('settings', 'icon-sm') }} Viwango vya Kodi (Bands)</a>
+        <a href="{{ url_for('admin.payments') }}" class="subnav-link">{{ icon('card', 'icon-sm') }} Malipo (GePG)</a>
+        <a href="{{ url_for('admin.compliance') }}" class="subnav-link">{{ icon('target', 'icon-sm') }} Uchambuzi wa Hatari (Risk)</a>
+        <a href="{{ url_for('admin.associations') }}" class="subnav-link active">{{ icon('building', 'icon-sm') }} Vyama & Gawio (3%)</a>
+        <a href="{{ url_for('admin.complaints') }}" class="subnav-link">{{ icon('message', 'icon-sm') }} Malalamiko</a>
+        <a href="{{ url_for('admin.reports') }}" class="subnav-link">{{ icon('download', 'icon-sm') }} Ripoti (CSV)</a>
+        <a href="{{ url_for('admin.audit_logs') }}" class="subnav-link">{{ icon('shield', 'icon-sm') }} Audit Logs</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Usimamizi wa Vyama vya Masoko & Uidhinishaji wa Gawio (3%)</h1>
+        <p class="page-subtitle">Uhakiki wa usajili wa vyama, ukaguzi wa miradi ya kijamii, na kuidhinisha malipo ya gawio la maendeleo ya masoko</p>
+    </div>
+</div>
+
+<!-- Vyama Vilivyosajiliwa -->
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('building', 'icon-gold') }} Vyama vya Masoko Vilivyothibitishwa</h2>
+        <span class="badge badge-success">{{ associations|length }} Vyama</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Jina la Chama</th>
+                        <th>Namba ya Usajili</th>
+                        <th>Mkoa & Soko Kuu</th>
+                        <th>Wanachama</th>
+                        <th>Gawio (%)</th>
+                        <th>Akaunti ya Benki</th>
+                        <th>Hali</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in associations %}
+                    <tr>
+                        <td><strong>{{ a.name }}</strong></td>
+                        <td><code>{{ a.registration_number }}</code></td>
+                        <td>
+                            {{ a.region.name if a.region else '-' }}<br>
+                            <span style="font-size:0.75rem; color:#5C7268;">{{ a.market.name if a.market else '-' }}</span>
+                        </td>
+                        <td><span class="badge badge-info">{{ a.members|length }} Wanachama</span></td>
+                        <td><strong>{{ a.revenue_share_pct }}%</strong></td>
+                        <td>{{ a.bank_name or '-' }}<br><span style="font-size:0.75rem; color:#5C7268;">{{ a.bank_account_number or '-' }}</span></td>
+                        <td>
+                            {% if a.status == 'Active' %}
+                                <span class="badge badge-success">Hai (Active)</span>
+                            {% else %}
+                                <span class="badge badge-warning">{{ a.status }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Payout Approvals (Maker-Checker Payout Actions) -->
+<div class="card" style="margin-top:24px;">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('coins', 'icon-gold') }} Maombi ya Malipo ya Gawio la 3% Yanayosubiri Idhini ya TRA</h2>
+        <span class="badge badge-gold">Idhini ya Kiutawala</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Kumbukumbu</th>
+                        <th>Chama</th>
+                        <th>Kiasi (TZS)</th>
+                        <th>Benki & Akaunti</th>
+                        <th>Tarehe ya Ombi</th>
+                        <th>Hali ya Sasa</th>
+                        <th>Hatua ya TRA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for py in payouts %}
+                    <tr>
+                        <td><code>{{ py.payout_reference }}</code></td>
+                        <td><strong>{{ py.association.name if py.association else '-' }}</strong></td>
+                        <td><strong style="color:var(--primary); font-size:1.05rem;">{{ py.amount|currency }}</strong></td>
+                        <td>{{ py.bank_name }}<br><span style="font-size:0.75rem; color:#5C7268;">{{ py.account_number }}</span></td>
+                        <td>{{ py.created_at|date }}</td>
+                        <td>
+                            {% if py.status == 'Disbursed' %}
+                                <span class="badge badge-success">Imelipwa (Disbursed)</span>
+                            {% elif py.status == 'Approved' %}
+                                <span class="badge badge-info">Imeidhinishwa</span>
+                            {% elif py.status == 'Withheld' %}
+                                <span class="badge badge-warning">Imesimamishwa</span>
+                            {% else %}
+                                <span class="badge badge-warning">Pending Approval</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if py.status in ['Pending Approval', 'Pending', 'Withheld'] %}
+                                <div style="display:flex; gap:6px;">
+                                    <form action="{{ url_for('admin.payout_action', payout_id=py.id) }}" method="POST">
+                                        <input type="hidden" name="action" value="APPROVE">
+                                        <button type="submit" class="btn btn-primary btn-sm">Idhinisha & Lipa</button>
+                                    </form>
+                                    <form action="{{ url_for('admin.payout_action', payout_id=py.id) }}" method="POST">
+                                        <input type="hidden" name="action" value="WITHHOLD">
+                                        <button type="submit" class="btn btn-secondary btn-sm">Simamisha</button>
+                                    </form>
+                                </div>
+                            {% else %}
+                                <span style="font-size:0.75rem; color:#5C7268;">Ilishakamilika</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" style="text-align:center; color:#5C7268;">Hakuna maombi ya malipo ya gawio yaliyopo kwa sasa.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

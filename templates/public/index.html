@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+{% from "macros/icons.html" import icon %}
+
+{% block title %}TaxRahisi — Usajili Rahisi wa Kodi na Malipo Kidijitali | TRA{% endblock %}
+
+{% block content %}
+<!-- Official TRA Banner Header -->
+<div class="official-tra-banner-wrapper" style="margin-bottom:20px; border-radius:12px; overflow:hidden; box-shadow:var(--shadow-sm); border:1px solid var(--gold-border);">
+    <img src="{{ url_for('static', filename='images/tra_banner.png') }}" alt="Mamlaka ya Mapato Tanzania - TRA Banner" style="width:100%; height:auto; display:block; max-height:160px; object-fit:cover;">
+</div>
+
+<!-- 1. Hero Section with Golden Yellow Accents -->
+<section class="hero" style="position:relative; overflow:hidden;">
+    <div class="hero-inner">
+        <div class="hero-tag" style="background:rgba(252, 209, 22, 0.15); border-color:var(--gold-accent); color:var(--gold-light);">
+            {{ icon('shield', 'icon-gold') }}
+            <span>Mfumo Rasmi wa Mamlaka ya Mapato Tanzania (TRA) &bull; Jamhuri ya Muungano wa Tanzania</span>
+        </div>
+        <h1 class="hero-title">Kila Mfanyabiashara Ana Thamani. Kila Shilingi Inajenga Taifa.</h1>
+        <p class="hero-lead">
+            Pata Namba ya Utambulisho wa Mlipakodi (TIN) kwa dakika 2 tu kwa kutumia NIDA. Kadiria kodi yako kwa uwazi kulingana na Sheria ya Kodi ya Mapato (Sura 332 R.E. 2023), lipa kidijitali kupitia GePG / Simu ya Mkononi, na uwe sehemu ya miradi ya maendeleo sokoni kwako.
+        </p>
+        <div class="hero-buttons">
+            <a href="{{ url_for('taxpayer.register') }}" class="btn btn-accent btn-lg">
+                {{ icon('user', 'icon-sm') }} Jisajili Sasa (Dakika 2)
+            </a>
+            <a href="{{ url_for('public.ussd_simulator') }}" class="btn btn-outline btn-lg" style="color:var(--gold-light); border-color:var(--gold-accent); background:rgba(252, 209, 22, 0.12);">
+                {{ icon('phone', 'icon-sm') }} Jaribu USSD (*152*00#)
+            </a>
+            <a href="{{ url_for('public.calculator') }}" class="btn btn-secondary btn-lg" style="color:#FFFFFF; border-color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.1);">
+                {{ icon('coins', 'icon-sm') }} Kikokotoo cha Kodi
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 2. Transparent Public Aggregate Metrics with Gold Accents -->
+<section class="stats-grid">
+    <div class="metric-card metric-card-gold">
+        <div class="metric-header">
+            <span class="metric-label">Walipakodi Waliosajiliwa</span>
+            <div class="metric-icon">{{ icon('users', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value">{{ total_taxpayers }}</div>
+        <div class="metric-sub">
+            <span class="badge badge-success">{{ icon('check', 'icon-sm') }} Hai</span>
+            Wafanyabiashara wadogo kote nchini
+        </div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Vyama vya Masoko</span>
+            <div class="metric-icon">{{ icon('building', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value">{{ total_associations }}</div>
+        <div class="metric-sub">
+            <span class="badge badge-info">{{ icon('shield', 'icon-sm') }} Vimeshirikishwa</span>
+            VIBINDO, UWAWAMA, Masoko ya Wilaya
+        </div>
+    </div>
+
+    <div class="metric-card metric-card-gold">
+        <div class="metric-header">
+            <span class="metric-label">Muda wa Kupata TIN</span>
+            <div class="metric-icon">{{ icon('clock', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value">Dakika 2</div>
+        <div class="metric-sub">
+            <span class="badge badge-gold">{{ icon('award', 'icon-sm') }} Papo Hapo</span>
+            Kupitia Uhakiki wa NIDA Mtandaoni
+        </div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Njia za Malipo</span>
+            <div class="metric-icon">{{ icon('card', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value">GePG 100%</div>
+        <div class="metric-sub">
+            <span class="badge badge-success">{{ icon('receipt', 'icon-sm') }} M-Pesa, Airtel, Tigo, NMB, CRDB</span>
+        </div>
+    </div>
+</section>
+
+<!-- 3. FEATURE SHOWCASE: Offline Governance with Button Phone USSD (*152*00#) -->
+<div class="card" style="margin-top:24px; border:2px solid var(--gold-border); background:linear-gradient(135deg, #fefce8 0%, #ffffff 50%, #fef9c3 100%);">
+    <div class="card-body" style="padding:28px;">
+        <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px;">
+            <div style="flex:1; min-width:300px;">
+                <div class="badge badge-gold" style="margin-bottom:8px;">
+                    {{ icon('phone', 'icon-sm') }} TEKNOLOJIA JUMUISHI BILA INTERNET
+                </div>
+                <h2 style="font-size:1.6rem; font-weight:800; color:var(--primary-dark); margin-bottom:10px;">
+                    Simu ya Kitochi: Huduma ya USSD Kupitia *152*00#
+                </h2>
+                <p style="font-size:0.95rem; color:var(--text-muted); line-height:1.6; margin-bottom:16px;">
+                    Zaidi ya asilimia 65 ya wafanyabiashara wadogo wanamiliki simu za kawaida za vitufe (feature phone). TaxRahisi inamwezesha mama lishe, mmachinga, au fundi viatu kusajili TIN mpya, kukadiria kodi ya Cap 332, na kupokea namba ya GePG (991...) moja kwa moja kupitia msimbo wa <strong>*152*00#</strong> bila kuhitaji intaneti wala simu janja.
+                </p>
+                <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                    <a href="{{ url_for('public.ussd_simulator') }}" class="btn btn-primary">
+                        {{ icon('phone', 'icon-sm') }} Jaribu Kiigizo cha Simu ya Kitochi Sasa
+                    </a>
+                    <a href="{{ url_for('public.education') }}" class="btn btn-secondary">
+                        {{ icon('chart', 'icon-sm') }} Soma Muongozo wa USSD
+                    </a>
+                </div>
+            </div>
+            <div style="text-align:center; padding:16px; background:#ffffff; border-radius:12px; border:1px solid var(--gold-border); box-shadow:var(--shadow-md); min-width:240px;">
+                <div style="font-size:0.75rem; font-weight:800; color:var(--gold-dark); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">
+                    MSIMBO RASMI WA TRA
+                </div>
+                <div style="font-family:var(--font-mono); font-size:2rem; font-weight:900; color:var(--primary-dark); margin-bottom:8px;">
+                    *152*00#
+                </div>
+                <div style="font-size:0.8rem; color:var(--text-muted); line-height:1.4;">
+                    Inapatikana mitandao yote:<br>
+                    <strong>Airtel, Vodacom, Tigo, Halotel, TTCL</strong><br>
+                    <span class="badge badge-success" style="margin-top:6px;">{{ icon('check', 'icon-sm') }} Bure Kabisa (Zero-Rated)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 4. Key Pillars & Innovation Features -->
+<div class="page-header" style="margin-top:28px;">
+    <div>
+        <h2 class="page-title">Misingi ya Mfumo wa TaxRahisi</h2>
+        <p class="page-subtitle">Imebuniwa kuondoa kero za makadirio yasiyo halisi, foleni za ofisi, na kutengwa kwa wajasiriamali wadogo.</p>
+    </div>
+</div>
+
+<div class="features-grid">
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('user', 'icon-gold') }}</div>
+        <h3 class="feature-title">Usajili wa Papo Hapo wa TIN</h3>
+        <p class="feature-text">
+            Ingiza namba yako ya NIDA ya tarakimu 20. Taarifa zako zinathibitishwa na Mfumo wa NIDA, na unatengenezewa TIN mara moja bila kuhitaji karatasi au kwenda ofisi za TRA.
+        </p>
+    </div>
+
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('scale', 'icon-gold') }}</div>
+        <h3 class="feature-title">Makadirio ya Haki (Cap 332 R.E. 2023)</h3>
+        <p class="feature-text">
+            Kodi inakokotolewa kwa uwazi 100% kulingana na viwango vya kisheria vya Sheria ya Kodi ya Mapato Sura ya 332. Mapato chini ya Shilingi Milioni 4 kwa mwaka hayatozwi kodi (TZS 0).
+        </p>
+    </div>
+
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('shield', 'icon-gold') }}</div>
+        <h3 class="feature-title">Muda wa Neema (Miezi 12 Tax Holiday)</h3>
+        <p class="feature-text">
+            Wafanyabiashara wanaoanza rasmi wanapewa punguzo na nafuu ya miezi 12 ya kodi ili kukuza mitaji yao na kujiimarisha kibiashara kabla ya kuanza kulipa kodi kamili.
+        </p>
+    </div>
+
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('card', 'icon-gold') }}</div>
+        <h3 class="feature-title">Malipo Salama ya GePG (991...)</h3>
+        <p class="feature-text">
+            Kila makadirio yanatengenezewa namba rasmi ya malipo ya serikali (GePG Control Number 991...). Lipa kupitia simu yako au benki na upate stakabadhi halisi yenye muhuri wa kidijitali.
+        </p>
+    </div>
+
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('coins', 'icon-gold') }}</div>
+        <h3 class="feature-title">Gawio la Maendeleo Masokoni (3%)</h3>
+        <p class="feature-text">
+            Asilimia tatu (3%) ya mapato yaliyokusanywa yanarejeshwa kwa vyama vya wafanyabiashara kufadhili usafi wa masoko, ulinzi, taa za sola, na vituo vya watoto.
+        </p>
+    </div>
+
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('award', 'icon-gold') }}</div>
+        <h3 class="feature-title">Mlipakodi Bora & Tuzo za Utiifu</h3>
+        <p class="feature-text">
+            Walipakodi wanaozingatia uwasilishaji wa taarifa na malipo kwa wakati wanatambuliwa kama "Mlipakodi Bora" na kupata alama za juu za uaminifu zinazowasaidia kupata mikopo ya benki.
+        </p>
+    </div>
+</div>
+
+<!-- 5. Real Trader Spotlights -->
+<div class="card" style="margin-top:28px;">
+    <div class="card-header">
+        <div class="card-title">
+            {{ icon('users', 'icon-gold') }}
+            <span>Ushuhuda wa Wafanyabiashara Wadogo Masokoni</span>
+        </div>
+        <span class="badge badge-success">{{ icon('check', 'icon-sm') }} Walipakodi Halisi</span>
+    </div>
+    <div class="card-body">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:24px;">
+            <div style="display:flex; gap:16px; align-items:flex-start; background:#FFFFFF; padding:20px; border-radius:12px; border:1px solid var(--gold-border); box-shadow:var(--shadow-sm);">
+                <img src="{{ url_for('static', filename='images/mama_neema.jpg') }}" alt="Mama Neema" style="width:84px; height:84px; border-radius:50%; object-fit:cover; border:3px solid var(--gold-accent); box-shadow:0 2px 8px rgba(0,0,0,0.15); flex-shrink:0;">
+                <div>
+                    <h4 style="color:var(--primary-dark); font-size:1.05rem; font-weight:800; margin-bottom:4px;">Mama Neema (Neema Juma Mwangi)</h4>
+                    <div style="font-size:0.8rem; color:var(--gold-dark); font-weight:800; margin-bottom:8px;">Muuzaji wa Mbogamboga &bull; Soko Kuu la Kariakoo</div>
+                    <p style="font-size:0.875rem; color:var(--text-muted); line-height:1.6;">
+                        "Zamani nilikuwa naogopa ofisi za TRA nikidhani kodi ni kubwa. Kupitia TaxRahisi nilisajiliwa kwa NIDA na kupata TIN papo hapo. Mauzo yangu ya milioni 6 yamenifanya nilipe Shilingi 60,000 tu kwa mwaka na stakabadhi yangu inanisaidia kupata mkopo wa benki."
+                    </p>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:16px; align-items:flex-start; background:#FFFFFF; padding:20px; border-radius:12px; border:1px solid var(--gold-border); box-shadow:var(--shadow-sm);">
+                <img src="{{ url_for('static', filename='images/kariakoo_trader.jpg') }}" alt="Juma Machinga" style="width:84px; height:84px; border-radius:50%; object-fit:cover; border:3px solid var(--gold-accent); box-shadow:0 2px 8px rgba(0,0,0,0.15); flex-shrink:0;">
+                <div>
+                    <h4 style="color:var(--primary-dark); font-size:1.05rem; font-weight:800; margin-bottom:4px;">Juma Rashidi Hamisi</h4>
+                    <div style="font-size:0.8rem; color:var(--gold-dark); font-weight:800; margin-bottom:8px;">Fundi Simu & Vifaa &bull; Machinga Complex Ilala</div>
+                    <p style="font-size:0.875rem; color:var(--text-muted); line-height:1.6;">
+                        "Nilikuwa sitambuliki kisheria. Sasa nina TIN na stakabadhi halisi za GePG kwenye simu yangu ya kitochi kupitia *152*00#. Chama chetu cha UWAWAMA kimepata mgawo wa kufunga taa na usalama kwenye geti letu kuu la Machinga Complex."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 6. Educational Guides Highlight -->
+<div class="card" style="margin-top:28px;">
+    <div class="card-header">
+        <div class="card-title">
+            {{ icon('chart', 'icon-gold') }}
+            <span>Elimu ya Kodi & Miongozo ya Sheria (Cap 332 R.E. 2023)</span>
+        </div>
+        <a href="{{ url_for('public.education') }}" class="btn btn-secondary btn-sm">
+            {{ icon('download', 'icon-sm') }} Tazama Miongozo Yote
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Kichwa cha Mwongozo</th>
+                        <th>Kategoria</th>
+                        <th>Lugha</th>
+                        <th>Kitendo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in educational_items %}
+                    <tr>
+                        <td>
+                            <strong>{{ item.title }}</strong>
+                            <div style="font-size:0.775rem; color:#5C7268;">{{ item.summary[:85] }}...</div>
+                        </td>
+                        <td><span class="badge badge-info">{{ item.category }}</span></td>
+                        <td><span class="badge badge-secondary">{{ item.language.upper() }}</span></td>
+                        <td>
+                            <a href="{{ url_for('public.download_guide', content_id=item.id) }}" class="btn btn-primary btn-sm">
+                                {{ icon('download', 'icon-sm') }} Pakua Mwongozo
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" style="text-align:center; color:#5C7268;">Hakuna miongozo iliyopo kwa sasa.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- 7. Bottom Photographic CTA Card (Kariakoo Trader Background) -->
+<div class="card card-image-bg card-image-trader" style="text-align:center; padding:38px 24px; margin-top:28px;">
+    <div class="badge badge-gold" style="margin-bottom:12px; background:rgba(252, 209, 22, 0.25); border-color:var(--gold-accent); color:var(--gold-light);">
+        {{ icon('award', 'icon-gold') }} UTIIFU WA KODI KWA MAENDELEO YA TAIFA
+    </div>
+    <h2 style="font-size:2rem; font-weight:800; margin-bottom:12px;">Uko Tayari Kurasimisha Biashara Yako Leo?</h2>
+    <p style="font-size:1.05rem; max-width:680px; margin:0 auto 24px; line-height:1.6;">
+        Jiunge na maelfu ya wajasiriamali wadogo nchini kote wanaofurahia urahisi wa TaxRahisi. Pata TIN ya TRA papo hapo kwa dakika 2 tu kwa NIDA yako.
+    </p>
+    <div style="display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+        <a href="{{ url_for('taxpayer.register') }}" class="btn btn-accent btn-lg" style="box-shadow: 0 4px 14px rgba(0,0,0,0.3);">
+            {{ icon('user', 'icon-sm') }} Jisajili Sasa (Dakika 2)
+        </a>
+        <a href="{{ url_for('public.ussd_simulator') }}" class="btn btn-outline btn-lg" style="color:var(--gold-light); border-color:var(--gold-accent); background:rgba(252, 209, 22, 0.15);">
+            {{ icon('phone', 'icon-sm') }} Jaribu USSD (*152*00#)
+        </a>
+    </div>
+</div>
+{% endblock %}

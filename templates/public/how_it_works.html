@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% from "macros/icons.html" import icon %}
+
+{% block title %}Jinsi Inavyofanya Kazi — Hatua 5 za TaxRahisi | TRA{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="badge badge-gold" style="margin-bottom:8px;">
+            {{ icon('check', 'icon-sm') }} MCHAKATO RAHISI WA KIDIJITALI
+        </div>
+        <h1 class="page-title">Jinsi TaxRahisi Inavyofanya Kazi</h1>
+        <p class="page-subtitle">Hatua 5 rahisi na za uwazi kutoka usajili hadi stakabadhi rasmi ya malipo ya serikali</p>
+    </div>
+</div>
+
+<div class="features-grid">
+    <div class="feature-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div style="font-size:2rem; font-weight:900; color:var(--primary);">01</div>
+            <div class="metric-icon" style="background:var(--gold-light);">{{ icon('user', 'icon-gold') }}</div>
+        </div>
+        <h3 class="feature-title">Ingiza Namba ya NIDA</h3>
+        <p class="feature-text">
+            Jaza namba yako ya NIDA ya tarakimu 20 kwenye fomu ya mtandaoni, kupitia USSD <code>*152*00#</code>, au kwa usaidizi wa Wakala wa Chama chako cha Soko. Mfumo unahakiki jina na utambulisho wako papo hapo.
+        </p>
+    </div>
+
+    <div class="feature-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div style="font-size:2rem; font-weight:900; color:var(--primary);">02</div>
+            <div class="metric-icon" style="background:var(--gold-light);">{{ icon('award', 'icon-gold') }}</div>
+        </div>
+        <h3 class="feature-title">Pata TIN Yako Ndani ya Dakika 2</h3>
+        <p class="feature-text">
+            Mfumo unakutengenezea Namba ya Utambulisho wa Mlipakodi (TIN) mara moja. Ikiwa ni mara yako ya kwanza kuanzisha biashara, unapata moja kwa moja Punguzo la Neema la miezi 12 (Tax Holiday).
+        </p>
+    </div>
+
+    <div class="feature-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div style="font-size:2rem; font-weight:900; color:var(--primary);">03</div>
+            <div class="metric-icon" style="background:var(--gold-light);">{{ icon('scale', 'icon-gold') }}</div>
+        </div>
+        <h3 class="feature-title">Makadirio ya Haki ya Cap 332</h3>
+        <p class="feature-text">
+            Ingiza makadirio yako ya mauzo ya mwaka. Mfumo unatumia fomula ya kisheria ya Sheria ya Kodi ya Mapato (Sura 332 R.E. 2023) kukadiria kodi halisi bila upendeleo wala usumbufu wa makadirio hewa.
+        </p>
+    </div>
+
+    <div class="feature-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div style="font-size:2rem; font-weight:900; color:var(--primary);">04</div>
+            <div class="metric-icon" style="background:var(--gold-light);">{{ icon('card', 'icon-gold') }}</div>
+        </div>
+        <h3 class="feature-title">Lipa Kupitia GePG (991...)</h3>
+        <p class="feature-text">
+            Mfumo unakupa Control Number ya GePG inayoanza na 991... Unaweza kulipa kwa M-Pesa, Airtel Money, Tigo Pesa, Halopesa, CRDB SimBanking, au NMB Wakala.
+        </p>
+    </div>
+
+    <div class="feature-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div style="font-size:2rem; font-weight:900; color:var(--primary);">05</div>
+            <div class="metric-icon" style="background:var(--gold-light);">{{ icon('receipt', 'icon-gold') }}</div>
+        </div>
+        <h3 class="feature-title">Pokea Stakabadhi ya Kidijitali</h3>
+        <p class="feature-text">
+            Mara baada ya kulipa, stakabadhi yenye muhuri na msimbosiri (verification hash) inapatikana kwenye simu yako au dashibodi. Stakabadhi hii inatambulika rasmi kisheria na kibenki.
+        </p>
+    </div>
+
+    <div class="feature-box" style="background:#FCF8EA; border-color:#F3E4B0;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div style="font-size:2rem; font-weight:900; color:var(--gold-dark);">+3%</div>
+            <div class="metric-icon" style="background:var(--gold-light);">{{ icon('coins', 'icon-gold') }}</div>
+        </div>
+        <h3 class="feature-title" style="color:#7A5C05;">Gawio kwa Soko Lako</h3>
+        <p class="feature-text" style="color:#594406;">
+            Kila malipo unayofanya, asilimia 3% hupelekwa kwenye Mfuko wa Maendeleo ya Soko lako kwa miradi ya ujenzi wa vyoo, taa za sola, ulinzi na maji safi.
+        </p>
+    </div>
+</div>
+
+<!-- Offline Channel Option -->
+<div class="card" style="margin-top:24px; border:1px solid var(--gold-border); background:#ffffff;">
+    <div class="card-body" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px; padding:24px;">
+        <div style="flex:1; min-width:280px;">
+            <h3 style="font-size:1.2rem; font-weight:800; color:var(--primary-dark); margin-bottom:6px;">
+                {{ icon('phone', 'icon-gold') }} Je, huna simu janja au mtandao wa bando?
+            </h3>
+            <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.5;">
+                Hatua hizi zote 5 zinaweza pia kukamilishwa kwa simu yako ya kawaida ya vitufe (feature phone) kwa kupiga <strong>*152*00#</strong> bila gharama yoyote.
+            </p>
+        </div>
+        <a href="{{ url_for('public.ussd_simulator') }}" class="btn btn-outline" style="border-color:var(--gold-accent); color:var(--gold-dark);">
+            {{ icon('phone', 'icon-sm') }} Jaribu Kiigizo cha Kitochi (*152*00#)
+        </a>
+    </div>
+</div>
+
+<div class="card card-image-bg card-image-artisan" style="text-align:center; padding:36px 28px; margin-top:28px;">
+    <div class="badge badge-gold" style="margin-bottom:12px; background:rgba(252, 209, 22, 0.25); border-color:var(--gold-accent); color:var(--gold-light);">
+        {{ icon('award', 'icon-gold') }} USAJILI WA HARAKA WA NIDA
+    </div>
+    <h2 style="font-size:2rem; font-weight:800; margin-bottom:12px;">Uko Tayari Kupata TIN Yako Leo?</h2>
+    <p style="font-size:1.05rem; max-width:620px; margin:0 auto 24px; line-height:1.6;">
+        Hakuna haja ya kwenda ofisini wala kusubiri siku kadhaa. Usajili unachukua chini ya dakika 2 ukiwa na namba yako ya NIDA mkononi.
+    </p>
+    <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+        <a href="{{ url_for('taxpayer.register') }}" class="btn btn-accent btn-lg" style="box-shadow: 0 4px 14px rgba(0,0,0,0.3);">
+            {{ icon('user', 'icon-sm') }} Anza Usajili wa TIN Sasa
+        </a>
+        <a href="{{ url_for('public.ussd_simulator') }}" class="btn btn-outline btn-lg" style="color:var(--gold-light); border-color:var(--gold-accent); background:rgba(252, 209, 22, 0.15);">
+            {{ icon('phone', 'icon-sm') }} Jaribu USSD (*152*00#)
+        </a>
+    </div>
+</div>
+{% endblock %}

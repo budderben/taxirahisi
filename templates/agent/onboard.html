@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}Sajili Mfanyabiashara Sokoni (Field Onboarding) | TaxRahisi TRA{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('agent.dashboard') }}" class="subnav-link">{{ icon('target', 'icon-sm') }} Dashibodi ya Wakala</a>
+        <a href="{{ url_for('agent.onboard') }}" class="subnav-link active">{{ icon('user', 'icon-sm') }} Sajili Mfanyabiashara Mpya (Field Onboard)</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Usajili wa Mfanyabiashara Kupitia Wakala (Field Agent)</h1>
+        <p class="page-subtitle">Usaidizi wa moja kwa moja kwa wajasiriamali masokoni &bull; Usajili huu utarekodiwa chini ya Namba yako ya Wakala (<code>{{ agent.agent_code if agent else 'AGT-001' }}</code>)</p>
+    </div>
+</div>
+
+<div class="card" style="max-width:800px; margin:0 auto; border-top:4px solid var(--primary);">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('user', 'icon-gold') }} Fomu ya Usajili wa Mfanyabiashara Sokoni</h2>
+        <span class="badge badge-success">TRA Accredited Agent Tool</span>
+    </div>
+    <div class="card-body">
+        <form action="{{ url_for('agent.onboard') }}" method="POST">
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="nida_number">Namba ya NIDA ya Mfanyabiashara (Tarakimu 20) <span class="required">*</span></label>
+                        <input type="text" id="nida_number" name="nida_number" class="form-control" placeholder="19XXXXXXXXXX00000000" maxlength="20" required autofocus>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="full_name">Jina Kamili la Mfanyabiashara <span class="required">*</span></label>
+                        <input type="text" id="full_name" name="full_name" class="form-control" placeholder="Mfano: Juma Rashidi Hamisi" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="phone_number">Namba ya Simu ya Mfanyabiashara <span class="required">*</span></label>
+                        <input type="tel" id="phone_number" name="phone_number" class="form-control" placeholder="07XXXXXXXX" required>
+                        <div class="form-text">Mteja atapokea SMS ya uthibitisho wa TIN na nenosiri lake la muda.</div>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="business_name">Jina la Kibanda / Biashara <span class="required">*</span></label>
+                        <input type="text" id="business_name" name="business_name" class="form-control" placeholder="Mfano: Juma Phone Repairs" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="category_id">Kitengo cha Biashara <span class="required">*</span></label>
+                        <select id="category_id" name="category_id" class="form-control" required>
+                            {% for c in categories %}
+                                <option value="{{ c.id }}">{{ c.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="market_id">Soko / Eneo <span class="required">*</span></label>
+                        <select id="market_id" name="market_id" class="form-control" required>
+                            {% for m in markets %}
+                                <option value="{{ m.id }}">{{ m.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="turnover">Makadirio ya Mauzo ya Mwaka (TZS) <span class="required">*</span></label>
+                        <input type="number" id="turnover" name="turnover" class="form-control" value="5000000" min="0" step="50000" required>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group" style="margin-top:28px;">
+                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                            <input type="checkbox" name="has_records" id="has_records" style="width:18px; height:18px;">
+                            <span style="font-size:0.875rem; font-weight:600;">Anaweka kumbukumbu sahihi za mahesabu</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" style="width:100%; margin-top:14px;">Kamilisha Usajili & Toa TIN Papo Hapo</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Usimamizi wa Walipakodi (Taxpayer Admin) | TRA TaxRahisi{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('admin.dashboard') }}" class="subnav-link">{{ icon('chart', 'icon-sm') }} Dashibodi Kuu</a>
+        <a href="{{ url_for('admin.taxpayers') }}" class="subnav-link active">{{ icon('users', 'icon-sm') }} Walipakodi</a>
+        <a href="{{ url_for('admin.tax_rules') }}" class="subnav-link">{{ icon('settings', 'icon-sm') }} Viwango vya Kodi (Bands)</a>
+        <a href="{{ url_for('admin.payments') }}" class="subnav-link">{{ icon('card', 'icon-sm') }} Malipo (GePG)</a>
+        <a href="{{ url_for('admin.compliance') }}" class="subnav-link">{{ icon('target', 'icon-sm') }} Uchambuzi wa Hatari (Risk)</a>
+        <a href="{{ url_for('admin.associations') }}" class="subnav-link">{{ icon('building', 'icon-sm') }} Vyama & Gawio (3%)</a>
+        <a href="{{ url_for('admin.complaints') }}" class="subnav-link">{{ icon('message', 'icon-sm') }} Malalamiko</a>
+        <a href="{{ url_for('admin.reports') }}" class="subnav-link">{{ icon('download', 'icon-sm') }} Ripoti (CSV)</a>
+        <a href="{{ url_for('admin.audit_logs') }}" class="subnav-link">{{ icon('shield', 'icon-sm') }} Audit Logs</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Usimamizi wa Walipakodi (Taxpayer Administration)</h1>
+        <p class="page-subtitle">Tafuta, chuja na simamia akaunti na hali ya kufuata sheria ya walipakodi kote nchini</p>
+    </div>
+</div>
+
+<!-- Search and Filter Bar -->
+<div class="card">
+    <div class="card-body" style="padding:16px 20px;">
+        <form action="{{ url_for('admin.taxpayers') }}" method="GET" style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+            <div style="flex:2; min-width:200px;">
+                <input type="text" name="search" class="form-control" placeholder="Tafuta kwa Jina, TIN, au Namba ya Simu..." value="{{ search }}">
+            </div>
+            <div style="flex:1; min-width:150px;">
+                <select name="region" class="form-control">
+                    <option value="">Mikoa Yote</option>
+                    {% for r in regions %}
+                        <option value="{{ r.id }}" {% if current_region|string == r.id|string %}selected{% endif %}>{{ r.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div style="flex:1; min-width:150px;">
+                <select name="status" class="form-control">
+                    <option value="">Hali Zote za Kodi</option>
+                    <option value="COMPLIANT" {% if current_status == 'COMPLIANT' %}selected{% endif %}>COMPLIANT (Inatii)</option>
+                    <option value="GRACE_PERIOD" {% if current_status == 'GRACE_PERIOD' %}selected{% endif %}>GRACE PERIOD (Neema)</option>
+                    <option value="PARTIAL" {% if current_status == 'PARTIAL' %}selected{% endif %}>PARTIAL (Sehemu)</option>
+                    <option value="NON_COMPLIANT" {% if current_status == 'NON_COMPLIANT' %}selected{% endif %}>NON COMPLIANT (Haitii)</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Chuja</button>
+            {% if search or current_region or current_status %}
+                <a href="{{ url_for('admin.taxpayers') }}" class="btn btn-secondary btn-sm">Futa Vichujio</a>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+<!-- Taxpayers Table -->
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('users', 'icon-gold') }} Orodha ya Walipakodi</h2>
+        <span class="badge badge-success">{{ taxpayers|length }} Walipakodi Wamepatikana</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>TIN</th>
+                        <th>Jina Kamili</th>
+                        <th>Simu</th>
+                        <th>Mkoa & Soko</th>
+                        <th>Biashara</th>
+                        <th>Uzingatiaji</th>
+                        <th>Akaunti</th>
+                        <th>Hatua</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in taxpayers %}
+                    <tr>
+                        <td><code>{{ t.tin }}</code></td>
+                        <td><strong>{{ t.full_name }}</strong></td>
+                        <td>{{ t.phone_number }}</td>
+                        <td>
+                            {{ t.region.name if t.region else '-' }}<br>
+                            <span style="font-size:0.75rem; color:#5C7268;">{{ t.market.name if t.market else '-' }}</span>
+                        </td>
+                        <td>{{ t.businesses[0].name if t.businesses else '-' }}</td>
+                        <td>
+                            {% if t.compliance_status == 'COMPLIANT' %}
+                                <span class="badge badge-success">COMPLIANT ({{ t.compliance_score }}%)</span>
+                            {% elif t.compliance_status == 'GRACE_PERIOD' %}
+                                <span class="badge badge-gold">GRACE PERIOD</span>
+                            {% else %}
+                                <span class="badge badge-warning">{{ t.compliance_status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if t.user and t.user.is_active %}
+                                <span class="badge badge-success">Hai</span>
+                            {% else %}
+                                <span class="badge badge-danger">Imesimamishwa</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <form action="{{ url_for('admin.toggle_taxpayer_status', taxpayer_id=t.id) }}" method="POST" style="display:inline;">
+                                {% if t.user and t.user.is_active %}
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Una uhakika unataka kusimamisha akaunti ya mlipakodi huyu?');">Simamisha</button>
+                                {% else %}
+                                    <button type="submit" class="btn btn-primary btn-sm">Washa Tena</button>
+                                {% endif %}
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" style="text-align:center; color:#5C7268;">Hakuna mlipakodi aliyepatikana kwa vigezo hivi.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

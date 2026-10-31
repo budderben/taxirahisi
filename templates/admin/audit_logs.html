@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Kumbukumbu za Ukaguzi (Security Audit Logs) | TRA TaxRahisi{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('admin.dashboard') }}" class="subnav-link">{{ icon('chart', 'icon-sm') }} Dashibodi Kuu</a>
+        <a href="{{ url_for('admin.taxpayers') }}" class="subnav-link">{{ icon('users', 'icon-sm') }} Walipakodi</a>
+        <a href="{{ url_for('admin.tax_rules') }}" class="subnav-link">{{ icon('settings', 'icon-sm') }} Viwango vya Kodi (Bands)</a>
+        <a href="{{ url_for('admin.payments') }}" class="subnav-link">{{ icon('card', 'icon-sm') }} Malipo (GePG)</a>
+        <a href="{{ url_for('admin.compliance') }}" class="subnav-link">{{ icon('target', 'icon-sm') }} Uchambuzi wa Hatari (Risk)</a>
+        <a href="{{ url_for('admin.associations') }}" class="subnav-link">{{ icon('building', 'icon-sm') }} Vyama & Gawio (3%)</a>
+        <a href="{{ url_for('admin.complaints') }}" class="subnav-link">{{ icon('message', 'icon-sm') }} Malalamiko</a>
+        <a href="{{ url_for('admin.reports') }}" class="subnav-link">{{ icon('download', 'icon-sm') }} Ripoti (CSV)</a>
+        <a href="{{ url_for('admin.audit_logs') }}" class="subnav-link active">{{ icon('shield', 'icon-sm') }} Audit Logs</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Kumbukumbu za Ukaguzi wa Mfumo (Security Audit Logs)</h1>
+        <p class="page-subtitle">Kumbukumbu zisizoweza kufutwa (Immutable Ledger) za kila kitendo cha kiutawala, kuingia, malipo na usajili</p>
+    </div>
+    <span class="badge badge-success">IMMUTABLE LOG ACTIVE</span>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('shield', 'icon-gold') }} Kumbukumbu 100 za Hivi Karibuni za Ulinzi na Matukio</h2>
+        <span class="badge badge-info">{{ logs|length }} Matukio Yaliyorekodiwa</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Muda (Timestamp)</th>
+                        <th>Mhusika (Actor)</th>
+                        <th>Kitendo (Action)</th>
+                        <th>Aina ya Kipengele</th>
+                        <th>Kitambulisho (Entity ID)</th>
+                        <th>Maelezo Kamili (Details)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for l in logs %}
+                    <tr>
+                        <td style="white-space:nowrap;">{{ l.timestamp|datetime }}</td>
+                        <td><strong>{{ l.actor_username }}</strong></td>
+                        <td>
+                            {% if 'FAILED' in l.action or 'SUSPEND' in l.action or 'DENIED' in l.action %}
+                                <span class="badge badge-danger">{{ l.action }}</span>
+                            {% elif 'SUCCESS' in l.action or 'APPROVED' in l.action or 'REGISTERED' in l.action %}
+                                <span class="badge badge-success">{{ l.action }}</span>
+                            {% else %}
+                                <span class="badge badge-info">{{ l.action }}</span>
+                            {% endif %}
+                        </td>
+                        <td><code>{{ l.entity_type }}</code></td>
+                        <td>{{ l.entity_id or '-' }}</td>
+                        <td style="font-size:0.8rem; color:#5C7268;">{{ l.details }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" style="text-align:center; color:#5C7268;">Hakuna kumbukumbu za ukaguzi zilizorekodiwa.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

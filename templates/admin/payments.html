@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Usimamizi wa Malipo (GePG Payments Admin) | TRA TaxRahisi{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('admin.dashboard') }}" class="subnav-link">{{ icon('chart', 'icon-sm') }} Dashibodi Kuu</a>
+        <a href="{{ url_for('admin.taxpayers') }}" class="subnav-link">{{ icon('users', 'icon-sm') }} Walipakodi</a>
+        <a href="{{ url_for('admin.tax_rules') }}" class="subnav-link">{{ icon('settings', 'icon-sm') }} Viwango vya Kodi (Bands)</a>
+        <a href="{{ url_for('admin.payments') }}" class="subnav-link active">{{ icon('card', 'icon-sm') }} Malipo (GePG)</a>
+        <a href="{{ url_for('admin.compliance') }}" class="subnav-link">{{ icon('target', 'icon-sm') }} Uchambuzi wa Hatari (Risk)</a>
+        <a href="{{ url_for('admin.associations') }}" class="subnav-link">{{ icon('building', 'icon-sm') }} Vyama & Gawio (3%)</a>
+        <a href="{{ url_for('admin.complaints') }}" class="subnav-link">{{ icon('message', 'icon-sm') }} Malalamiko</a>
+        <a href="{{ url_for('admin.reports') }}" class="subnav-link">{{ icon('download', 'icon-sm') }} Ripoti (CSV)</a>
+        <a href="{{ url_for('admin.audit_logs') }}" class="subnav-link">{{ icon('shield', 'icon-sm') }} Audit Logs</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Usimamizi wa Malipo ya GePG (Payment Reconciliation)</h1>
+        <p class="page-subtitle">Ufuatiliaji wa miamala yote ya fedha, stakabadhi za kielektroniki, na upatanisho wa Benki Kuu ya Tanzania (BOT)</p>
+    </div>
+    <div class="page-actions">
+        <a href="{{ url_for('admin.reports') }}?format=csv&type=collections" class="btn btn-primary btn-sm">Pakua Miamala Yote (CSV)</a>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Jumla Iliyokusanywa</span>
+            <div class="metric-icon">{{ icon('coins', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value" style="color:var(--primary);">{{ total_successful|currency }}</div>
+        <div class="metric-sub"><span class="badge badge-success">Imethibitishwa na BOT</span></div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Jumla ya Miamala</span>
+            <div class="metric-icon">{{ icon('receipt', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value">{{ payments|length }}</div>
+        <div class="metric-sub">Malipo yote yaliyorekodiwa</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('card', 'icon-gold') }} Miamala Yote ya Malipo ya GePG</h2>
+        <span class="badge badge-info">{{ payments|length }} Miamala</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tarehe & Saa</th>
+                        <th>Control Number (GePG)</th>
+                        <th>Mlipakodi</th>
+                        <th>TIN</th>
+                        <th>Kiasi (TZS)</th>
+                        <th>Mtandao / Benki</th>
+                        <th>Kumbukumbu ya Muamala</th>
+                        <th>Hali</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in payments %}
+                    <tr>
+                        <td>{{ p.payment_date|datetime if p.payment_date else p.created_at|datetime }}</td>
+                        <td><code>{{ p.control_number }}</code></td>
+                        <td><strong>{{ p.taxpayer.full_name if p.taxpayer else '-' }}</strong></td>
+                        <td><code>{{ p.taxpayer.tin if p.taxpayer else '-' }}</code></td>
+                        <td><strong style="color:var(--primary);">{{ p.amount|currency }}</strong></td>
+                        <td>{{ p.provider.name if p.provider else 'GePG' }}</td>
+                        <td><span style="font-size:0.775rem; color:#5C7268;">{{ p.transaction_reference }}</span></td>
+                        <td>
+                            {% if p.status == 'SUCCESSFUL' %}
+                                <span class="badge badge-success">SUCCESSFUL</span>
+                            {% elif p.status == 'PENDING' %}
+                                <span class="badge badge-warning">PENDING</span>
+                            {% else %}
+                                <span class="badge badge-danger">{{ p.status }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" style="text-align:center; color:#5C7268;">Hakuna malipo yaliyofanyika bado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

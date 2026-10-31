@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Stakabadhi Zangu za Kodi (Digital Tax Receipts) | TaxRahisi TRA{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('taxpayer.dashboard') }}" class="subnav-link">{{ icon('chart', 'icon-sm') }} Dashibodi Yangu</a>
+        <a href="{{ url_for('taxpayer.assessment') }}" class="subnav-link">{{ icon('scale', 'icon-sm') }} Tathmini ya Kodi (Cap 332)</a>
+        <a href="{{ url_for('taxpayer.payments') }}" class="subnav-link">{{ icon('card', 'icon-sm') }} Lipa Kodi (GePG)</a>
+        <a href="{{ url_for('taxpayer.receipts') }}" class="subnav-link active">{{ icon('receipt', 'icon-sm') }} Stakabadhi Zangu</a>
+        <a href="{{ url_for('taxpayer.compliance') }}" class="subnav-link">{{ icon('award', 'icon-sm') }} Mlipakodi Bora</a>
+        <a href="{{ url_for('taxpayer.complaints') }}" class="subnav-link">{{ icon('message', 'icon-sm') }} Malalamiko & Msaada</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Stakabadhi Rasmi za Kodi (Digital Tax Receipts)</h1>
+        <p class="page-subtitle">Kila risiti ina namba ya uthibitisho wa kiusalama (verification hash) inayotambulika kisheria na kibenki</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('receipt', 'icon-gold') }} Orodha ya Risiti za Malipo Zilizoidhinishwa</h2>
+        <span class="badge badge-success">{{ receipts|length }} Risiti</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Namba ya Risiti</th>
+                        <th>Tarehe ya Kutolewa</th>
+                        <th>Control Number (GePG)</th>
+                        <th>Aina ya Kodi</th>
+                        <th>Kiasi Kilicholipwa</th>
+                        <th>Msimbosiri (Hash)</th>
+                        <th>Kitendo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in receipts %}
+                    <tr>
+                        <td><strong>{{ r.receipt_number }}</strong></td>
+                        <td>{{ r.issued_at|date }}</td>
+                        <td><code>{{ r.control_number }}</code></td>
+                        <td>{{ r.tax_type }}</td>
+                        <td><span style="color:var(--primary); font-weight:700;">{{ r.amount_paid|currency }}</span></td>
+                        <td><code style="font-size:0.75rem;">{{ r.verification_hash[:16] }}...</code></td>
+                        <td>
+                            <a href="{{ url_for('taxpayer.receipt_detail', receipt_id=r.id) }}" class="btn btn-secondary btn-sm">Tazama & Chapisha</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" style="text-align:center; color:#5C7268;">Huna stakabadhi yoyote kwa sasa. Ukifanya malipo kupitia GePG stakabadhi itatokea hapa moja kwa moja.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

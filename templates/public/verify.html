@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% from "macros/icons.html" import icon %}
+
+{% block title %}Hakiki Stakabadhi ya Malipo & TIN | TRA TaxRahisi{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="badge badge-gold" style="margin-bottom:8px;">
+            {{ icon('shield', 'icon-sm') }} UHAKIKI WA PAPO HAPO (INSTANT VERIFICATION)
+        </div>
+        <h1 class="page-title">Uhakiki wa Stakabadhi & TIN (Quick Verification)</h1>
+        <p class="page-subtitle">Thibitisha uhalali wa namba ya TIN, Stakabadhi ya Kidijitali ya TRA, au GePG Control Number</p>
+    </div>
+</div>
+
+<div class="card" style="max-width:700px; margin:0 auto 24px;">
+    <div class="card-body">
+        <form action="{{ url_for('public.quick_verify') }}" method="GET">
+            <div class="form-group" style="margin-bottom:12px;">
+                <label class="form-label" for="q">Ingiza Namba ya TIN, Namba ya Stakabadhi, au GePG Control Number:</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="q" name="q" class="form-control" placeholder="Mfano: 140-100-001 au TR-RCPT-202410-0001 au 991240000001" value="{{ query }}" required>
+                    <button type="submit" class="btn btn-primary" style="white-space:nowrap; display:flex; align-items:center; gap:6px;">
+                        {{ icon('check', 'icon-sm') }} Hakiki Sasa
+                    </button>
+                </div>
+            </div>
+            <div style="font-size:0.8rem; color:var(--text-muted);">
+                Inatumia ukaguzi wa papo hapo wa kumbukumbu za kodi zilizosainiwa kwa msimbosiri (cryptographic verification hash).
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if result and result.searched %}
+    {% if result.receipt %}
+        <!-- Digital Receipt Found -->
+        <div class="receipt-wrapper" style="margin-top:20px;">
+            <div class="receipt-header">
+                <img src="{{ url_for('static', filename='images/tra_icon.png') }}" alt="TRA Logo" class="receipt-logo" style="height:48px; border-radius:4px;">
+                <div class="receipt-org">MAMLAKA YA MAPATO TANZANIA (TRA)</div>
+                <div class="receipt-doc-title">STAKABADHI YA KODI YA KIDIITALI (OFFICIAL TAX RECEIPT)</div>
+                <span class="badge badge-success" style="margin-top:6px;">{{ icon('check', 'icon-sm') }} IMETHIBITISHWA NA TRA</span>
+            </div>
+
+            <div class="receipt-body">
+                <div class="receipt-row">
+                    <span class="receipt-label">Namba ya Stakabadhi:</span>
+                    <span class="receipt-val"><strong>{{ result.receipt.receipt_number }}</strong></span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Mlipakodi:</span>
+                    <span class="receipt-val">{{ result.receipt.taxpayer.full_name if result.receipt.taxpayer else 'Mlipakodi wa TRA' }}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">TIN ya Mlipakodi:</span>
+                    <span class="receipt-val"><code>{{ result.receipt.tin }}</code></span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Jina la Biashara:</span>
+                    <span class="receipt-val">{{ result.receipt.taxpayer.businesses[0].name if (result.receipt.taxpayer and result.receipt.taxpayer.businesses) else '-' }}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Namba ya GePG (Control No):</span>
+                    <span class="receipt-val"><code style="font-weight:800; color:var(--primary-dark);">{{ result.receipt.control_number }}</code></span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Aina ya Kodi:</span>
+                    <span class="receipt-val">{{ result.receipt.tax_type }}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Mwaka wa Kodi:</span>
+                    <span class="receipt-val">{{ result.receipt.tax_year }}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Tarehe & Muda wa Malipo:</span>
+                    <span class="receipt-val">{{ result.receipt.issued_at|datetime }}</span>
+                </div>
+
+                <div class="receipt-total" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>KIASI KILICHOLIPWA:</span>
+                    <span>{{ result.receipt.amount_paid|currency }}</span>
+                </div>
+            </div>
+
+            <div class="receipt-footer">
+                <div>Stakabadhi hii imetolewa kisheria chini ya Kifungu cha 86 cha Sheria ya Usimamizi wa Kodi (Tax Administration Act 2015).</div>
+                <div style="margin-top:6px; font-weight:700; color:var(--primary-dark);">Msimbosiri wa Uhakiki (Verification Hash):</div>
+                <div class="receipt-hash">{{ result.receipt.verification_hash }}</div>
+                <div style="margin-top:16px;">
+                    <button type="button" id="btn-print-receipt" class="btn btn-secondary btn-sm" onclick="window.print()" style="display:inline-flex; align-items:center; gap:6px;">
+                        {{ icon('printer', 'icon-sm') }} Chapisha Stakabadhi (Print)
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% elif result.taxpayer %}
+        <!-- Taxpayer Found -->
+        <div class="card" style="max-width:700px; margin:0 auto; border-left:4px solid var(--primary);">
+            <div class="card-header">
+                <h2 class="card-title">{{ icon('shield', 'icon-gold') }} Mlipakodi Amethibitishwa Rasmi</h2>
+                <span class="badge badge-success">{{ icon('check', 'icon-sm') }} TIN Halali na Hai</span>
+            </div>
+            <div class="card-body">
+                <div class="receipt-row">
+                    <span class="receipt-label">Jina Kamili:</span>
+                    <span class="receipt-val"><strong>{{ result.taxpayer.full_name }}</strong></span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">TIN:</span>
+                    <span class="receipt-val"><code style="font-size:1.1rem; color:var(--primary); font-weight:bold;">{{ result.taxpayer.tin }}</code></span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Jina la Biashara:</span>
+                    <span class="receipt-val">{{ result.taxpayer.businesses[0].name if result.taxpayer.businesses else '-' }}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Kanda / Mkoa:</span>
+                    <span class="receipt-val">{{ result.taxpayer.region.name if result.taxpayer.region else '-' }}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Soko la Biashara:</span>
+                    <span class="receipt-val">{{ result.taxpayer.market.name if result.taxpayer.market else '-' }}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Tarehe ya Usajili wa TIN:</span>
+                    <span class="receipt-val">{{ result.taxpayer.registration_date|date }}</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Kiwango cha Uzingatiaji (Compliance Score):</span>
+                    <span class="receipt-val">
+                        <span class="badge badge-gold">{{ result.taxpayer.compliance_score }} / 100</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <!-- Not Found -->
+        <div class="card" style="max-width:700px; margin:0 auto; text-align:center; padding:30px; border-color:var(--red-border); background:var(--red-bg);">
+            <div style="margin-bottom:10px;">{{ icon('danger', 'icon-xl') }}</div>
+            <h3 style="color:#A31E1E; margin-bottom:8px;">Hakuna Rekodi Iliyopatikana</h3>
+            <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.6;">
+                Namba uliyoingiza "<strong>{{ query }}</strong>" haipo kwenye mfumo wa TRA au haijathibitishwa. Tafadhali hakikisha umeingiza namba sahihi au wasiliana na dawati la huduma kwa simu namba <strong>0800 110 016</strong> au <strong>0800 780 078</strong>.
+            </p>
+        </div>
+    {% endif %}
+{% endif %}
+{% endblock %}

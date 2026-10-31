@@ -1,0 +1,686 @@
+{% extends "base.html" %}
+{% from "macros/icons.html" import icon %}
+
+{% block title %}Kiigizo cha Simu ya Kitochi (USSD Simulator) — TaxRahisi | TRA{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="badge badge-gold" style="margin-bottom:8px;">
+            {{ icon('phone', 'icon-sm') }} HUDUMA BILA MTANDAO (OFFLINE GOVERNANCE)
+        </div>
+        <h1 class="page-title">Kiigizo cha Simu ya Kitochi (Button Phone USSD)</h1>
+        <p class="page-subtitle">
+            Jaribu mfumo wa TaxRahisi jinsi unavyofanya kazi kwenye simu ya kawaida ya vitufe (feature phone) kupitia msimbo fupi wa <code>*152*00#</code> au <code>*222#</code> bila kuhitaji bando la intaneti.
+        </p>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center;">
+        <button id="toggleAudioBtn" class="btn btn-outline" onclick="toggleAudio()" title="Washa au zima mlio wa vitufe">
+            {{ icon('signal', 'icon-sm') }} <span id="audioLabel">Sauti: IMEWASHWA</span>
+        </button>
+        <button class="btn btn-secondary" onclick="resetSession()">
+            {{ icon('clock', 'icon-sm') }} Anzisha Upya (Reset)
+        </button>
+    </div>
+</div>
+
+<div class="ussd-wrapper">
+    <!-- LEFT COLUMN: Physical Button Phone Chassis -->
+    <div style="flex: 0 0 380px;">
+        <div class="phone-chassis">
+            <!-- Speaker grill -->
+            <div class="phone-speaker"></div>
+
+            <!-- Brand banner -->
+            <div class="phone-brand-label">
+                TAXRAHISI &bull; TRA KITOCHI
+            </div>
+
+            <!-- Screen Bezel -->
+            <div class="screen-bezel">
+                <!-- Backlit LCD Green Display -->
+                <div class="lcd-display" id="lcdDisplay">
+                    <!-- Status bar -->
+                    <div class="lcd-status-bar">
+                        <span id="lcdSignal">SIG: 5/5 AIRTEL TZ</span>
+                        <span id="lcdClock">12:00</span>
+                        <span>BAT: 85%</span>
+                    </div>
+
+                    <!-- Screen Text Area -->
+                    <div class="lcd-content" id="lcdContent">MAMLAKA YA MAPATO (TRA)
+Karibu TaxRahisi USSD
+-----------------------
+Piga *152*00# kuanza
+au bofya kitufe cha PIGA [PIGA]</div>
+
+                    <!-- Input row inside screen -->
+                    <div class="lcd-input-bar" id="lcdInputRow">
+                        <span style="font-weight:900;">&gt;</span>
+                        <input type="text" id="lcdInput" class="lcd-input-field" placeholder="Ingiza hapa..." autocomplete="off" />
+                    </div>
+
+                    <!-- Screen Softkey labels -->
+                    <div class="lcd-softkeys">
+                        <span id="lcdSoftLeft">[ SAWA ]</span>
+                        <span id="lcdSoftRight">[ FUTA ]</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phone Keypad -->
+            <div class="phone-keypad">
+                <!-- Navigation cluster: Left softkey, D-Pad, Right softkey -->
+                <div class="nav-cluster">
+                    <button class="btn-softkey" id="btnSoftLeft" onclick="handleSoftLeft()" title="Sawa / Enter">
+                        SAWA
+                    </button>
+                    <div class="d-pad" id="btnDpadOk" onclick="handleSoftLeft()" title="OK">
+                        OK
+                    </div>
+                    <button class="btn-softkey" id="btnSoftRight" onclick="handleSoftRight()" title="Futa / Backspace">
+                        FUTA
+                    </button>
+                </div>
+
+                <!-- Call and End buttons -->
+                <div class="call-end-cluster">
+                    <button class="btn-call" id="btnCall" onclick="handleCall()" title="Piga / Tuma">
+                        {{ icon('phone', 'icon-sm') }} PIGA
+                    </button>
+                    <button class="btn-end" id="btnEnd" onclick="handleEnd()" title="Kata / Zima">
+                        {{ icon('phone', 'icon-sm') }} KATA
+                    </button>
+                </div>
+
+                <!-- 12-Key Alphanumeric Grid -->
+                <div class="keypad-grid">
+                    <button class="key-btn" data-key="1" onclick="pressKey('1')">
+                        <span class="key-num">1</span>
+                        <span class="key-sub">. - _</span>
+                    </button>
+                    <button class="key-btn" data-key="2" onclick="pressKey('2')">
+                        <span class="key-num">2</span>
+                        <span class="key-sub">ABC</span>
+                    </button>
+                    <button class="key-btn" data-key="3" onclick="pressKey('3')">
+                        <span class="key-num">3</span>
+                        <span class="key-sub">DEF</span>
+                    </button>
+
+                    <button class="key-btn" data-key="4" onclick="pressKey('4')">
+                        <span class="key-num">4</span>
+                        <span class="key-sub">GHI</span>
+                    </button>
+                    <button class="key-btn" data-key="5" onclick="pressKey('5')">
+                        <span class="key-num">5</span>
+                        <span class="key-sub">JKL</span>
+                    </button>
+                    <button class="key-btn" data-key="6" onclick="pressKey('6')">
+                        <span class="key-num">6</span>
+                        <span class="key-sub">MNO</span>
+                    </button>
+
+                    <button class="key-btn" data-key="7" onclick="pressKey('7')">
+                        <span class="key-num">7</span>
+                        <span class="key-sub">PQRS</span>
+                    </button>
+                    <button class="key-btn" data-key="8" onclick="pressKey('8')">
+                        <span class="key-num">8</span>
+                        <span class="key-sub">TUV</span>
+                    </button>
+                    <button class="key-btn" data-key="9" onclick="pressKey('9')">
+                        <span class="key-num">9</span>
+                        <span class="key-sub">WXYZ</span>
+                    </button>
+
+                    <button class="key-btn" data-key="*" onclick="pressKey('*')">
+                        <span class="key-num">*</span>
+                        <span class="key-sub">+</span>
+                    </button>
+                    <button class="key-btn" data-key="0" onclick="pressKey('0')">
+                        <span class="key-num">0</span>
+                        <span class="key-sub">Space</span>
+                    </button>
+                    <button class="key-btn" data-key="#" onclick="pressKey('#')">
+                        <span class="key-num">#</span>
+                        <span class="key-sub">⇧</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align:center; margin-top:12px; font-size:0.8rem; color:var(--text-muted);">
+            {{ icon('check', 'icon-sm') }} Unaweza pia kutumia <strong>kibodi ya kompyuta yako</strong> (0-9, *, #, Enter, Backspace, Esc).
+        </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Simulator Controls, Diagnostics & Test Scenarios -->
+    <div style="flex: 1; min-width: 0;">
+        <!-- Persona & Network Selector Card -->
+        <div class="card" style="margin-bottom:16px;">
+            <div class="card-header">
+                <span class="card-title">{{ icon('user', 'icon-sm') }} Wasifu wa Mtumiaji & Namba ya Simu</span>
+                <span class="badge badge-gold">Mwigizaji wa SIM Card</span>
+            </div>
+            <div class="card-body">
+                <div class="form-row" style="margin-bottom:12px;">
+                    <div class="form-group" style="flex:1;">
+                        <label class="form-label">Chagua Mfanyabiashara wa Mfano:</label>
+                        <select id="personaSelect" class="form-control" onchange="onPersonaChange()">
+                            <option value="+255712345678" data-name="Juma Hamisi (Kariakoo - Amesajiliwa)">Juma Hamisi — Kariakoo (+255 712 345 678, Amesajiliwa)</option>
+                            <option value="+255755123456" data-name="Neema Mwangi (Ilala - Mama Lishe)">Neema Mwangi — Ilala (+255 755 123 456, Mama Lishe)</option>
+                            <option value="+255768222333" data-name="Mussa Bakari (Temeke - Bodaboda)">Mussa Bakari — Temeke (+255 768 222 333, Bodaboda)</option>
+                            <option value="+255799887766" data-name="Mfanyabiashara Mpya (Hajasajiliwa)">Mfanyabiashara Mpya — (+255 799 887 766, Hawezi TIN)</option>
+                            <option value="custom">Namba Nyingine (Weka Mwenyewe)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label class="form-label">Namba ya Simu ya Kijaribio (MSISDN):</label>
+                        <input type="text" id="simPhoneInput" class="form-control" value="+255712345678" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <label class="form-label">Mtandao wa Mawasiliano (MNO):</label>
+                        <select id="networkSelect" class="form-control" onchange="updateNetworkDisplay()">
+                            <option value="AIRTEL TZ">Airtel Tanzania</option>
+                            <option value="VODACOM TZ">Vodacom (M-Pesa)</option>
+                            <option value="TIGO TZ">Tigo (Yas / Mixx)</option>
+                            <option value="HALOTEL TZ">Halotel Tanzania</option>
+                            <option value="TTCL TZ">TTCL Corporation</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label class="form-label">Msimbo wa Huduma (Service Code):</label>
+                        <input type="text" id="serviceCodeInput" class="form-control" value="*152*00#" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- One-Click Quick Scenarios -->
+        <div class="card" style="margin-bottom:16px;">
+            <div class="card-header">
+                <span class="card-title">{{ icon('target', 'icon-sm') }} Majaribio ya Moja kwa Moja (Quick Test Scenarios)</span>
+            </div>
+            <div class="card-body">
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">
+                    Bofya kitufe chochote hapa chini kupakia na kuanzisha mfululizo wa maombi kiotomatiki:
+                </p>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:10px;">
+                    <button class="btn btn-outline" style="text-align:left; padding:10px 14px; font-size:0.85rem;" onclick="runPresetScenario('root')">
+                        <div style="font-weight:800; color:var(--primary-dark);">{{ icon('phone', 'icon-sm') }} 1. Menyu Kuu</div>
+                        <div style="font-size:0.75rem; color:var(--text-muted);">Piga *152*00# kwa mtumiaji wa sasa</div>
+                    </button>
+
+                    <button class="btn btn-outline" style="text-align:left; padding:10px 14px; font-size:0.85rem;" onclick="runPresetScenario('register')">
+                        <div style="font-weight:800; color:var(--primary-dark);">{{ icon('user', 'icon-sm') }} 2. Usajili Mpya wa Biashara</div>
+                        <div style="font-size:0.75rem; color:var(--text-muted);">Mtiririko wa NIDA &rarr; Soko &rarr; TIN mpya</div>
+                    </button>
+
+                    <button class="btn btn-outline" style="text-align:left; padding:10px 14px; font-size:0.85rem;" onclick="runPresetScenario('assessment')">
+                        <div style="font-weight:800; color:var(--primary-dark);">{{ icon('coins', 'icon-sm') }} 3. Kukadiria & Lipa Kodi</div>
+                        <div style="font-size:0.75rem; color:var(--text-muted);">Makadirio ya Cap 332 & Namba ya GePG</div>
+                    </button>
+
+                    <button class="btn btn-outline" style="text-align:left; padding:10px 14px; font-size:0.85rem;" onclick="runPresetScenario('status')">
+                        <div style="font-weight:800; color:var(--primary-dark);">{{ icon('receipt', 'icon-sm') }} 4. Angalia Risiti & Salio</div>
+                        <div style="font-size:0.75rem; color:var(--text-muted);">Kagua hali ya malipo na stakabadhi</div>
+                    </button>
+
+                    <button class="btn btn-outline" style="text-align:left; padding:10px 14px; font-size:0.85rem;" onclick="runPresetScenario('education')">
+                        <div style="font-weight:800; color:var(--primary-dark);">{{ icon('chart', 'icon-sm') }} 5. Elimu ya Kodi (Cap 332)</div>
+                        <div style="font-size:0.75rem; color:var(--text-muted);">Viwango vya makadirio na miezi 12 ya neema</div>
+                    </button>
+
+                    <button class="btn btn-outline" style="text-align:left; padding:10px 14px; font-size:0.85rem;" onclick="runPresetScenario('complaint')">
+                        <div style="font-weight:800; color:var(--primary-dark);">{{ icon('alert', 'icon-sm') }} 6. Ripoti Changamoto / Rushwa</div>
+                        <div style="font-size:0.75rem; color:var(--text-muted);">Ripoti kero bila kufichua utambulisho</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Session Diagnostics & Inspection -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">{{ icon('settings', 'icon-sm') }} Kichunguzi cha Kikao cha USSD (Live Diagnostics)</span>
+                <span id="sessionStatusBadge" class="badge badge-secondary">IDLE (HAIJAWASHWA)</span>
+            </div>
+            <div class="card-body">
+                <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-bottom:14px;">
+                    <div style="background:#f8fafc; padding:10px; border-radius:6px; border:1px solid var(--border-color);">
+                        <div style="font-size:0.7rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Session ID</div>
+                        <div id="diagSessionId" style="font-family:var(--font-mono); font-weight:800; font-size:0.85rem; color:var(--primary-dark); word-break:break-all;">-</div>
+                    </div>
+                    <div style="background:#f8fafc; padding:10px; border-radius:6px; border:1px solid var(--border-color);">
+                        <div style="font-size:0.7rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Msururu wa Matini (Text Chain)</div>
+                        <div id="diagTextChain" style="font-family:var(--font-mono); font-weight:800; font-size:0.85rem; color:var(--primary-dark); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">(tupu)</div>
+                    </div>
+                    <div style="background:#f8fafc; padding:10px; border-radius:6px; border:1px solid var(--border-color);">
+                        <div style="font-size:0.7rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Muda wa Majibu (Latency)</div>
+                        <div id="diagLatency" style="font-family:var(--font-mono); font-weight:800; font-size:0.85rem; color:var(--primary);">-</div>
+                    </div>
+                </div>
+
+                <div id="gepgAlertBox" style="display:none; margin-bottom:14px; background:var(--gold-light); border:1px solid var(--gold-border); border-radius:8px; padding:12px; align-items:center; justify-content:space-between;">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        {{ icon('receipt', 'icon-gold') }}
+                        <div>
+                            <div style="font-size:0.75rem; font-weight:800; color:var(--gold-dark);">NAMBA YA MALIPO YA SERIKALI (GePG CONTROL NUMBER):</div>
+                            <div id="gepgNumberText" style="font-family:var(--font-mono); font-size:1.2rem; font-weight:900; color:#0f172a;">-</div>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('public.verify') }}" class="btn btn-sm btn-gold">
+                        {{ icon('check', 'icon-sm') }} Hakiki Kwenye Mfumo
+                    </a>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                    <span style="font-size:0.75rem; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Taarifa Ghafi za USSD Gateway (/api/v1/ussd/gateway):</span>
+                    <button class="btn btn-sm btn-outline" onclick="clearLog()">Safisha Kumbukumbu</button>
+                </div>
+                <pre id="rawLogBox" style="background:#0f172a; color:#38bdf8; padding:12px; border-radius:6px; font-size:0.75rem; font-family:var(--font-mono); max-height:160px; overflow-y:auto; line-height:1.4; margin:0;">[TAYARI] Mfumo wa USSD Gateway uko tayari kupokea maombi...</pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Legal & Technical Architecture Context Card -->
+<div class="card" style="margin-top:24px;">
+    <div class="card-header">
+        <span class="card-title">{{ icon('shield', 'icon-sm') }} Ujumuishi wa Kidijitali Kupitia USSD (Cap 332 & Sheria ya Usimamizi wa Kodi 2015)</span>
+        <span class="badge badge-success">GSM Signaling SS7 &bull; Zero Rated</span>
+    </div>
+    <div class="card-body">
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
+            <div>
+                <h4 style="font-size:0.95rem; font-weight:800; color:var(--primary-dark); margin-bottom:6px;">
+                    {{ icon('check', 'icon-sm') }} Inafanya Kazi Kwenye Simu Yoyote
+                </h4>
+                <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">
+                    Teknolojia ya USSD (Unstructured Supplementary Service Data) inatumia mawasiliano ya msingi ya mtandao wa simu (channel ya GSM SS7). Haitegemei data ya intaneti, Wi-Fi, wala simu janja (smartphone), na inamwezesha mama lishe au mmachinga vijijini na mijini kupata huduma za kodi mara moja.
+                </p>
+            </div>
+            <div>
+                <h4 style="font-size:0.95rem; font-weight:800; color:var(--primary-dark); margin-bottom:6px;">
+                    {{ icon('coins', 'icon-sm') }} Huduma Bila Malipo kwa Mwananchi
+                </h4>
+                <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">
+                    Kupitia mfumo wa utozaji kinyume (Reverse Billing / Toll-Free USSD), gharama zote za kikao cha simu zinalipwa na serikali. Mwananchi anakadiria na kulipa kodi bila kukatwa salio la kawaida la maongezi.
+                </p>
+            </div>
+            <div>
+                <h4 style="font-size:0.95rem; font-weight:800; color:var(--primary-dark); margin-bottom:6px;">
+                    {{ icon('award', 'icon-sm') }} Muunganisho wa Moja kwa Moja na GePG
+                </h4>
+                <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">
+                    Namba zote za malipo (Control Numbers) zinazozalishwa hapa zinaanza na <code>991...</code> na zinatambulika moja kwa moja na mifumo yote ya benki (NMB, CRDB, NBC) pamoja na mitandao ya simu (M-Pesa, Airtel Money, Tigo Pesa, HaloPesa).
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// USSD Simulation State
+let sessionState = {
+    sessionId: null,
+    phoneNumber: "+255712345678",
+    serviceCode: "*152*00#",
+    textChain: [],
+    isActive: false,
+    audioEnabled: true,
+    audioCtx: null
+};
+
+// Initialize audio context lazily on user gesture
+function getAudioContext() {
+    if (!sessionState.audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) {
+            sessionState.audioCtx = new AudioContext();
+        }
+    }
+    if (sessionState.audioCtx && sessionState.audioCtx.state === 'suspended') {
+        sessionState.audioCtx.resume();
+    }
+    return sessionState.audioCtx;
+}
+
+// Play DTMF / button click sound
+function playKeyTone(key) {
+    if (!sessionState.audioEnabled) return;
+    try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+
+        // DTMF Frequency table
+        const dtmf = {
+            '1': [697, 1209], '2': [697, 1336], '3': [697, 1477],
+            '4': [770, 1209], '5': [770, 1336], '6': [770, 1477],
+            '7': [852, 1209], '8': [852, 1336], '9': [852, 1477],
+            '*': [941, 1209], '0': [941, 1336], '#': [941, 1477]
+        };
+
+        const now = ctx.currentTime;
+        const freqs = dtmf[key] || [520, 800];
+
+        freqs.forEach(f => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(f, now);
+            gain.gain.setValueAtTime(0.08, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.12);
+        });
+    } catch (e) {
+        console.warn("Audio feedback error:", e);
+    }
+}
+
+function toggleAudio() {
+    sessionState.audioEnabled = !sessionState.audioEnabled;
+    const label = document.getElementById('audioLabel');
+    label.innerText = sessionState.audioEnabled ? "Sauti: IMEWASHWA" : "Sauti: IMEZIMWA";
+}
+
+function updateClock() {
+    const now = new Date();
+    const hrs = String(now.getHours()).padStart(2, '0');
+    const mins = String(now.getMinutes()).padStart(2, '0');
+    const el = document.getElementById('lcdClock');
+    if (el) el.innerText = `${hrs}:${mins}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+function updateNetworkDisplay() {
+    const sel = document.getElementById('networkSelect');
+    const sig = document.getElementById('lcdSignal');
+    if (sig && sel) {
+        sig.innerText = "SIG: " + sel.value;
+    }
+}
+
+function onPersonaChange() {
+    const sel = document.getElementById('personaSelect');
+    const phoneInput = document.getElementById('simPhoneInput');
+    if (sel.value !== 'custom') {
+        phoneInput.value = sel.value;
+    }
+    resetSession();
+}
+
+function logGateway(msg) {
+    const box = document.getElementById('rawLogBox');
+    if (box) {
+        const time = new Date().toLocaleTimeString();
+        box.textContent += `\n[${time}] ${msg}`;
+        box.scrollTop = box.scrollHeight;
+    }
+}
+
+function clearLog() {
+    const box = document.getElementById('rawLogBox');
+    if (box) box.textContent = "[TAYARI] Kumbukumbu imesafishwa.";
+}
+
+function generateSessionId() {
+    return "TR-USSD-" + Math.floor(100000 + Math.random() * 900000);
+}
+
+function setLcdMessage(msg) {
+    const el = document.getElementById('lcdContent');
+    if (el) el.innerText = msg;
+}
+
+function showInputRow(show) {
+    const el = document.getElementById('lcdInputRow');
+    if (el) el.style.display = show ? 'flex' : 'none';
+}
+
+function pressKey(key) {
+    playKeyTone(key);
+    const input = document.getElementById('lcdInput');
+    if (input) {
+        input.value += key;
+        input.focus();
+    }
+}
+
+function handleSoftRight() {
+    playKeyTone('futa');
+    const input = document.getElementById('lcdInput');
+    if (input && input.value.length > 0) {
+        input.value = input.value.slice(0, -1);
+    } else if (sessionState.isActive) {
+        handleEnd();
+    }
+}
+
+function handleSoftLeft() {
+    playKeyTone('ok');
+    if (!sessionState.isActive) {
+        handleCall();
+    } else {
+        const input = document.getElementById('lcdInput');
+        const val = input ? input.value.trim() : "";
+        if (val) {
+            submitNextInput(val);
+        }
+    }
+}
+
+function handleCall() {
+    playKeyTone('1');
+    const phone = document.getElementById('simPhoneInput').value.trim();
+    const serviceCode = document.getElementById('serviceCodeInput').value.trim() || "*152*00#";
+    
+    if (!sessionState.isActive) {
+        // Start brand new session
+        sessionState.sessionId = generateSessionId();
+        sessionState.phoneNumber = phone;
+        sessionState.serviceCode = serviceCode;
+        sessionState.textChain = [];
+        sessionState.isActive = true;
+
+        updateSessionUI('ACTIVE (CON)', 'badge-primary');
+        logGateway(`Dialing ${serviceCode} from ${phone}... Session: ${sessionState.sessionId}`);
+        sendGatewayRequest("");
+    } else {
+        // Session already active, submit input
+        const input = document.getElementById('lcdInput');
+        const val = input ? input.value.trim() : "";
+        if (val) {
+            submitNextInput(val);
+        }
+    }
+}
+
+function handleEnd() {
+    playKeyTone('#');
+    logGateway(`Session terminated by user (Call ended).`);
+    sessionState.isActive = false;
+    updateSessionUI('TERMINATED (END)', 'badge-danger');
+    setLcdMessage("SIMU IMEKATWA\n-----------------------\nAsante kwa kutumia TaxRahisi.\n\nBonyeza [PIGA] kuanza tena.");
+    showInputRow(false);
+    const input = document.getElementById('lcdInput');
+    if (input) input.value = "";
+}
+
+function resetSession() {
+    sessionState.sessionId = null;
+    sessionState.textChain = [];
+    sessionState.isActive = false;
+    updateSessionUI('IDLE (HAIJAWASHWA)', 'badge-secondary');
+    setLcdMessage("MAMLAKA YA MAPATO (TRA)\nKaribu TaxRahisi USSD\n-----------------------\nPiga *152*00# kuanza\nau bofya kitufe cha PIGA [PIGA]");
+    showInputRow(true);
+    const input = document.getElementById('lcdInput');
+    if (input) input.value = "";
+    document.getElementById('gepgAlertBox').style.display = 'none';
+    document.getElementById('diagSessionId').innerText = "-";
+    document.getElementById('diagTextChain').innerText = "(tupu)";
+    document.getElementById('diagLatency').innerText = "-";
+}
+
+function updateSessionUI(statusText, badgeClass) {
+    const badge = document.getElementById('sessionStatusBadge');
+    if (badge) {
+        badge.className = `badge ${badgeClass}`;
+        badge.innerText = statusText;
+    }
+    const diagId = document.getElementById('diagSessionId');
+    if (diagId) diagId.innerText = sessionState.sessionId || "-";
+    const diagChain = document.getElementById('diagTextChain');
+    if (diagChain) diagChain.innerText = sessionState.textChain.join('*') || "(mwanzo)";
+}
+
+function submitNextInput(val) {
+    sessionState.textChain.push(val);
+    const textParam = sessionState.textChain.join('*');
+    const input = document.getElementById('lcdInput');
+    if (input) input.value = "";
+    sendGatewayRequest(textParam);
+}
+
+function sendGatewayRequest(textParam) {
+    setLcdMessage("Inapakia...");
+    const t0 = performance.now();
+    const phone = document.getElementById('simPhoneInput').value.trim();
+
+    const formData = new URLSearchParams();
+    formData.append('sessionId', sessionState.sessionId);
+    formData.append('phoneNumber', phone);
+    formData.append('text', textParam);
+    formData.append('serviceCode', sessionState.serviceCode);
+
+    logGateway(`POST /api/v1/ussd/gateway -> phone=${phone}&text="${textParam}"`);
+
+    fetch('/api/v1/ussd/gateway', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString()
+    })
+    .then(r => r.text())
+    .then(responseText => {
+        const latency = Math.round(performance.now() - t0);
+        document.getElementById('diagLatency').innerText = `${latency} ms`;
+        logGateway(`GATEWAY RESPONSE (${latency}ms):\n${responseText}`);
+
+        // Check if GePG control number was returned (pattern 991...)
+        const gepgMatch = responseText.match(/991\d{9}/);
+        if (gepgMatch) {
+            const gepgEl = document.getElementById('gepgNumberText');
+            const alertBox = document.getElementById('gepgAlertBox');
+            if (gepgEl && alertBox) {
+                gepgEl.innerText = gepgMatch[0];
+                alertBox.style.display = 'flex';
+            }
+        }
+
+        if (responseText.startsWith('CON ')) {
+            const displayBody = responseText.substring(4);
+            setLcdMessage(displayBody);
+            showInputRow(true);
+            updateSessionUI('ACTIVE (CON)', 'badge-primary');
+            const input = document.getElementById('lcdInput');
+            if (input) input.focus();
+        } else if (responseText.startsWith('END ')) {
+            const displayBody = responseText.substring(4);
+            setLcdMessage(displayBody);
+            showInputRow(false);
+            sessionState.isActive = false;
+            updateSessionUI('TERMINATED (END)', 'badge-success');
+        } else {
+            setLcdMessage(responseText);
+            showInputRow(true);
+        }
+    })
+    .catch(err => {
+        logGateway(`ERROR: ${err.message}`);
+        setLcdMessage("Hitilafu ya mtandao!\nTafadhali jaribu tena.");
+        updateSessionUI('ERROR', 'badge-danger');
+    });
+}
+
+function runPresetScenario(type) {
+    resetSession();
+    const phoneEl = document.getElementById('simPhoneInput');
+    const personaSel = document.getElementById('personaSelect');
+
+    if (type === 'root') {
+        personaSel.value = "+255712345678";
+        phoneEl.value = "+255712345678";
+        handleCall();
+    } else if (type === 'register') {
+        // Unregistered trader
+        personaSel.value = "+255799887766";
+        phoneEl.value = "+255799887766";
+        handleCall();
+        setTimeout(() => {
+            submitNextInput("1"); // Register option
+        }, 300);
+    } else if (type === 'assessment') {
+        personaSel.value = "+255712345678";
+        phoneEl.value = "+255712345678";
+        handleCall();
+        setTimeout(() => {
+            submitNextInput("3"); // Lipa kodi
+        }, 300);
+    } else if (type === 'status') {
+        personaSel.value = "+255712345678";
+        phoneEl.value = "+255712345678";
+        handleCall();
+        setTimeout(() => {
+            submitNextInput("4"); // Hali ya malipo
+        }, 300);
+    } else if (type === 'education') {
+        personaSel.value = "+255712345678";
+        phoneEl.value = "+255712345678";
+        handleCall();
+        setTimeout(() => {
+            submitNextInput("6"); // Elimu
+        }, 300);
+    } else if (type === 'complaint') {
+        personaSel.value = "+255712345678";
+        phoneEl.value = "+255712345678";
+        handleCall();
+        setTimeout(() => {
+            submitNextInput("5"); // Ripoti
+        }, 300);
+    }
+}
+
+// Physical Keyboard Listener
+document.addEventListener('keydown', (e) => {
+    // If typing in other inputs outside LCD, don't hijack
+    if (document.activeElement && document.activeElement.id !== 'lcdInput' && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT' || document.activeElement.tagName === 'TEXTAREA')) {
+        return;
+    }
+
+    if ((e.key >= '0' && e.key <= '9') || e.key === '*' || e.key === '#') {
+        pressKey(e.key);
+        // Visual press effect on virtual key button
+        const btn = document.querySelector(`.key-btn[data-key="${e.key}"]`);
+        if (btn) {
+            btn.classList.add('pressed');
+            setTimeout(() => btn.classList.remove('pressed'), 120);
+        }
+    } else if (e.key === 'Enter') {
+        e.preventDefault();
+        handleSoftLeft();
+    } else if (e.key === 'Backspace') {
+        handleSoftRight();
+    } else if (e.key === 'Escape') {
+        handleEnd();
+    }
+});
+</script>
+{% endblock %}

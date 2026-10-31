@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}Lipa Kodi Kupitia GePG | TaxRahisi TRA{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('taxpayer.dashboard') }}" class="subnav-link">{{ icon('chart', 'icon-sm') }} Dashibodi Yangu</a>
+        <a href="{{ url_for('taxpayer.assessment') }}" class="subnav-link">{{ icon('scale', 'icon-sm') }} Tathmini ya Kodi (Cap 332)</a>
+        <a href="{{ url_for('taxpayer.payments') }}" class="subnav-link active">{{ icon('card', 'icon-sm') }} Lipa Kodi (GePG)</a>
+        <a href="{{ url_for('taxpayer.receipts') }}" class="subnav-link">{{ icon('receipt', 'icon-sm') }} Stakabadhi Zangu</a>
+        <a href="{{ url_for('taxpayer.compliance') }}" class="subnav-link">{{ icon('award', 'icon-sm') }} Mlipakodi Bora</a>
+        <a href="{{ url_for('taxpayer.complaints') }}" class="subnav-link">{{ icon('message', 'icon-sm') }} Malalamiko & Msaada</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Malipo ya Kodi ya Serikali (GePG Payment)</h1>
+        <p class="page-subtitle">Lipa kwa urahisi kupitia Namba ya Malipo ya Serikali (Control Number) kwa kutumia simu au benki</p>
+    </div>
+</div>
+
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start;">
+    <!-- Payment Form -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">{{ icon('card', 'icon-gold') }} Tengeneza / Fanya Malipo</h2>
+            <span class="badge badge-success">Salama 100% GePG</span>
+        </div>
+        <div class="card-body">
+            <div style="background:var(--gold-subtle); border:2px solid var(--gold-border); border-radius:8px; padding:16px; margin-bottom:20px;">
+                <div style="font-size:0.775rem; color:var(--gold-dark); text-transform:uppercase; font-weight:800;">Namba Yako ya Malipo (GePG Control Number):</div>
+                <div style="font-size:1.8rem; font-weight:900; color:var(--primary-dark); letter-spacing:1px; margin:4px 0;">
+                    <code>{{ default_control }}</code>
+                </div>
+                <div style="font-size:0.8rem; color:var(--text-muted);">
+                    Mlipakodi: <strong>{{ taxpayer.full_name }}</strong> (TIN: {{ taxpayer.tin }})
+                </div>
+            </div>
+
+            <form action="{{ url_for('taxpayer.payments') }}" method="POST">
+                <div class="form-group">
+                    <label class="form-label" for="amount">Kiasi Unacholipa (TZS): <span class="required">*</span></label>
+                    <input type="number" id="amount" name="amount" class="form-control" style="font-size:1.2rem; font-weight:700; color:var(--primary);" value="25000" min="1000" step="5000" required>
+                    <div class="form-text">Salio linalodaiwa kwa sasa: <strong>{{ assessment.balance_due|currency if assessment else 'TZS 0' }}</strong></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="provider_id">Njia ya Malipo (Payment Channel): <span class="required">*</span></label>
+                    <select id="provider_id" name="provider_id" class="form-control" required>
+                        {% for p in providers %}
+                            <option value="{{ p.id }}">{{ p.name }} ({{ p.provider_type }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="installment_type">Aina ya Awamu:</label>
+                    <select id="installment_type" name="installment_type" class="form-control">
+                        <option value="Quarterly">Robo Mwaka (Quarterly Installment)</option>
+                        <option value="Monthly">Kila Mwezi (Monthly)</option>
+                        <option value="Full">Malipo Kamili ya Mwaka (Full Annual Tax)</option>
+                        <option value="Custom">Kiasi Maalum (Partial)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="payer_phone">Namba ya Simu ya Mlipaji (M-Pesa / Tigo / Airtel):</label>
+                    <input type="tel" id="payer_phone" name="payer_phone" class="form-control" value="{{ taxpayer.phone_number }}" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">Thibitisha na Kamilisha Malipo Sasa</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- USSD / Mobile Money Payment Instructions -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">{{ icon('phone', 'icon-gold') }} Jinsi ya Kulipa kwa Simu Yako</h2>
+        </div>
+        <div class="card-body" style="font-size:0.875rem; line-height:1.6; color:#172B23;">
+            <h3 style="font-size:0.95rem; color:#064B32; font-weight:700; margin-bottom:8px;">1. Vodacom M-Pesa (*150*00#)</h3>
+            <ol style="margin-left:20px; margin-bottom:14px; color:#5C7268;">
+                <li>Piga <strong>*150*00#</strong></li>
+                <li>Chagua 4 (Lipa kwa M-Pesa)</li>
+                <li>Chagua 5 (Malipo ya Serikali)</li>
+                <li>Weka Control Number: <code>{{ default_control }}</code></li>
+                <li>Weka PIN yako kuthibitisha malipo</li>
+            </ol>
+
+            <h3 style="font-size:0.95rem; color:#064B32; font-weight:700; margin-bottom:8px;">2. Tigo Pesa (*150*01#)</h3>
+            <ol style="margin-left:20px; margin-bottom:14px; color:#5C7268;">
+                <li>Piga <strong>*150*01#</strong> &gt; Chagua 4 (Lipa Bili) &gt; Chagua 5 (Malipo ya Serikali)</li>
+                <li>Weka Control Number: <code>{{ default_control }}</code></li>
+            </ol>
+
+            <h3 style="font-size:0.95rem; color:#064B32; font-weight:700; margin-bottom:8px;">3. Airtel Money (*150*60#)</h3>
+            <ol style="margin-left:20px; color:#5C7268;">
+                <li>Piga <strong>*150*60#</strong> &gt; Lipa Bili &gt; Malipo ya Serikali GePG</li>
+                <li>Ingiza Control Number na uthibitishe kiasi</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<!-- Payments History -->
+<div class="card" style="margin-top:24px;">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('receipt', 'icon-gold') }} Kumbukumbu za Malipo Yako</h2>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tarehe</th>
+                        <th>Control Number</th>
+                        <th>Kiasi</th>
+                        <th>Mtoa Huduma</th>
+                        <th>Muamala (Reference)</th>
+                        <th>Hali</th>
+                        <th>Risiti</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in payments %}
+                    <tr>
+                        <td>{{ p.payment_date|date if p.payment_date else p.created_at|date }}</td>
+                        <td><code>{{ p.control_number }}</code></td>
+                        <td><strong>{{ p.amount|currency }}</strong></td>
+                        <td>{{ p.provider.name if p.provider else 'Simu' }}</td>
+                        <td><span style="font-size:0.8rem; color:#5C7268;">{{ p.transaction_reference }}</span></td>
+                        <td>
+                            {% if p.status == 'SUCCESSFUL' %}
+                                <span class="badge badge-success">Imekamilika</span>
+                            {% else %}
+                                <span class="badge badge-warning">{{ p.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if p.receipt %}
+                                <a href="{{ url_for('taxpayer.receipt_detail', receipt_id=p.receipt.id) }}" class="btn btn-secondary btn-sm">Tazama Risiti</a>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" style="text-align:center; color:#5C7268;">Hakuna malipo yaliyofanyika bado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

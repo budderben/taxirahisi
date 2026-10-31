@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Ukurasa Haukupatikana (404) | TRA TaxRahisi{% endblock %}
+{% block content %}
+<div class="card" style="max-width:600px; margin:40px auto; text-align:center; padding:40px 20px;">
+    <div style="margin-bottom:12px;">{{ icon('chart', 'icon-xl') }}</div>
+    <h1 style="color:var(--primary-dark); font-size:1.8rem; margin-bottom:8px;">Ukurasa Haukupatikana (404)</h1>
+    <p style="color:#5C7268; margin-bottom:24px;">Samahani, anwani uliyofungua haipo kwenye mfumo wa TaxRahisi.</p>
+    <a href="{{ url_for('public.index') }}" class="btn btn-primary">Rudi Mwanzo</a>
+</div>
+{% endblock %}

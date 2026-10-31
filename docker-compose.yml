@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: taxrahisi_web
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - SECRET_KEY=taxrahisi-production-super-secret-key-tz-2026
+      - DATABASE_URL=postgresql://taxrahisi_user:taxrahisi_secret@db:5432/taxrahisi_db
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15-alpine
+    container_name: taxrahisi_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: taxrahisi_db
+      POSTGRES_USER: taxrahisi_user
+      POSTGRES_PASSWORD: taxrahisi_secret
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:

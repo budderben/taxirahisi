@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}Dashibodi ya Chama cha Wafanyabiashara | TaxRahisi TRA{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('association.dashboard') }}" class="subnav-link active">{{ icon('building', 'icon-sm') }} Dashibodi ya Chama</a>
+        <a href="{{ url_for('association.members') }}" class="subnav-link">{{ icon('users', 'icon-sm') }} Wanachama (Traders)</a>
+        <a href="{{ url_for('association.revenue_sharing') }}" class="subnav-link">{{ icon('coins', 'icon-sm') }} Gawio la Kodi (3% Share)</a>
+        <a href="{{ url_for('association.projects') }}" class="subnav-link">{{ icon('building', 'icon-sm') }} Miradi ya Jamii</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">{{ association.name }}</h1>
+        <p class="page-subtitle">Namba ya Usajili: <code>{{ association.registration_number }}</code> &bull; Kanda: <strong>{{ association.region.name if association.region else 'Tanzania' }}</strong></p>
+    </div>
+    <div class="page-actions">
+        <span class="badge badge-success">Mshirika Rasmi wa TRA</span>
+        <a href="{{ url_for('association.revenue_sharing') }}" class="btn btn-primary btn-sm">Omba Malipo ya Gawio</a>
+    </div>
+</div>
+
+<!-- Association Aggregate Metrics -->
+<div class="stats-grid">
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Jumla ya Wanachama</span>
+            <div class="metric-icon">{{ icon('users', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value">{{ members_count }}</div>
+        <div class="metric-sub">
+            <span class="badge badge-success">{{ compliant_count }} Wazuri</span>
+            <span class="badge badge-warning">{{ non_compliant_count }} Wanafuatiliwa</span>
+        </div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Kodi Zilizokusanywa (GePG)</span>
+            <div class="metric-icon">{{ icon('download', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value">{{ total_collected|currency }}</div>
+        <div class="metric-sub">
+            Kutoka kwa wanachama wa chama
+        </div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Gawio Linalostahili ({{ association.revenue_share_pct }}%)</span>
+            <div class="metric-icon">{{ icon('coins', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value" style="color:var(--primary);">{{ eligible_revenue_share|currency }}</div>
+        <div class="metric-sub">
+            <span class="badge badge-gold">Mpango wa 3% TRA</span>
+        </div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Miradi ya Soko</span>
+            <div class="metric-icon">{{ icon('building', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value">{{ projects|length }}</div>
+        <div class="metric-sub">
+            Vyoo, taa za sola, ulinzi
+        </div>
+    </div>
+</div>
+
+<!-- Community Projects Summary -->
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('building', 'icon-sm') }} Miradi ya Jamii Inayofadhiliwa na Gawio la Kodi</h2>
+        <a href="{{ url_for('association.projects') }}" class="btn btn-secondary btn-sm">Simamia Miradi</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Jina la Mradi</th>
+                        <th>Bajeti Iliyotengwa</th>
+                        <th>Kiasi Kilichoidhinishwa</th>
+                        <th>Maendeleo</th>
+                        <th>Hali</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in projects %}
+                    <tr>
+                        <td>
+                            <strong>{{ p.title }}</strong>
+                            <div style="font-size:0.775rem; color:#5C7268;">{{ p.description }}</div>
+                        </td>
+                        <td>{{ p.budget|currency }}</td>
+                        <td>{{ p.approved_expenditure|currency }}</td>
+                        <td>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <div style="flex:1; background:#E2ECE6; height:8px; border-radius:4px; overflow:hidden;">
+                                    <div style="width:{{ p.completion_percentage }}%; background:var(--primary); height:100%;"></div>
+                                </div>
+                                <span style="font-size:0.75rem; font-weight:700;">{{ p.completion_percentage }}%</span>
+                            </div>
+                        </td>
+                        <td>
+                            {% if p.status == 'Completed' %}
+                                <span class="badge badge-success">Imekamilika</span>
+                            {% elif p.status == 'In Progress' %}
+                                <span class="badge badge-info">Inajengwa</span>
+                            {% else %}
+                                <span class="badge badge-warning">{{ p.status }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align:center; color:#5C7268;">Hakuna miradi iliyorekodiwa bado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Payout Requests -->
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('receipt', 'icon-gold') }} Maombi ya Malipo ya Gawio la 3% (Payouts)</h2>
+        <a href="{{ url_for('association.revenue_sharing') }}" class="btn btn-secondary btn-sm">Tazama Hesabu Kamili</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Namba ya Kumbukumbu</th>
+                        <th>Tarehe</th>
+                        <th>Kiasi</th>
+                        <th>Benki & Akaunti</th>
+                        <th>Hali ya TRA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for py in payouts %}
+                    <tr>
+                        <td><code>{{ py.payout_reference }}</code></td>
+                        <td>{{ py.created_at|date }}</td>
+                        <td><strong>{{ py.amount|currency }}</strong></td>
+                        <td>{{ py.bank_name }} - {{ py.account_number }}</td>
+                        <td>
+                            {% if py.status == 'Disbursed' %}
+                                <span class="badge badge-success">Imelipwa Benki</span>
+                            {% elif py.status == 'Approved' %}
+                                <span class="badge badge-info">Imeidhinishwa</span>
+                            {% else %}
+                                <span class="badge badge-warning">Inasubiri Idhini ya TRA</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align:center; color:#5C7268;">Hakuna maombi ya malipo bado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}Tathmini ya Kodi ya Mapato (Cap 332) | TaxRahisi TRA{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('taxpayer.dashboard') }}" class="subnav-link">{{ icon('chart', 'icon-sm') }} Dashibodi Yangu</a>
+        <a href="{{ url_for('taxpayer.assessment') }}" class="subnav-link active">{{ icon('scale', 'icon-sm') }} Tathmini ya Kodi (Cap 332)</a>
+        <a href="{{ url_for('taxpayer.payments') }}" class="subnav-link">{{ icon('card', 'icon-sm') }} Lipa Kodi (GePG)</a>
+        <a href="{{ url_for('taxpayer.receipts') }}" class="subnav-link">{{ icon('receipt', 'icon-sm') }} Stakabadhi Zangu</a>
+        <a href="{{ url_for('taxpayer.compliance') }}" class="subnav-link">{{ icon('award', 'icon-sm') }} Mlipakodi Bora</a>
+        <a href="{{ url_for('taxpayer.complaints') }}" class="subnav-link">{{ icon('message', 'icon-sm') }} Malalamiko & Msaada</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Tathmini Rasmi ya Kodi (Tax Assessment)</h1>
+        <p class="page-subtitle">Ufafanuzi wa Kisheria wa Makadirio Chini ya Sheria ya Kodi ya Mapato Sura ya 332</p>
+    </div>
+    {% if assessment and assessment.balance_due > 0 %}
+        <a href="{{ url_for('taxpayer.payments') }}" class="btn btn-primary btn-sm">Lipa Salio Linalodaiwa</a>
+    {% endif %}
+</div>
+
+{% if assessment %}
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+    <!-- Assessment Details Card -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">{{ icon('receipt', 'icon-gold') }} Taarifa za Makadirio ya Mwaka</h2>
+            <span class="badge badge-success">Hai (Active)</span>
+        </div>
+        <div class="card-body">
+            <div class="receipt-row">
+                <span class="receipt-label">Namba ya Tathmini:</span>
+                <span class="receipt-val"><code>{{ assessment.assessment_number }}</code></span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">Mlipakodi:</span>
+                <span class="receipt-val"><strong>{{ taxpayer.full_name }}</strong></span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">TIN:</span>
+                <span class="receipt-val"><code>{{ taxpayer.tin }}</code></span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">Mauzo ya Mwaka Yaliyokadiriwa:</span>
+                <span class="receipt-val"><strong>{{ assessment.assessed_turnover|currency }}</strong></span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">Kundi la Kodi (Tax Band):</span>
+                <span class="receipt-val">{{ assessment.band.name if assessment.band else 'Band ya Kisheria' }}</span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">Kodi ya Mwaka Inayostahili:</span>
+                <span class="receipt-val" style="color:var(--primary); font-size:1.15rem; font-weight:800;">{{ assessment.total_tax_liability|currency }}</span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">Kiasi Kilicholipwa Hadi Sasa:</span>
+                <span class="receipt-val" style="color:var(--primary); font-weight:600;">{{ assessment.amount_paid|currency }}</span>
+            </div>
+            <div class="receipt-row">
+                <span class="receipt-label">Salio Linalodaiwa:</span>
+                <span class="receipt-val" style="color:var(--amber); font-weight:700;">{{ assessment.balance_due|currency }}</span>
+            </div>
+
+            <div style="margin-top:18px; padding:14px; background:#F5F8F6; border-radius:6px; border:1px solid #E2ECE6;">
+                <div style="font-weight:600; color:#064B32; font-size:0.85rem; margin-bottom:4px;">Ufafanuzi wa Fomula ya Kisheria:</div>
+                <div style="font-size:0.825rem; color:#172B23;">{{ assessment.explanation }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reassessment Request Card -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">{{ icon('scale', 'icon-gold') }} Haki ya Kuomba Kurudiwa kwa Tathmini</h2>
+        </div>
+        <div class="card-body">
+            <p style="font-size:0.85rem; color:#5C7268; margin-bottom:16px;">
+                Ikiwa mauzo ya biashara yako yameshuka au unaona makadirio haya si sahihi kulingana na uhalisia wako sokoni, una haki ya kisheria chini ya Kifungu cha 71 cha Sheria ya Usimamizi wa Kodi kuwasilisha ombi la kurekebishwa kwa makadirio.
+            </p>
+            <form action="{{ url_for('taxpayer.assessment') }}" method="POST">
+                <div class="form-group">
+                    <label class="form-label" for="revised_turnover">Mauzo Halisi ya Mwaka Unayopendekeza (TZS) <span class="required">*</span></label>
+                    <input type="number" id="revised_turnover" name="revised_turnover" class="form-control" placeholder="Mfano: 3500000" min="0" step="50000" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="reason">Sababu za Kuomba Marekebisho <span class="required">*</span></label>
+                    <textarea id="reason" name="reason" class="form-control" rows="4" placeholder="Eleza kwa nini makadirio ya sasa yanapaswa kurekebishwa (mfano: kupungua kwa mtaji, kufungwa kwa eneo la biashara n.k.)" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-secondary" style="width:100%;">Wasilisha Ombi la Kurudia Tathmini</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="card" style="text-align:center; padding:30px;">
+    <p>Bado hujafanyiwa makadirio ya kodi. Tafadhali wasiliana na ofisi ya TRA au wakala wako.</p>
+</div>
+{% endif %}
+
+<!-- Cap 332 Reference Table -->
+<div class="card" style="margin-top:24px;">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('chart', 'icon-gold') }} Jedwali la Marejeo ya Sheria (Cap 332 Presumptive Bands)</h2>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Band</th>
+                        <th>Kiwango cha Mauzo (Turnover)</th>
+                        <th>Kodi Bila Kumbukumbu</th>
+                        <th>Kodi Yenye Kumbukumbu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for b in bands %}
+                    <tr>
+                        <td><strong>Band {{ b.band_number }}</strong></td>
+                        <td>TZS {{ b.min_turnover|int }} hadi {% if b.max_turnover %}TZS {{ b.max_turnover|int }}{% else %}Bila Kikomo{% endif %}</td>
+                        <td>{{ b.fixed_tax_without_records|currency if b.fixed_tax_without_records else 'NIL (0 TZS)' }}</td>
+                        <td>{{ b.tax_rate_with_records * 100 }}% {% if b.fixed_tax_with_records %}+ {{ b.fixed_tax_with_records|currency }}{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

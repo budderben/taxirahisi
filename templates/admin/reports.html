@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Ripoti na Nyaraka za Mapato | TRA TaxRahisi{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('admin.dashboard') }}" class="subnav-link">{{ icon('chart', 'icon-sm') }} Dashibodi Kuu</a>
+        <a href="{{ url_for('admin.taxpayers') }}" class="subnav-link">{{ icon('users', 'icon-sm') }} Walipakodi</a>
+        <a href="{{ url_for('admin.tax_rules') }}" class="subnav-link">{{ icon('settings', 'icon-sm') }} Viwango vya Kodi (Bands)</a>
+        <a href="{{ url_for('admin.payments') }}" class="subnav-link">{{ icon('card', 'icon-sm') }} Malipo (GePG)</a>
+        <a href="{{ url_for('admin.compliance') }}" class="subnav-link">{{ icon('target', 'icon-sm') }} Uchambuzi wa Hatari (Risk)</a>
+        <a href="{{ url_for('admin.associations') }}" class="subnav-link">{{ icon('building', 'icon-sm') }} Vyama & Gawio (3%)</a>
+        <a href="{{ url_for('admin.complaints') }}" class="subnav-link">{{ icon('message', 'icon-sm') }} Malalamiko</a>
+        <a href="{{ url_for('admin.reports') }}" class="subnav-link active">{{ icon('download', 'icon-sm') }} Ripoti (CSV)</a>
+        <a href="{{ url_for('admin.audit_logs') }}" class="subnav-link">{{ icon('shield', 'icon-sm') }} Audit Logs</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Ripoti za Mapato na Utekelezaji (Executive Reports & Data Export)</h1>
+        <p class="page-subtitle">Pakua data kamili katika mfumo wa CSV/Excel kwa ajili ya uchambuzi wa takwimu na ukaguzi wa kitaifa</p>
+    </div>
+</div>
+
+<div class="features-grid">
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('coins', 'icon-gold') }}</div>
+        <h3 class="feature-title">Ripoti ya Makusanyo ya GePG</h3>
+        <p class="feature-text">
+            Miamala yote ya fedha, control numbers, tarehe, benki/mitandao ya simu na kiasi kilichokusanywa.
+        </p>
+        <div style="margin-top:16px;">
+            <a href="{{ url_for('admin.reports') }}?format=csv&type=collections" class="btn btn-primary btn-sm">Pakua CSV ya Mapato</a>
+        </div>
+    </div>
+
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('users', 'icon-gold') }}</div>
+        <h3 class="feature-title">Ripoti ya Walipakodi Waliosajiliwa</h3>
+        <p class="feature-text">
+            Orodha kamili ya wafanyabiashara, TIN, namba za NIDA, mikoa, aina za biashara na hali ya uzingatiaji.
+        </p>
+        <div style="margin-top:16px;">
+            <a href="{{ url_for('admin.reports') }}?format=csv&type=taxpayers" class="btn btn-primary btn-sm">Pakua CSV ya Walipakodi</a>
+        </div>
+    </div>
+
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('building', 'icon-gold') }}</div>
+        <h3 class="feature-title">Ripoti ya Gawio la Vyama (3%)</h3>
+        <p class="feature-text">
+            Hesabu za mgawo wa mapato ya masoko, miradi ya maendeleo, na malipo yaliyoidhinishwa na Hazina.
+        </p>
+        <div style="margin-top:16px;">
+            <a href="{{ url_for('admin.associations') }}" class="btn btn-secondary btn-sm">Tazama Gawio la Vyama</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

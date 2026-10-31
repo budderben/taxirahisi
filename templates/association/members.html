@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Wanachama wa Soko (Traders Directory) | TaxRahisi TRA{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('association.dashboard') }}" class="subnav-link">{{ icon('building', 'icon-sm') }} Dashibodi ya Chama</a>
+        <a href="{{ url_for('association.members') }}" class="subnav-link active">{{ icon('users', 'icon-sm') }} Wanachama (Traders)</a>
+        <a href="{{ url_for('association.revenue_sharing') }}" class="subnav-link">{{ icon('coins', 'icon-sm') }} Gawio la Kodi (3% Share)</a>
+        <a href="{{ url_for('association.projects') }}" class="subnav-link">{{ icon('building', 'icon-sm') }} Miradi ya Jamii</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Daftari la Wanachama wa Chama (Traders)</h1>
+        <p class="page-subtitle">Wanachama waliosajiliwa na kupewa TIN &bull; {{ association.name }}</p>
+    </div>
+    <span class="badge badge-info" style="font-size:0.85rem;">Taarifa za Siri Zinalindwa (PDPA 2022)</span>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('users', 'icon-gold') }} Orodha ya Wafanyabiashara Waliosajiliwa</h2>
+        <span class="badge badge-success">{{ members|length }} Wanachama</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Namba ya Uanachama</th>
+                        <th>Jina Kamili</th>
+                        <th>TIN ya Mlipakodi</th>
+                        <th>Simu</th>
+                        <th>Biashara / Shughuli</th>
+                        <th>Kitengo</th>
+                        <th>Uzingatiaji wa Kodi</th>
+                        <th>Tarehe ya Kujiunga</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in members %}
+                    <tr>
+                        <td><code>{{ m.membership_number }}</code></td>
+                        <td><strong>{{ m.full_name }}</strong></td>
+                        <td><code>{{ m.tin }}</code></td>
+                        <td>{{ m.phone }}</td>
+                        <td>{{ m.business_name }}</td>
+                        <td><span class="badge badge-info">{{ m.business_category }}</span></td>
+                        <td>
+                            {% if m.compliance_status in ['COMPLIANT', 'GRACE_PERIOD'] %}
+                                <span class="badge badge-success">{{ m.compliance_status }}</span>
+                            {% else %}
+                                <span class="badge badge-warning">{{ m.compliance_status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ m.joined_date|date }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" style="text-align:center; color:#5C7268;">Hakuna wanachama waliosajiliwa kwenye chama hiki bado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

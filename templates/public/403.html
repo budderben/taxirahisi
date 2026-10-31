@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Huna Ruhusa ya Kuingia (403 Forbidden) | TRA TaxRahisi{% endblock %}
+{% block content %}
+<div class="card" style="max-width:600px; margin:40px auto; text-align:center; padding:40px 20px; border-top:4px solid var(--red);">
+    <div style="margin-bottom:12px;">{{ icon('danger', 'icon-xl') }}</div>
+    <h1 style="color:#A31E1E; font-size:1.8rem; margin-bottom:8px;">Huna Ruhusa ya Kuingia Hapa (403)</h1>
+    <p style="color:#5C7268; margin-bottom:24px;">Huna mamlaka ya kutazama au kubadilisha taarifa hizi. Jaribio hili limerekodiwa kwenye kumbukumbu za kiusalama (Audit Logs).</p>
+    <a href="{{ url_for('public.index') }}" class="btn btn-secondary">Rudi Mwanzo</a>
+</div>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Hali ya Uzingatiaji & Mlipakodi Bora | TaxRahisi TRA{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('taxpayer.dashboard') }}" class="subnav-link">{{ icon('chart', 'icon-sm') }} Dashibodi Yangu</a>
+        <a href="{{ url_for('taxpayer.assessment') }}" class="subnav-link">{{ icon('scale', 'icon-sm') }} Tathmini ya Kodi (Cap 332)</a>
+        <a href="{{ url_for('taxpayer.payments') }}" class="subnav-link">{{ icon('card', 'icon-sm') }} Lipa Kodi (GePG)</a>
+        <a href="{{ url_for('taxpayer.receipts') }}" class="subnav-link">{{ icon('receipt', 'icon-sm') }} Stakabadhi Zangu</a>
+        <a href="{{ url_for('taxpayer.compliance') }}" class="subnav-link active">{{ icon('award', 'icon-sm') }} Mlipakodi Bora</a>
+        <a href="{{ url_for('taxpayer.complaints') }}" class="subnav-link">{{ icon('message', 'icon-sm') }} Malalamiko & Msaada</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Mpango wa Utambuzi wa Mlipakodi Bora</h1>
+        <p class="page-subtitle">Kiwango cha uaminifu wa kodi (Compliance Score), faida za kibenki, na cheti cha heshima</p>
+    </div>
+</div>
+
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start;">
+    <!-- Score Card -->
+    <div class="card" style="border-top:4px solid var(--gold);">
+        <div class="card-header">
+            <h2 class="card-title">⭐ Alama Yako ya Uaminifu wa Kodi</h2>
+            <span class="badge badge-gold">TRA Compliant Score</span>
+        </div>
+        <div class="card-body" style="text-align:center; padding:30px 20px;">
+            <div style="width:120px; height:120px; border-radius:50%; background:var(--gold-bg); border:4px solid var(--gold); display:flex; flex-direction:column; align-items:center; justify-content:center; margin:0 auto 16px;">
+                <div style="font-size:2.4rem; font-weight:800; color:#7A5C05; line-height:1;">{{ taxpayer.compliance_score }}</div>
+                <div style="font-size:0.75rem; color:#7A5C05; font-weight:700;">KATI YA 100</div>
+            </div>
+
+            <h3 style="color:var(--primary-dark); font-size:1.2rem; margin-bottom:6px;">
+                {% if taxpayer.compliance_score >= 80 %}
+                    Mlipakodi wa Mfano (Tier A - Excellent)
+                {% elif taxpayer.compliance_score >= 60 %}
+                    Mlipakodi Mwaminifu (Tier B - Good)
+                {% else %}
+                    Uzingatiaji wa Awali (Building Track Record)
+                {% endif %}
+            </h3>
+            <p style="font-size:0.85rem; color:#5C7268; max-width:400px; margin:0 auto 20px;">
+                Alama zako zinahesabiwa kulingana na usajili wa wakati, utoaji wa taarifa za kweli za mauzo, na ukamilishaji wa malipo ya GePG kabla ya tarehe za mwisho.
+            </p>
+
+            <div style="background:#F5F8F6; padding:14px; border-radius:6px; text-align:left; font-size:0.825rem;">
+                <div style="font-weight:700; color:#064B32; margin-bottom:6px;">Vigezo Vilivyotumika Kupata Alama Hizi:</div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                    <span>Usajili wa NIDA na TIN:</span>
+                    <strong style="color:var(--primary);">+30 Alama (Imekamilika)</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                    <span>Historia ya Malipo ya GePG:</span>
+                    <strong style="color:var(--primary);">+40 Alama (Inafuatiliwa)</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between;">
+                    <span>Uanachama Hai wa Soko:</span>
+                    <strong style="color:var(--primary);">+20 Alama (Hai)</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Benefits Card -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">{{ icon('award', 'icon-gold') }} Faida za Kuwa Mlipakodi Bora</h2>
+        </div>
+        <div class="card-body" style="font-size:0.9rem; line-height:1.6; color:#172B23;">
+            <div style="display:flex; gap:12px; margin-bottom:16px;">
+                <div class="metric-icon">{{ icon('building', 'icon-gold') }}</div>
+                <div>
+                    <strong>Urahisi wa Mikopo ya Benki (CRDB, NMB, TADB)</strong>
+                    <p style="font-size:0.8rem; color:#5C7268; margin-top:2px;">
+                        Benki washirika hutumia alama ya TaxRahisi kama uthibitisho wa uhalali wa biashara na kumbukumbu ya mauzo bila kuhitaji dhamana kubwa.
+                    </p>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:12px; margin-bottom:16px;">
+                <div class="metric-icon">{{ icon('shield', 'icon-gold') }}</div>
+                <div>
+                    <strong>Kuepushwa na Kaguzi za Ghafla (No Random Audits)</strong>
+                    <p style="font-size:0.8rem; color:#5C7268; margin-top:2px;">
+                        Walipakodi walio na alama zaidi ya 80 huwekwa kwenye kundi la hatari ndogo (Low Risk) na kuondolewa kwenye kaguzi za kushtukiza.
+                    </p>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:12px;">
+                <div class="metric-icon">{{ icon('receipt', 'icon-gold') }}</div>
+                <div>
+                    <strong>Cheti cha Mlipakodi Bora (TRA Certificate of Recognition)</strong>
+                    <p style="font-size:0.8rem; color:#5C7268; margin-top:2px;">
+                        Cheti rasmi cha heshima kutoka kwa Kamishna Mkuu wa TRA kinachothibitisha mchango wako katika ujenzi wa Taifa.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% from "macros/icons.html" import icon %}
+
+{% block title %}Mawasiliano na Dawati la Huduma | TRA TaxRahisi{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="badge badge-gold" style="margin-bottom:8px;">
+            {{ icon('phone', 'icon-sm') }} HUDUMA KWA WATEJA & DAWATI LA USAIDIZI
+        </div>
+        <h1 class="page-title">Mawasiliano & Dawati la Msaada kwa Mlipakodi</h1>
+        <p class="page-subtitle">Tuko hapa kukusaidia. Wasiliana na Kituo cha Huduma kwa Wateja cha TRA au tuma ujumbe wako moja kwa moja.</p>
+    </div>
+</div>
+
+<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:24px;">
+    <!-- Contact Info Cards -->
+    <div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">{{ icon('phone', 'icon-gold') }} Kituo cha Huduma kwa Simu (TRA Call Centre)</h2>
+            </div>
+            <div class="card-body">
+                <div style="margin-bottom:16px;">
+                    <div style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Namba za Simu Bila Malipo (Toll Free):</div>
+                    <div style="font-size:1.6rem; font-weight:900; color:var(--primary-dark); margin-top:4px;">0800 110 016 / 0800 780 078</div>
+                    <div style="font-size:0.8rem; color:var(--text-muted);">Inapatikana Jumatatu hadi Ijumaa, Saa 2:00 Asubuhi hadi 11:00 Jioni.</div>
+                </div>
+
+                <div style="margin-bottom:16px;">
+                    <div style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Namba Nyingine za Msaada:</div>
+                    <div style="font-size:1.1rem; font-weight:700; color:var(--text-main); margin-top:2px;">+255 22 2119591-4</div>
+                </div>
+
+                <div>
+                    <div style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Barua Pepe Rasmi:</div>
+                    <div style="font-size:1rem; font-weight:700; color:var(--primary-dark); margin-top:2px;">huduma@tra.go.tz &bull; taxrahisi@tra.go.tz</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">{{ icon('building', 'icon-gold') }} Ofisi Kuu na Vituo vya Masoko</h2>
+            </div>
+            <div class="card-body" style="font-size:0.875rem; color:var(--text-muted); line-height:1.7;">
+                <strong>Makao Makuu ya TRA:</strong><br>
+                Mtaa wa Samora, Jengo la Mapato House<br>
+                S.L.P. 11491, Dar es Salaam, Tanzania<br><br>
+                <strong>Vituo Maalumu vya Huduma za Masoko:</strong><br>
+                Dawati la Huduma la Kariakoo (Mtaa wa Msimbazi)<br>
+                Machinga Complex (Ghorofa ya Chini, Ilala)<br>
+                Mwenge Vinyago Craft Centre (Kinondoni)
+            </div>
+        </div>
+    </div>
+
+    <!-- Inquiry / Complaint Form -->
+    <div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">{{ icon('message', 'icon-gold') }} Tuma Ujumbe au Ulizo Lako</h2>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('public.contact') }}" method="POST">
+                    <div class="form-group">
+                        <label class="form-label" for="full_name">Jina Kamili <span class="required">*</span></label>
+                        <input type="text" id="full_name" name="full_name" class="form-control" placeholder="Mfano: Neema Mwangi" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Namba ya Simu (M-Pesa / Tigo / Airtel) <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" class="form-control" placeholder="07XXXXXXXX" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="category">Aina ya Ulizo / Lalamiko</label>
+                        <select id="category" name="category" class="form-control">
+                            <option value="General Inquiry">Ulizo la Jumla la Kodi</option>
+                            <option value="Registration Issue">Changamoto ya Usajili wa TIN</option>
+                            <option value="Payment Verification">Uhakiki wa Malipo ya GePG</option>
+                            <option value="Association Inquiry">Masuala ya Vyama vya Masoko</option>
+                            <option value="Officer Conduct">Lalamiko Kuhusu Afisa wa Kodi</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="message">Maelezo ya Ujumbe Wako <span class="required">*</span></label>
+                        <textarea id="message" name="message" class="form-control" rows="5" placeholder="Eleza kwa ufupi swali au changamoto unayokutana nayo..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width:100%; display:flex; align-items:center; justify-content:center; gap:8px;">
+                        {{ icon('message', 'icon-sm') }} Tuma Ujumbe Sasa
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

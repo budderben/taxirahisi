@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Tathmini ya Hatari ya Uzingatiaji (Risk Scoring) | TRA TaxRahisi{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('admin.dashboard') }}" class="subnav-link">{{ icon('chart', 'icon-sm') }} Dashibodi Kuu</a>
+        <a href="{{ url_for('admin.taxpayers') }}" class="subnav-link">{{ icon('users', 'icon-sm') }} Walipakodi</a>
+        <a href="{{ url_for('admin.tax_rules') }}" class="subnav-link">{{ icon('settings', 'icon-sm') }} Viwango vya Kodi (Bands)</a>
+        <a href="{{ url_for('admin.payments') }}" class="subnav-link">{{ icon('card', 'icon-sm') }} Malipo (GePG)</a>
+        <a href="{{ url_for('admin.compliance') }}" class="subnav-link active">{{ icon('target', 'icon-sm') }} Uchambuzi wa Hatari (Risk)</a>
+        <a href="{{ url_for('admin.associations') }}" class="subnav-link">{{ icon('building', 'icon-sm') }} Vyama & Gawio (3%)</a>
+        <a href="{{ url_for('admin.complaints') }}" class="subnav-link">{{ icon('message', 'icon-sm') }} Malalamiko</a>
+        <a href="{{ url_for('admin.reports') }}" class="subnav-link">{{ icon('download', 'icon-sm') }} Ripoti (CSV)</a>
+        <a href="{{ url_for('admin.audit_logs') }}" class="subnav-link">{{ icon('shield', 'icon-sm') }} Audit Logs</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Uchambuzi wa Hatari za Uzingatiaji (Smart Risk Scoring Engine)</h1>
+        <p class="page-subtitle">Ufuatiliaji wa akili mnemba wa walipakodi wenye salio lililocheleweshwa, malipo yaliyoshindwa, au wanaohitaji usaidizi wa chama</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('target', 'icon-gold') }} Walipakodi Wanaohitaji Ufuatiliaji wa Mapato</h2>
+        <span class="badge badge-warning">{{ risk_traders|length }} Walipakodi Kwenye Orodha</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>TIN</th>
+                        <th>Jina Kamili</th>
+                        <th>Simu</th>
+                        <th>Mkoa & Soko</th>
+                        <th>Salio Lililochelewa</th>
+                        <th>Kiwango cha Hatari (Risk)</th>
+                        <th>Ushauri wa Mfumo (Action)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in risk_traders %}
+                    <tr>
+                        <td><code>{{ item.taxpayer.tin }}</code></td>
+                        <td><strong>{{ item.taxpayer.full_name }}</strong></td>
+                        <td>{{ item.taxpayer.phone_number }}</td>
+                        <td>
+                            {{ item.taxpayer.region.name if item.taxpayer.region else '-' }}<br>
+                            <span style="font-size:0.75rem; color:#5C7268;">{{ item.taxpayer.market.name if item.taxpayer.market else '-' }}</span>
+                        </td>
+                        <td><strong style="color:var(--amber);">{{ item.overdue_amount|currency }}</strong></td>
+                        <td>
+                            {% if item.risk_level == 'HIGH' %}
+                                <span class="badge badge-danger">HIGH RISK</span>
+                            {% elif item.risk_level == 'MEDIUM' %}
+                                <span class="badge badge-warning">MEDIUM RISK</span>
+                            {% else %}
+                                <span class="badge badge-info">LOW RISK</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span style="font-size:0.8rem; font-weight:600; color:var(--primary-dark);">{{ item.recommended_action }}</span>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" style="text-align:center; color:#5C7268;">Hakuna walipakodi wenye hatari kubwa ya uzingatiaji kwa sasa. Wote wanalipa kwa ufanisi!</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

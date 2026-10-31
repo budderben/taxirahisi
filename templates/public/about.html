@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% from "macros/icons.html" import icon %}
+
+{% block title %}Kuhusu TaxRahisi — Mpango wa TRA wa Kurasimisha Sekta Isiyo Rasmi{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="badge badge-gold" style="margin-bottom:8px;">
+            {{ icon('shield', 'icon-sm') }} MAMLAKA YA MAPATO TANZANIA (TRA)
+        </div>
+        <h1 class="page-title">Kuhusu Mpango wa TaxRahisi</h1>
+        <p class="page-subtitle">Ubunifu wa Serikali wa Kurahisisha Usajili wa Kodi, Utoaji wa TIN, na Usimamizi Shirikishi wa Mapato Tanzania</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('building', 'icon-gold') }} 1. Muktadha na Changamoto ya Kitaifa</h2>
+    </div>
+    <div class="card-body" style="font-size:0.95rem; line-height:1.7; color:var(--text-main);">
+        <p style="margin-bottom:14px;">
+            Sekta isiyo rasmi ya biashara nchini Tanzania inajumuisha zaidi ya asilimia 60% ya nguvu kazi ya kiuchumi. Hata hivyo, wajasiriamali wengi wadogo, wachuuzi wa masokoni (machinga), na mafundi wamekuwa wakikabiliwa na vizuizi kadhaa vya kurasimisha biashara zao:
+        </p>
+        <ul style="margin-left:24px; margin-bottom:18px;">
+            <li>Ugumu na umbali wa kufika ofisi za TRA kujaza fomu za karatasi za maombi ya TIN.</li>
+            <li>Hofu ya kutozwa kodi kubwa na makadirio yasiyo halisi kutoka kwa maafisa wa kodi.</li>
+            <li>Kutofahamu sheria na haki za mlipakodi chini ya Sheria ya Kodi ya Mapato (Sura ya 332 R.E. 2023).</li>
+            <li>Ukosefu wa stakabadhi rasmi za malipo ya serikali zinazotambulika na taasisi za fedha kwa ajili ya mikopo ya kibiashara.</li>
+        </ul>
+        <p>
+            <strong>TaxRahisi</strong> ni jibu la kiteknolojia na kiutawala lililobuniwa na Mamlaka ya Mapato Tanzania (TRA) kuondoa vikwazo hivi vyote kwa kutumia mifumo ya kidijitali iliyounganishwa na NIDA, GePG, na huduma ya simu ya vitufe ya USSD (<strong>*152*00#</strong>).
+        </p>
+    </div>
+</div>
+
+<div class="features-grid">
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('target', 'icon-gold') }}</div>
+        <h3 class="feature-title">Dira Yetu</h3>
+        <p class="feature-text">
+            Kujenga uchumi jumuishi ambapo kila mfanyabiashara mtanzania anatambulika kisheria, anachangia kodi kwa uwezo wake halisi, na ananufaika moja kwa moja na huduma za umma.
+        </p>
+    </div>
+
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('users', 'icon-gold') }}</div>
+        <h3 class="feature-title">Ubia na Masoko (3% Revenue Share)</h3>
+        <p class="feature-text">
+            Kushirikiana na vyama vya wafanyabiashara (kama VIBINDO na UWAWAMA) kupitia mfumo wa gawio la asilimia 3% (3% Revenue Sharing) kwa ajili ya miradi ya maendeleo ya kijamii masokoni.
+        </p>
+    </div>
+
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('shield', 'icon-gold') }}</div>
+        <h3 class="feature-title">Ulinzi wa Data Binafsi (PDPA 2022)</h3>
+        <p class="feature-text">
+            Kufuata kikamilifu Sheria ya Ulinzi wa Data Binafsi ya Tanzania ya Mwaka 2022 (Personal Data Protection Act 2022). Taarifa za NIDA zinalindwa kwa njia fiche na hazitolewi kwa mtu asiyehusika.
+        </p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('scale', 'icon-gold') }} Misingi ya Kisheria: Sheria ya Kodi ya Mapato (Sura ya 332 R.E. 2023)</h2>
+    </div>
+    <div class="card-body">
+        <p style="margin-bottom:14px; font-size:0.9rem; color:var(--text-muted);">
+            Jedwali la Kwanza (First Schedule) la Sheria ya Kodi ya Mapato (Sura 332) linaweka mfumo maalumu wa kodi ya makadirio (Presumptive Tax Regime) kwa wajasiriamali binafsi wenye mauzo yasiyozidi Shilingi Milioni 200 kwa mwaka:
+        </p>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Kiwango cha Mauzo ya Mwaka (Turnover)</th>
+                        <th>Kodi Isiyokuwa na Kumbukumbu</th>
+                        <th>Kodi Yenye Kumbukumbu za Hesabu</th>
+                        <th>Mahitaji ya Kisheria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Hadi TZS 4,000,000</strong></td>
+                        <td><span class="badge badge-success">{{ icon('check', 'icon-sm') }} TZS 0 (Bure / Msamaha)</span></td>
+                        <td><span class="badge badge-success">{{ icon('check', 'icon-sm') }} TZS 0</span></td>
+                        <td>Kusajiliwa tu na kupata TIN. Hakuna kodi inayolipwa.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TZS 4,000,001 hadi 7,000,000</strong></td>
+                        <td><strong>TZS 100,000</strong> kwa mwaka</td>
+                        <td><strong>3%</strong> ya mauzo yanayozidi 4,000,000</td>
+                        <td>Kuweka daftari rahisi la mapato na matumizi.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TZS 7,000,001 hadi 11,000,000</strong></td>
+                        <td><strong>TZS 250,000</strong> kwa mwaka</td>
+                        <td><strong>TZS 90,000 + 3%</strong> inayozidi 7,000,000</td>
+                        <td>Kuweka kumbukumbu sahihi za biashara.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TZS 11,000,001 hadi 200,000,000</strong></td>
+                        <td><strong>4.0%</strong> ya mauzo yote</td>
+                        <td><strong>4.0%</strong> ya mauzo yote</td>
+                        <td>Kutumia mashine ya EFD na kutoa stakabadhi.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- 4. Photographic Vision & Mission Card (Artisan Background) -->
+<div class="card card-image-bg card-image-artisan" style="padding:34px 28px; margin-top:28px;">
+    <div class="badge badge-gold" style="margin-bottom:12px; background:rgba(252, 209, 22, 0.25); border-color:var(--gold-accent); color:var(--gold-light);">
+        {{ icon('target', 'icon-gold') }} MPANGO WA TAIFA WA UWEZESHAJI
+    </div>
+    <h2 style="font-size:1.75rem; font-weight:800; margin-bottom:12px;">Kujenga Ushirikiano Endelevu Kati ya TRA na Masoko</h2>
+    <p style="font-size:1.025rem; line-height:1.65; max-width:820px; margin-bottom:20px;">
+        TaxRahisi sio tu mfumo wa ukusanyaji wa mapato, bali ni daraja la kumuunganisha mfanyabiashara mdogo na fursa za kiuchumi, mikopo ya benki, na uboreshaji wa miundombinu ya masoko kupitia uwazi na ushirikishwaji wa kijamii.
+    </p>
+    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="{{ url_for('taxpayer.register') }}" class="btn btn-accent btn-lg" style="box-shadow: 0 4px 14px rgba(0,0,0,0.3);">
+            {{ icon('user', 'icon-sm') }} Jiunge na Mpango Huu (Sajili TIN)
+        </a>
+        <a href="{{ url_for('public.associations') }}" class="btn btn-outline btn-lg" style="color:var(--gold-light); border-color:var(--gold-accent); background:rgba(252, 209, 22, 0.15);">
+            {{ icon('building', 'icon-sm') }} Tazama Vyama vya Masoko
+        </a>
+    </div>
+</div>
+{% endblock %}

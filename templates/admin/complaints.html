@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Utatuzi wa Malalamiko ya Walipakodi | TRA TaxRahisi{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('admin.dashboard') }}" class="subnav-link">{{ icon('chart', 'icon-sm') }} Dashibodi Kuu</a>
+        <a href="{{ url_for('admin.taxpayers') }}" class="subnav-link">{{ icon('users', 'icon-sm') }} Walipakodi</a>
+        <a href="{{ url_for('admin.tax_rules') }}" class="subnav-link">{{ icon('settings', 'icon-sm') }} Viwango vya Kodi (Bands)</a>
+        <a href="{{ url_for('admin.payments') }}" class="subnav-link">{{ icon('card', 'icon-sm') }} Malipo (GePG)</a>
+        <a href="{{ url_for('admin.compliance') }}" class="subnav-link">{{ icon('target', 'icon-sm') }} Uchambuzi wa Hatari (Risk)</a>
+        <a href="{{ url_for('admin.associations') }}" class="subnav-link">{{ icon('building', 'icon-sm') }} Vyama & Gawio (3%)</a>
+        <a href="{{ url_for('admin.complaints') }}" class="subnav-link active">{{ icon('message', 'icon-sm') }} Malalamiko</a>
+        <a href="{{ url_for('admin.reports') }}" class="subnav-link">{{ icon('download', 'icon-sm') }} Ripoti (CSV)</a>
+        <a href="{{ url_for('admin.audit_logs') }}" class="subnav-link">{{ icon('shield', 'icon-sm') }} Audit Logs</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Kituo cha Utatuzi wa Malalamiko ya Walipakodi (Grievance Resolution)</h1>
+        <p class="page-subtitle">Usimamizi wa tiketi za kero za makadirio, ucheleweshaji wa malipo, na mrejesho kwa walipakodi</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('message', 'icon-gold') }} Orodha ya Malalamiko na Maombi ya Msaada</h2>
+        <span class="badge badge-info">{{ complaints|length }} Tiketi</span>
+    </div>
+    <div class="card-body">
+        {% for c in complaints %}
+        <div style="border:1px solid #E2ECE6; border-radius:8px; padding:18px; margin-bottom:18px; background:#FAFCFA;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+                <div>
+                    <span class="badge badge-primary" style="margin-bottom:4px;">{{ c.category }}</span>
+                    <h3 style="color:var(--primary-dark); font-size:1.1rem; margin-top:2px;">
+                        {{ c.taxpayer.full_name if c.taxpayer else 'Mlipakodi' }} (TIN: {{ c.taxpayer.tin if c.taxpayer else '-' }})
+                    </h3>
+                    <div style="font-size:0.75rem; color:#5C7268;">
+                        Tiketi: <code>{{ c.ticket_number }}</code> &bull; Simu: {{ c.taxpayer.phone_number if c.taxpayer else '-' }} &bull; Tarehe: {{ c.created_at|date }}
+                    </div>
+                </div>
+                <div>
+                    {% if c.status == 'Resolved' %}
+                        <span class="badge badge-success">Imetatuliwa</span>
+                    {% elif c.status == 'In Progress' %}
+                        <span class="badge badge-info">Inashughulikiwa</span>
+                    {% else %}
+                        <span class="badge badge-warning">Imepokelewa (Inasubiri)</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <p style="font-size:0.875rem; color:#172B23; line-height:1.5; margin-bottom:14px; background:#FFFFFF; padding:12px; border-radius:6px; border:1px solid #E2ECE6;">
+                {{ c.description }}
+            </p>
+
+            {% if c.responses %}
+                <div style="background:#E8F5EF; padding:12px; border-radius:6px; border-left:3px solid var(--primary); margin-bottom:14px;">
+                    <div style="font-weight:700; color:#064B32; font-size:0.8rem; margin-bottom:4px;">Majibu Yaliyotolewa na Afisa:</div>
+                    {% for r in c.responses %}
+                        <div style="font-size:0.825rem; color:#172B23; margin-bottom:4px;">{{ r.message }}</div>
+                        <div style="font-size:0.7rem; color:#5C7268;">{{ r.author_name }} ({{ r.author_role }}) &bull; {{ r.created_at|datetime }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Response Form -->
+            <form action="{{ url_for('admin.complaints') }}" method="POST" style="background:#F1F6F3; padding:14px; border-radius:6px;">
+                <input type="hidden" name="complaint_id" value="{{ c.id }}">
+                <div class="form-group" style="margin-bottom:8px;">
+                    <label class="form-label" style="font-size:0.8rem;">Weka Jibu la TRA kwa Mlipakodi:</label>
+                    <textarea name="response" class="form-control" rows="2" placeholder="Andika maelekezo au utatuzi kwa mlipakodi..." required></textarea>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <label style="font-size:0.8rem; font-weight:600;">Hali Mpya:</label>
+                        <select name="status" class="form-control" style="padding:4px 8px; font-size:0.8rem; width:auto;">
+                            <option value="Resolved" selected>Imetatuliwa (Resolved)</option>
+                            <option value="In Progress">Inashughulikiwa (In Progress)</option>
+                            <option value="Rejected">Haijakubaliwa (Rejected)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">Tuma Jibu na Sasisha Tiketi</button>
+                </div>
+            </form>
+        </div>
+        {% else %}
+        <div style="text-align:center; padding:30px; color:#5C7268;">
+            Hakuna malalamiko yaliyowasilishwa kwa sasa.
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

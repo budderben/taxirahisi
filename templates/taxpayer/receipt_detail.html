@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Stakabadhi {{ receipt.receipt_number }} | Mamlaka ya Mapato Tanzania (TRA){% endblock %}
+
+{% block content %}
+<div class="page-header" style="justify-content:center;">
+    <div style="text-align:center;">
+        <span class="badge badge-success" style="margin-bottom:6px;">STAKABADHI RASMI YA KODI &bull; TRA OFFICIAL RECEIPT</span>
+        <h1 class="page-title">{{ receipt.receipt_number }}</h1>
+    </div>
+</div>
+
+<div class="receipt-wrapper">
+    <div class="receipt-header">
+        <img src="{{ url_for('static', filename='images/tra_logo.svg') }}" alt="TRA Logo" class="receipt-logo">
+        <div class="receipt-org">JAMHURI YA MUUNGANO WA TANZANIA</div>
+        <div style="font-weight:700; color:var(--primary-dark); font-size:0.95rem;">MAMLAKA YA MAPATO TANZANIA (TRA)</div>
+        <div class="receipt-doc-title">STAKABADHI YA KODI YA KIDIITALI (ELECTRONIC TAX RECEIPT)</div>
+        <div style="font-size:0.75rem; color:#5C7268; margin-top:4px;">Chini ya Kifungu cha 86 cha Sheria ya Usimamizi wa Kodi</div>
+    </div>
+
+    <div class="receipt-body">
+        <div class="receipt-row">
+            <span class="receipt-label">Namba ya Stakabadhi:</span>
+            <span class="receipt-val"><strong>{{ receipt.receipt_number }}</strong></span>
+        </div>
+        <div class="receipt-row">
+            <span class="receipt-label">Jina la Mlipakodi:</span>
+            <span class="receipt-val">{{ receipt.taxpayer_name }}</span>
+        </div>
+        <div class="receipt-row">
+            <span class="receipt-label">TIN ya Mlipakodi:</span>
+            <span class="receipt-val"><code>{{ receipt.taxpayer_tin }}</code></span>
+        </div>
+        <div class="receipt-row">
+            <span class="receipt-label">Namba ya Malipo (GePG Control):</span>
+            <span class="receipt-val"><code>{{ receipt.control_number }}</code></span>
+        </div>
+        <div class="receipt-row">
+            <span class="receipt-label">Kumbukumbu ya Muamala:</span>
+            <span class="receipt-val">{{ receipt.payment.transaction_reference if receipt.payment else '-' }}</span>
+        </div>
+        <div class="receipt-row">
+            <span class="receipt-label">Aina ya Kodi:</span>
+            <span class="receipt-val">{{ receipt.tax_type }}</span>
+        </div>
+        <div class="receipt-row">
+            <span class="receipt-label">Mwaka wa Kodi:</span>
+            <span class="receipt-val">{{ receipt.tax_year }}</span>
+        </div>
+        <div class="receipt-row">
+            <span class="receipt-label">Tarehe & Saa ya Malipo:</span>
+            <span class="receipt-val">{{ receipt.issued_at|datetime }}</span>
+        </div>
+        <div class="receipt-row">
+            <span class="receipt-label">Njia ya Malipo:</span>
+            <span class="receipt-val">{{ receipt.payment.provider.name if receipt.payment and receipt.payment.provider else 'GePG Gateway' }}</span>
+        </div>
+
+        <div class="receipt-total" style="display:flex; justify-content:space-between; align-items:center;">
+            <span>JUMLA ILIYOLIPWA:</span>
+            <span>{{ receipt.amount_paid|currency }}</span>
+        </div>
+    </div>
+
+    <!-- QR Code & Security Stamp -->
+    <div style="display:flex; justify-content:space-between; align-items:center; background:#F8FAF9; padding:12px; border-radius:6px; margin-bottom:16px; border:1px solid #E2ECE6;">
+        <div style="font-size:0.75rem; color:#5C7268;">
+            <div style="font-weight:700; color:#064B32; margin-bottom:2px;">Uthibitisho wa TRA & BOT:</div>
+            Kiasi hiki kimethibitishwa na Mfumo wa Malipo ya Serikali (GePG) na kuingizwa Mfuko Mkuu wa Hazina.
+        </div>
+        <div style="border:2px solid var(--gold-accent); padding:6px 10px; background:#FFFFFF; border-radius:6px; text-align:center; box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+            <div style="font-size:0.65rem; font-weight:900; color:var(--primary-dark);">TRA VERIFIED</div>
+            <div>{{ icon('award', 'icon-gold') }}</div>
+        </div>
+    </div>
+
+    <div class="receipt-footer">
+        <div style="font-weight:600; color:#064B32; font-size:0.75rem;">Msimbosiri wa Kipekee wa Uhakiki (Cryptographic Verification Hash):</div>
+        <div class="receipt-hash">{{ receipt.verification_hash }}</div>
+        <div style="margin-top:14px; font-size:0.75rem; color:#8E9F97;">
+            Unaweza kuhakiki stakabadhi hii mtandaoni kupitia: <span style="color:var(--primary); font-weight:600;">taxrahisi.tra.go.tz/verify?q={{ receipt.receipt_number }}</span>
+        </div>
+    </div>
+</div>
+
+<div style="text-align:center; margin-top:24px; display:flex; justify-content:center; gap:12px;">
+    <button type="button" id="btn-print-receipt" class="btn btn-primary">{{ icon('printer', 'icon-sm') }} Chapisha Stakabadhi (Print)</button>
+    <a href="{{ url_for('taxpayer.dashboard') }}" class="btn btn-secondary">Rudi Kwenye Dashibodi</a>
+</div>
+{% endblock %}

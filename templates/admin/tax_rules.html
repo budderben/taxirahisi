@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Usimamizi wa Viwango vya Kodi (Tax Rules & Bands) | TRA TaxRahisi{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('admin.dashboard') }}" class="subnav-link">{{ icon('chart', 'icon-sm') }} Dashibodi Kuu</a>
+        <a href="{{ url_for('admin.taxpayers') }}" class="subnav-link">{{ icon('users', 'icon-sm') }} Walipakodi</a>
+        <a href="{{ url_for('admin.tax_rules') }}" class="subnav-link active">{{ icon('settings', 'icon-sm') }} Viwango vya Kodi (Bands)</a>
+        <a href="{{ url_for('admin.payments') }}" class="subnav-link">{{ icon('card', 'icon-sm') }} Malipo (GePG)</a>
+        <a href="{{ url_for('admin.compliance') }}" class="subnav-link">{{ icon('target', 'icon-sm') }} Uchambuzi wa Hatari (Risk)</a>
+        <a href="{{ url_for('admin.associations') }}" class="subnav-link">{{ icon('building', 'icon-sm') }} Vyama & Gawio (3%)</a>
+        <a href="{{ url_for('admin.complaints') }}" class="subnav-link">{{ icon('message', 'icon-sm') }} Malalamiko</a>
+        <a href="{{ url_for('admin.reports') }}" class="subnav-link">{{ icon('download', 'icon-sm') }} Ripoti (CSV)</a>
+        <a href="{{ url_for('admin.audit_logs') }}" class="subnav-link">{{ icon('shield', 'icon-sm') }} Audit Logs</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Usimamizi wa Viwango vya Kodi (Tax Bands & Rules Configuration)</h1>
+        <p class="page-subtitle">Ubadilishaji wa viwango kwa mujibu wa Sheria za Fedha &bull; Mfumo wa Uidhinishaji wa Pande Mbili (Maker-Checker)</p>
+    </div>
+</div>
+
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start;">
+    <!-- Active Bands Configuration -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">{{ icon('settings', 'icon-gold') }} Viwango Vilivyo Kwenye Mfumo (Cap 332 Bands)</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Band</th>
+                            <th>Upeo wa Mauzo (Turnover)</th>
+                            <th>Kodi Isiyo na Hesabu</th>
+                            <th>Kodi Yenye Hesabu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for b in bands %}
+                        <tr>
+                            <td><strong>{{ b.name }}</strong></td>
+                            <td>TZS {{ b.min_turnover|int }} - {% if b.max_turnover %}TZS {{ b.max_turnover|int }}{% else %}Bila Kikomo{% endif %}</td>
+                            <td>{{ b.fixed_tax_without_records|currency if b.fixed_tax_without_records else 'NIL (0 TZS)' }}</td>
+                            <td>{{ b.tax_rate_with_records * 100 }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <hr style="margin:20px 0; border:0; border-top:1px solid #E2ECE6;">
+
+            <!-- Update Band Form -->
+            <h3 style="font-size:1rem; color:var(--primary-dark); margin-bottom:12px;">Marekebisho ya Kiwango (Maker Action):</h3>
+            <form action="{{ url_for('admin.tax_rules') }}" method="POST">
+                <div class="form-group">
+                    <label class="form-label" for="band_id">Chagua Band ya Kurekebisha: <span class="required">*</span></label>
+                    <select id="band_id" name="band_id" class="form-control" required>
+                        {% for b in bands %}
+                            <option value="{{ b.id }}">{{ b.name }} (Sasa: TZS {{ b.fixed_tax_without_records|default(0, true)|int }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="fixed_tax">Kiwango Kipya Kilichopendekezwa (TZS): <span class="required">*</span></label>
+                    <input type="number" id="fixed_tax" name="fixed_tax" class="form-control" placeholder="Mfano: 120000" min="0" step="5000" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="reason">Sababu / Marejeo ya Sheria ya Fedha: <span class="required">*</span></label>
+                    <textarea id="reason" name="reason" class="form-control" rows="3" placeholder="Mfano: Marekebisho kufuatia Muswada wa Sheria ya Fedha ya Mwaka 2026..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%;">Sasisha Kiwango (Rekodi Kwenye Audit Log)</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Maker-Checker Rules History -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">{{ icon('receipt', 'icon-gold') }} Kumbukumbu za Mabadiliko ya Sheria (Audit Trail)</h2>
+            <span class="badge badge-info">{{ rules_history|length }} Rekodi</span>
+        </div>
+        <div class="card-body">
+            {% for r in rules_history %}
+            <div style="border:1px solid #E2ECE6; border-radius:6px; padding:14px; margin-bottom:12px; background:#FAFCFA;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                    <strong style="color:var(--primary-dark); font-size:0.9rem;">{{ r.title }}</strong>
+                    <span class="badge badge-success">{{ r.status }}</span>
+                </div>
+                <div style="font-size:0.75rem; color:#5C7268; margin-bottom:6px;">
+                    Msimbo: <code>{{ r.rule_code }}</code> &bull; Tarehe: {{ r.effective_date|date }} &bull; Afisa: <strong>{{ r.approved_by }}</strong>
+                </div>
+                <div style="font-size:0.8rem; color:#172B23; margin-bottom:6px;">
+                    Mabadiliko: <code style="color:var(--red);">{{ r.previous_value }}</code> &rarr; <code style="color:var(--primary);">{{ r.current_value }}</code>
+                </div>
+                <div style="font-size:0.775rem; color:#5C7268; font-style:italic;">Sababu: {{ r.description }}</div>
+            </div>
+            {% else %}
+            <div style="text-align:center; padding:24px; color:#5C7268;">
+                Hakuna mabadiliko ya hivi karibuni yaliyofanyika.
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

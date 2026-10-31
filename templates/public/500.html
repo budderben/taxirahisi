@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Hitilafu ya Mfumo (500) | TRA TaxRahisi{% endblock %}
+{% block content %}
+<div class="card" style="max-width:600px; margin:40px auto; text-align:center; padding:40px 20px; border-top:4px solid var(--amber);">
+    <div style="margin-bottom:12px;">{{ icon('alert', 'icon-xl') }}</div>
+    <h1 style="color:var(--primary-dark); font-size:1.8rem; margin-bottom:8px;">Hitilafu ya Mfumo (500)</h1>
+    <p style="color:#5C7268; margin-bottom:24px;">Mfumo umekumbana na hitilafu ya kiufundi. Wahandisi wa TRA wamearifiwa. Tafadhali jaribu tena baada ya muda mfupi au piga simu 0800 110 016.</p>
+    <a href="{{ url_for('public.index') }}" class="btn btn-primary">Rudi Mwanzo</a>
+</div>
+{% endblock %}

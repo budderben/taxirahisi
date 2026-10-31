@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Dashibodi ya Wakala wa Masoko (Agent Portal) | TaxRahisi TRA{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('agent.dashboard') }}" class="subnav-link active">{{ icon('target', 'icon-sm') }} Dashibodi ya Wakala</a>
+        <a href="{{ url_for('agent.onboard') }}" class="subnav-link">{{ icon('user', 'icon-sm') }} Sajili Mfanyabiashara Mpya (Field Onboard)</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Dashibodi ya Wakala wa Soko</h1>
+        <p class="page-subtitle">Wakala: <strong>{{ agent.user.full_name if agent and agent.user else 'Wakala wa TRA' }}</strong> &bull; Namba ya Wakala: <code>{{ agent.agent_code if agent else 'AGT-001' }}</code> &bull; Chama: <strong>{{ agent.association.name if agent and agent.association else 'Chama cha Masoko' }}</strong></p>
+    </div>
+    <div class="page-actions">
+        <a href="{{ url_for('agent.onboard') }}" class="btn btn-primary btn-sm">+ Sajili Mfanyabiashara Mpya</a>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Waliosajiliwa na Wewe</span>
+            <div class="metric-icon">{{ icon('users', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value">{{ total_assisted }}</div>
+        <div class="metric-sub">Wamachinga & wafanyabiashara</div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Usajili Uliothibitishwa</span>
+            <div class="metric-icon">{{ icon('check', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value" style="color:var(--primary);">{{ success_count }}</div>
+        <div class="metric-sub"><span class="badge badge-success">TIN Zimetolewa</span></div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Inasubiri Uhakiki</span>
+            <div class="metric-icon">⏳</div>
+        </div>
+        <div class="metric-value">{{ pending_count }}</div>
+        <div class="metric-sub"><span class="badge badge-info">Inachakatwa</span></div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Soko Ulilopangiwa</span>
+            <div class="metric-icon">{{ icon('building', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value" style="font-size:1.25rem;">{{ agent.market.name if agent and agent.market else 'Soko Kuu' }}</div>
+        <div class="metric-sub">Eneo lako la uwakilishi</div>
+    </div>
+</div>
+
+<!-- Recent Registrations -->
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('users', 'icon-gold') }} Wafanyabiashara Uliowasajili Hivi Karibuni</h2>
+        <a href="{{ url_for('agent.onboard') }}" class="btn btn-primary btn-sm">Sajili Mwingine</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Namba ya Kumbukumbu</th>
+                        <th>Jina la Mfanyabiashara</th>
+                        <th>TIN</th>
+                        <th>Simu</th>
+                        <th>Kituo / Njia</th>
+                        <th>Tarehe</th>
+                        <th>Hali</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in recent_registrations %}
+                    <tr>
+                        <td><code>{{ r.registration_reference }}</code></td>
+                        <td><strong>{{ r.taxpayer.full_name if r.taxpayer else '-' }}</strong></td>
+                        <td><code>{{ r.taxpayer.tin if r.taxpayer else '-' }}</code></td>
+                        <td>{{ r.phone_number }}</td>
+                        <td><span class="badge badge-info">{{ r.channel }}</span></td>
+                        <td>{{ r.created_at|date }}</td>
+                        <td>
+                            {% if r.status == 'Approved' %}
+                                <span class="badge badge-success">Imeidhinishwa</span>
+                            {% else %}
+                                <span class="badge badge-warning">{{ r.status }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" style="text-align:center; color:#5C7268;">Bado hujaandikisha mfanyabiashara yoyote. Bofya "Sajili Mfanyabiashara Mpya" kuanza.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

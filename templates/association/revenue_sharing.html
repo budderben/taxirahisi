@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}Hesabu ya Gawio la Kodi (3% Revenue Sharing) | TaxRahisi TRA{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('association.dashboard') }}" class="subnav-link">{{ icon('building', 'icon-sm') }} Dashibodi ya Chama</a>
+        <a href="{{ url_for('association.members') }}" class="subnav-link">{{ icon('users', 'icon-sm') }} Wanachama (Traders)</a>
+        <a href="{{ url_for('association.revenue_sharing') }}" class="subnav-link active">{{ icon('coins', 'icon-sm') }} Gawio la Kodi (3% Share)</a>
+        <a href="{{ url_for('association.projects') }}" class="subnav-link">{{ icon('building', 'icon-sm') }} Miradi ya Jamii</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Hesabu ya Gawio la Mapato (3% Revenue Sharing)</h1>
+        <p class="page-subtitle">Ufafanuzi wa makusanyo ya kodi kutoka kwa wanachama na gawio la uboreshaji wa masoko</p>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Makusanyo Kutoka kwa Wanachama</span>
+            <div class="metric-icon">{{ icon('download', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value">{{ total_collected|currency }}</div>
+        <div class="metric-sub">Kupitia GePG na benki</div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Asilimia ya Gawio</span>
+            <div class="metric-icon">{{ icon('scale', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value">{{ share_pct }}%</div>
+        <div class="metric-sub">Kiwango cha kisheria cha TRA</div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Jumla ya Gawio Lililopatikana</span>
+            <div class="metric-icon">{{ icon('coins', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value" style="color:var(--primary);">{{ calculated_share|currency }}</div>
+        <div class="metric-sub">Kabla ya kutoa zilizolipwa</div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Bakaa Inayoweza Kutolewa</span>
+            <div class="metric-icon">{{ icon('card', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value" style="color:#087A45;">{{ available_balance|currency }}</div>
+        <div class="metric-sub"><span class="badge badge-success">Inapatikana Kuombwa</span></div>
+    </div>
+</div>
+
+<div style="display:grid; grid-template-columns:1fr 1.2fr; gap:24px; align-items:start;">
+    <!-- Payout Request Form -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">{{ icon('receipt', 'icon-gold') }} Wasilisha Ombi la Malipo ya Gawio</h2>
+        </div>
+        <div class="card-body">
+            <form action="{{ url_for('association.revenue_sharing') }}" method="POST">
+                <div class="form-group">
+                    <label class="form-label" for="amount">Kiasi cha Kuomba (TZS) <span class="required">*</span></label>
+                    <input type="number" id="amount" name="amount" class="form-control" style="font-size:1.2rem; font-weight:700; color:var(--primary);" value="{{ available_balance|int }}" max="{{ available_balance }}" min="1000" required>
+                    <div class="form-text">Bakaa ya juu inayopatikana: <strong>{{ available_balance|currency }}</strong></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="bank_name">Jina la Benki ya Chama <span class="required">*</span></label>
+                    <input type="text" id="bank_name" name="bank_name" class="form-control" value="{{ association.bank_name or 'CRDB Bank' }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="account_number">Namba ya Akaunti ya Benki <span class="required">*</span></label>
+                    <input type="text" id="account_number" name="account_number" class="form-control" value="{{ association.bank_account_number or '0150992817200' }}" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%;" {% if available_balance <= 0 %}disabled{% endif %}>
+                    Wasilisha Ombi kwa TRA
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Payouts History -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">{{ icon('receipt', 'icon-gold') }} Historia ya Maombi ya Gawio</h2>
+            <span class="badge badge-info">{{ payouts|length }} Maombi</span>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Namba ya Kumbukumbu</th>
+                            <th>Kiasi</th>
+                            <th>Akaunti ya Benki</th>
+                            <th>Hali</th>
+                            <th>Tarehe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for py in payouts %}
+                        <tr>
+                            <td><code>{{ py.payout_reference }}</code></td>
+                            <td><strong>{{ py.amount|currency }}</strong></td>
+                            <td>{{ py.bank_name }}<br><span style="font-size:0.75rem; color:#5C7268;">{{ py.account_number }}</span></td>
+                            <td>
+                                {% if py.status == 'Disbursed' %}
+                                    <span class="badge badge-success">Imelipwa</span>
+                                {% elif py.status == 'Approved' %}
+                                    <span class="badge badge-info">Imeidhinishwa</span>
+                                {% else %}
+                                    <span class="badge badge-warning">Inasubiri</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ py.created_at|date }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" style="text-align:center; color:#5C7268;">Hakuna maombi ya malipo bado.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

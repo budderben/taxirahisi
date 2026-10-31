@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Malalamiko na Maoni ya Mlipakodi | TaxRahisi TRA{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('taxpayer.dashboard') }}" class="subnav-link">{{ icon('chart', 'icon-sm') }} Dashibodi Yangu</a>
+        <a href="{{ url_for('taxpayer.assessment') }}" class="subnav-link">{{ icon('scale', 'icon-sm') }} Tathmini ya Kodi (Cap 332)</a>
+        <a href="{{ url_for('taxpayer.payments') }}" class="subnav-link">{{ icon('card', 'icon-sm') }} Lipa Kodi (GePG)</a>
+        <a href="{{ url_for('taxpayer.receipts') }}" class="subnav-link">{{ icon('receipt', 'icon-sm') }} Stakabadhi Zangu</a>
+        <a href="{{ url_for('taxpayer.compliance') }}" class="subnav-link">{{ icon('award', 'icon-sm') }} Mlipakodi Bora</a>
+        <a href="{{ url_for('taxpayer.complaints') }}" class="subnav-link active">{{ icon('message', 'icon-sm') }} Malalamiko & Msaada</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Dawati la Malalamiko & Maombi ya Msaada</h1>
+        <p class="page-subtitle">Wasilisha kero, changamoto ya makadirio, au fuatilia majibu ya maafisa wa TRA</p>
+    </div>
+</div>
+
+<div style="display:grid; grid-template-columns:1fr 1.2fr; gap:24px; align-items:start;">
+    <!-- New Complaint Form -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">{{ icon('message', 'icon-gold') }} Wasilisha Lalamiko Jipya</h2>
+        </div>
+        <div class="card-body">
+            <form action="{{ url_for('taxpayer.complaints') }}" method="POST">
+                <div class="form-group">
+                    <label class="form-label" for="category">Kitengo cha Lalamiko <span class="required">*</span></label>
+                    <select id="category" name="category" class="form-control" required>
+                        <option value="Incorrect Assessment">Makadirio Yasiyo Sahihi (Kupungua kwa Mtaji)</option>
+                        <option value="Payment Issue">Malipo Kutotokea Kwenye Mfumo (GePG Delay)</option>
+                        <option value="Officer Misconduct">Lalamiko Kuhusu Afisa wa Kodi / Wakala</option>
+                        <option value="TIN Registration">Marekebisho ya Jina au Maelezo ya TIN</option>
+                        <option value="Market Services">Utoaji wa Huduma Sokoni (Taa, Usafi)</option>
+                        <option value="Other">Lalamiko Lingine Lolote</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="description">Maelezo Kamili ya Lalamiko <span class="required">*</span></label>
+                    <textarea id="description" name="description" class="form-control" rows="5" placeholder="Tafadhali eleza changamoto yako kwa uwazi ili afisa wa TRA aweze kukusaidia haraka..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%;">Tuma Lalamiko kwa TRA</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Existing Complaints Tracking -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">{{ icon('receipt', 'icon-gold') }} Tiketi Zako Zilizowasilishwa</h2>
+            <span class="badge badge-info">{{ complaints|length }} Tiketi</span>
+        </div>
+        <div class="card-body">
+            {% for c in complaints %}
+            <div style="border:1px solid #E2ECE6; border-radius:8px; padding:16px; margin-bottom:16px; background:#FAFCFA;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <div>
+                        <strong style="color:var(--primary-dark);">{{ c.category }}</strong>
+                        <div style="font-size:0.75rem; color:#5C7268;">Tiketi: <code>{{ c.ticket_number }}</code> &bull; Tarehe: {{ c.created_at|date }}</div>
+                    </div>
+                    {% if c.status == 'Resolved' %}
+                        <span class="badge badge-success">Imetatuliwa</span>
+                    {% elif c.status == 'In Progress' %}
+                        <span class="badge badge-info">Inashughulikiwa</span>
+                    {% else %}
+                        <span class="badge badge-warning">Imepokelewa</span>
+                    {% endif %}
+                </div>
+
+                <p style="font-size:0.85rem; color:#172B23; line-height:1.4; margin-bottom:12px;">
+                    {{ c.description }}
+                </p>
+
+                {% if c.responses %}
+                    <div style="background:#E8F5EF; border-left:3px solid var(--primary); padding:10px 14px; border-radius:4px; font-size:0.8rem;">
+                        <div style="font-weight:700; color:#064B32; margin-bottom:2px;">Majibu ya Afisa wa TRA:</div>
+                        {% for r in c.responses %}
+                            <div style="color:#172B23; margin-bottom:4px;">{{ r.message }}</div>
+                            <div style="font-size:0.7rem; color:#5C7268;">{{ r.responder_name }} &bull; {{ r.created_at|datetime }}</div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div style="font-size:0.75rem; color:#8E9F97; font-style:italic;">
+                        Inasubiri kupangiwa afisa wa mapato kwa ukaguzi.
+                    </div>
+                {% endif %}
+            </div>
+            {% else %}
+            <div style="text-align:center; padding:24px; color:#5C7268;">
+                Huna malalamiko yoyote yaliyowasilishwa.
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

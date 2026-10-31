@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}Usajili wa Mlipakodi Mpya (Pata TIN Ndani ya Dakika 2) | TRA TaxRahisi{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Usajili wa Mlipakodi Mpya (Dakika 2)</h1>
+        <p class="page-subtitle">Pata TIN papo hapo kwa kutumia NIDA na ufaidike na unafuu wa miezi 12 wa kodi kwa wajasiriamali wapya</p>
+    </div>
+</div>
+
+<div class="card" style="max-width:850px; margin:0 auto; border-top:4px solid var(--primary);">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('user', 'icon-gold') }} Fomu Rasmi ya Maombi ya TIN ya TRA</h2>
+        <span class="badge badge-success">Uhakiki wa NIDA Mtandaoni</span>
+    </div>
+    <div class="card-body">
+        <form action="{{ url_for('taxpayer.register') }}" method="POST">
+            <!-- 1. Taarifa Binafsi & NIDA -->
+            <h3 style="font-size:1rem; color:var(--primary-dark); margin-bottom:14px; border-bottom:1px solid #E2ECE6; padding-bottom:6px;">
+                1. Taarifa Binafsi & Uhakiki wa NIDA
+            </h3>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="nida_number">Namba ya Kitambulisho cha Taifa (NIDA - Tarakimu 20) <span class="required">*</span></label>
+                        <input type="text" id="nida_number" name="nida_number" class="form-control" placeholder="19XXXXXXXXXX00000000" maxlength="20" required>
+                        <div class="form-text">Tarakimu 20 bila nafasi wala alama nyingine. Mfumo utahakiki na NIDA.</div>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="full_name">Jina Kamili (Kama lilivyo kwenye NIDA) <span class="required">*</span></label>
+                        <input type="text" id="full_name" name="full_name" class="form-control" placeholder="Mfano: Neema Juma Mwangi" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="phone_number">Namba ya Simu (M-Pesa / Tigo / Airtel) <span class="required">*</span></label>
+                        <input type="tel" id="phone_number" name="phone_number" class="form-control" placeholder="07XXXXXXXX" required>
+                        <div class="form-text">Namba hii itakuwa jina lako la kuingia kwenye mfumo na kupokea SMS za TIN na risiti.</div>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="password">Weka Nenosiri la Kuingia (Password) <span class="required">*</span></label>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Angalau herufi 6" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Eneo la Biashara & Chama cha Soko -->
+            <h3 style="font-size:1rem; color:var(--primary-dark); margin:20px 0 14px; border-bottom:1px solid #E2ECE6; padding-bottom:6px;">
+                2. Mahali pa Biashara & Chama cha Soko
+            </h3>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="region_id">Mkoa <span class="required">*</span></label>
+                        <select id="region_id" name="region_id" class="form-control" required>
+                            {% for r in regions %}
+                                <option value="{{ r.id }}">{{ r.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="district_id">Wilaya <span class="required">*</span></label>
+                        <select id="district_id" name="district_id" class="form-control" required>
+                            {% for d in districts %}
+                                <option value="{{ d.id }}">{{ d.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="market_id">Soko / Eneo la Biashara <span class="required">*</span></label>
+                        <select id="market_id" name="market_id" class="form-control" required>
+                            {% for m in markets %}
+                                <option value="{{ m.id }}">{{ m.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="association_id">Chama cha Wafanyabiashara cha Soko Lako <span class="required">*</span></label>
+                        <select id="association_id" name="association_id" class="form-control" required>
+                            {% for a in associations %}
+                                <option value="{{ a.id }}">{{ a.name }} ({{ a.registration_number }})</option>
+                            {% endfor %}
+                        </select>
+                        <div class="form-text">Asilimia 3% ya kodi unayolipa itarejeshwa kwa chama hiki kuboresha mazingira ya soko.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Taarifa za Shughuli ya Biashara & Makadirio ya Mauzo -->
+            <h3 style="font-size:1rem; color:var(--primary-dark); margin:20px 0 14px; border-bottom:1px solid #E2ECE6; padding-bottom:6px;">
+                3. Aina ya Biashara & Makadirio ya Mauzo (Cap 332)
+            </h3>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="business_name">Jina la Biashara / Kibanda <span class="required">*</span></label>
+                        <input type="text" id="business_name" name="business_name" class="form-control" placeholder="Mfano: Duka la Mboga Neema" required>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="category_id">Kitengo cha Biashara <span class="required">*</span></label>
+                        <select id="category_id" name="category_id" class="form-control" required>
+                            {% for c in categories %}
+                                <option value="{{ c.id }}">{{ c.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label" for="turnover">Makadirio ya Mauzo Ghafi kwa Mwaka (TZS) <span class="required">*</span></label>
+                        <input type="number" id="turnover" name="turnover" class="form-control" value="5000000" min="0" step="50000" required>
+                        <div class="form-text">Mauzo chini ya TZS 4,000,000 yanalipiwa kodi ya TZS 0 (Bure).</div>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group" style="margin-top:28px;">
+                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                            <input type="checkbox" name="has_records" id="has_records" style="width:18px; height:18px;">
+                            <span style="font-size:0.875rem; font-weight:600;">Ninza kumbukumbu za mahesabu (Daftari la Mauzo)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grace Period Alert -->
+            <div style="background:#FCF8EA; border:1px solid #F3E4B0; border-radius:8px; padding:16px; margin:20px 0;">
+                <div style="font-weight:700; color:#7A5C05; font-size:0.9rem; margin-bottom:4px;">
+                    {{ icon('shield', 'icon-gold') }} Nafuu ya Kipindi cha Neema (12-Month Grace Period):
+                </div>
+                <p style="font-size:0.825rem; color:#594406; line-height:1.4;">
+                    Kama mfanyabiashara mpya unayejiunga na sekta rasmi, utapata cheti cha nafuu ya miezi 12 bila adhabu wala faini za ucheleweshaji ili kukuza mtaji wako.
+                </p>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">Thibitisha na Upewe TIN Sasa</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

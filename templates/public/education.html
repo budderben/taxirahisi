@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% from "macros/icons.html" import icon %}
+
+{% block title %}Kituo cha Elimu ya Kodi (Tax Education Centre) — Cap 332 R.E. 2023 | TRA{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="badge badge-gold" style="margin-bottom:8px;">
+            {{ icon('chart', 'icon-sm') }} MIONGOZO YA KISHERIA & ELIMU KWA MLIPAKODI
+        </div>
+        <h1 class="page-title">Kituo cha Elimu ya Kodi (Tax Education Centre)</h1>
+        <p class="page-subtitle">Miongozo ya Kisheria ya Sheria ya Kodi ya Mapato (Sura 332 R.E. 2023), Haki za Mlipakodi, na Utunzaji wa Kumbukumbu</p>
+    </div>
+</div>
+
+<!-- Legal Framework Overview -->
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('scale', 'icon-gold') }} Jedwali la Viwango Rasmi vya Kodi ya Makadirio (Cap 332 Presumptive Tax)</h2>
+        <span class="badge badge-success">{{ icon('check', 'icon-sm') }} TRA 2024/2025 Schedule</span>
+    </div>
+    <div class="card-body">
+        <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:16px;">
+            Kwa mujibu wa Kifungu cha 64 na Jedwali la Kwanza la Sheria ya Kodi ya Mapato (Income Tax Act, Cap 332 R.E. 2023 kama ilivyorekebishwa na Sheria za Fedha), viwango vifuatavyo vya makadirio vinatumika kwa wafanyabiashara binafsi:
+        </p>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Kiwango cha Mauzo (Gross Turnover)</th>
+                        <th>Kodi Isiyo na Hesabu (Bila Kumbukumbu)</th>
+                        <th>Kodi Yenye Hesabu (Ukiwa na Kumbukumbu)</th>
+                        <th>Nafuu / Maelezo ya Ziada</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Hadi TZS 4,000,000</strong></td>
+                        <td><span class="badge badge-success">{{ icon('check', 'icon-sm') }} TZS 0 (Bure / Msamaha)</span></td>
+                        <td><span class="badge badge-success">{{ icon('check', 'icon-sm') }} TZS 0 (Bure / Msamaha)</span></td>
+                        <td>Wafanyabiashara wadogo sana wanasamehewa kodi ili kukuza mitaji yao.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TZS 4,000,001 hadi 7,000,000</strong></td>
+                        <td><strong>TZS 100,000</strong> kwa mwaka</td>
+                        <td><strong>3%</strong> ya kiasi kinachozidi TZS 4M</td>
+                        <td>Ukiwa na daftari la mapato na matumizi, unalipa punguzo la kodi halisi.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TZS 7,000,001 hadi 11,000,000</strong></td>
+                        <td><strong>TZS 250,000</strong> kwa mwaka</td>
+                        <td><strong>TZS 90,000 + 3%</strong> inayozidi TZS 7M</td>
+                        <td>Unaweza kulipa kwa awamu nne (4) za miezi mitatu mitatu kupitia GePG.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TZS 11,000,001 hadi 200,000,000</strong></td>
+                        <td><strong>4.0%</strong> ya mauzo</td>
+                        <td><strong>4.0%</strong> ya mauzo</td>
+                        <td>Inashauriwa kuwa na mashine ya EFD na kutoa stakabadhi halali kwa kila mauzo.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Special Transport & Commercial Vehicles Presumptive Rates -->
+<div class="card" style="margin-top:20px;">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('target', 'icon-gold') }} Viwango Maalumu vya Sekta ya Usafirishaji (Transporters Flat Rates)</h2>
+        <span class="badge badge-gold">Jedwali la Pili Cap 332</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Aina ya Chombo / Gari</th>
+                        <th>Uzito / Uwezo (Tonnage / Seats)</th>
+                        <th>Kiwango cha Kodi kwa Mwaka (TZS)</th>
+                        <th>Njia ya Malipo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Magari Madogo ya Mizigo (Pick-up / Canter)</strong></td>
+                        <td>Chini ya Tani 1 (0 &ndash; 1 Tonne)</td>
+                        <td><strong>TZS 180,000</strong></td>
+                        <td>GePG Control Number</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Malori ya Kati</strong></td>
+                        <td>Tani 1 hadi 5 (1 &ndash; 5 Tonnes)</td>
+                        <td><strong>TZS 450,000</strong></td>
+                        <td>GePG Control Number</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Malori Makubwa ya Mizigo</strong></td>
+                        <td>Zaidi ya Tani 5 (5 &ndash; 10 Tonnes)</td>
+                        <td><strong>TZS 720,000</strong></td>
+                        <td>GePG Control Number</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mabasi ya Abiria (Daladala / Coaster)</strong></td>
+                        <td>Viti 15 hadi 25</td>
+                        <td><strong>TZS 250,000</strong></td>
+                        <td>GePG Control Number</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Rights and Duties of the Taxpayer -->
+<div class="features-grid" style="margin-top:20px;">
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('shield', 'icon-gold') }}</div>
+        <h3 class="feature-title">Haki za Mlipakodi (Sheria ya Usimamizi wa Kodi 2015)</h3>
+        <ul style="font-size:0.875rem; color:var(--text-muted); margin-left:18px; line-height:1.7;">
+            <li>Kuhudumiwa kwa heshima, uadilifu na usiri kamili wa taarifa zako za biashara.</li>
+            <li>Kukadiriwa kodi inayolingana tu na mapato yako halisi ya kisheria (Sheria ya Kodi ya Mapato Sura ya 332).</li>
+            <li>Haki ya kuomba marekebisho ya makadirio (Reassessment) au kukata rufaa kwa Bodi ya Rufaa za Kodi (TRAB).</li>
+            <li>Kupata stakabadhi rasmi ya serikali ya GePG kwa kila shilingi unayolipa.</li>
+            <li>Kufurahia miezi 12 ya kwanza ya neema (Tax Holiday) unaposajili biashara mpya.</li>
+        </ul>
+    </div>
+
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('receipt', 'icon-gold') }}</div>
+        <h3 class="feature-title">Wajibu wa Mlipakodi</h3>
+        <ul style="font-size:0.875rem; color:var(--text-muted); margin-left:18px; line-height:1.7;">
+            <li>Kusajili biashara yako na kupata Namba ya Utambulisho wa Mlipakodi (TIN).</li>
+            <li>Kutoa taarifa sahihi za makadirio ya mauzo bila kupotosha wala kuficha mapato.</li>
+            <li>Kulipa kodi kwa wakati kabla ya tarehe ya mwisho ya robo mwaka.</li>
+            <li>Kutunza kumbukumbu na daftari la mauzo na manunuzi kwa angalau miaka mitano (5).</li>
+            <li>Kutoa risiti au stakabadhi kwa mteja kwa kila muamala wa biashara unaofanyika.</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Available Guides Library -->
+<div class="card" style="margin-top:24px;">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('chart', 'icon-gold') }} Maktaba ya Miongozo ya Kupakua (PDF & Text)</h2>
+        <span class="badge badge-info">{{ contents|length }} Miongozo Inapatikana</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Jina la Mwongozo</th>
+                        <th>Kitengo</th>
+                        <th>Lugha</th>
+                        <th>Imeandaliwa na</th>
+                        <th>Kitendo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in contents %}
+                    <tr>
+                        <td>
+                            <strong>{{ item.title }}</strong>
+                            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">{{ item.summary[:100] }}...</div>
+                        </td>
+                        <td><span class="badge badge-primary">{{ item.category }}</span></td>
+                        <td><span class="badge badge-secondary">{{ item.language.upper() }}</span></td>
+                        <td>{{ item.published_by }}</td>
+                        <td>
+                            <a href="{{ url_for('public.download_guide', content_id=item.id) }}" class="btn btn-primary btn-sm">
+                                {{ icon('download', 'icon-sm') }} Pakua Mwongozo
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align:center; color:var(--text-muted);">Hakuna miongozo iliyopakiwa.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

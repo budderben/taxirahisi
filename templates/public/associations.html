@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% from "macros/icons.html" import icon %}
+
+{% block title %}Mpango wa Ushirikiano wa Vyama vya Masoko | TaxRahisi TRA{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="badge badge-gold" style="margin-bottom:8px;">
+            {{ icon('building', 'icon-sm') }} UBIA WA SEKTA NA MASOKO (3% REVENUE SHARING)
+        </div>
+        <h1 class="page-title">Mpango wa Ushirikiano wa Vyama vya Masoko</h1>
+        <p class="page-subtitle">Ubia Rasmi Kati ya TRA na Vyama vya Wafanyabiashara kwa Ajili ya Maendeleo ya Masoko Kupitia Gawio la Kodi (3% Revenue Sharing)</p>
+    </div>
+</div>
+
+<div class="card card-image-bg card-image-market">
+    <div class="card-body" style="padding:34px 28px;">
+        <div class="badge badge-gold" style="margin-bottom:12px; background:rgba(252, 209, 22, 0.25); border-color:var(--gold-accent); color:var(--gold-light);">
+            {{ icon('award', 'icon-gold') }} UTARATIBU WA USHIRIKISHAJI SHIRIKISHI
+        </div>
+        <h2 style="font-size:1.65rem; font-weight:800; margin-bottom:12px;">Mkakati wa Ushirikishwaji wa Kisekta Masokoni</h2>
+        <p style="font-size:1.025rem; line-height:1.65; max-width:850px; margin-bottom:20px;">
+            Ili kufanikisha urasimishaji wa wajasiriamali wadogo bila mabavu, TRA imeanzisha mfumo rasmi wa ubia na vyama vya wafanyabiashara (Market Associations). Vyama vilivyothibitishwa vinasaidia kutoa elimu na kuwasajili wanachama wao, na serikali inarejesha asilimia 3% ya makusanyo ya kodi kwa chama hicho kwa ajili ya uboreshaji wa mazingira ya masoko.
+        </p>
+        <div style="display:flex; gap:16px; flex-wrap:wrap;">
+            <div style="background:rgba(255,255,255,0.16); backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,0.25); padding:10px 16px; border-radius:8px; font-size:0.875rem; display:flex; align-items:center; gap:8px;">
+                {{ icon('coins', 'icon-gold') }}
+                <span><strong style="color:var(--gold-light);">Gawio la Maendeleo:</strong> 3% ya Kodi Zilizokusanywa</span>
+            </div>
+            <div style="background:rgba(255,255,255,0.16); backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,0.25); padding:10px 16px; border-radius:8px; font-size:0.875rem; display:flex; align-items:center; gap:8px;">
+                {{ icon('shield', 'icon-gold') }}
+                <span><strong style="color:var(--gold-light);">Uangalizi wa Fedha:</strong> Ukaguzi na Uidhinishaji wa TRA</span>
+            </div>
+            <div style="background:rgba(255,255,255,0.16); backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,0.25); padding:10px 16px; border-radius:8px; font-size:0.875rem; display:flex; align-items:center; gap:8px;">
+                {{ icon('building', 'icon-gold') }}
+                <span><strong style="color:var(--gold-light);">Aina ya Miradi:</strong> Usafi, Vyoo, Taa za Sola, Ulinzi</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Vyama Vilivyosajiliwa -->
+<div class="card" style="margin-top:24px;">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('building', 'icon-gold') }} Vyama vya Masoko Vilivyothibitishwa na Kufanya Kazi na TRA</h2>
+        <span class="badge badge-success">{{ icon('check', 'icon-sm') }} {{ associations|length }} Vyama Vilivyo Hai</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Jina la Chama</th>
+                        <th>Namba ya Usajili</th>
+                        <th>Kanda / Mkoa</th>
+                        <th>Soko Kuu</th>
+                        <th>Hali ya Ubia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for assoc in associations %}
+                    <tr>
+                        <td>
+                            <strong>{{ assoc.name }}</strong>
+                            <div style="font-size:0.775rem; color:var(--text-muted);">{{ assoc.description or 'Chama cha Wafanyabiashara na Wajasiriamali' }}</div>
+                        </td>
+                        <td><code>{{ assoc.registration_number }}</code></td>
+                        <td>{{ assoc.region.name if assoc.region else 'Tanzania' }}</td>
+                        <td>{{ assoc.market.name if assoc.market else 'Masoko Mbalimbali' }}</td>
+                        <td>
+                            <span class="badge badge-success">{{ icon('check', 'icon-sm') }} Mshirika Rasmi wa TRA</span>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align:center; color:var(--text-muted);">Hakuna vyama vilivyosajiliwa bado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('check', 'icon-gold') }} Vigezo vya Chama Kujiunga na Mpango</h2>
+    </div>
+    <div class="card-body" style="font-size:0.9rem; line-height:1.7; color:var(--text-main);">
+        <ol style="margin-left:24px;">
+            <li>Chama kiwe kimesajiliwa kisheria chini ya Msajili wa Vyama (RITA au Wizara ya Mambo ya Ndani).</li>
+            <li>Kiwe na uongozi unaotambulika kidemokrasia na akaunti ya benki iliyo hai.</li>
+            <li>Kiwe na wanachama wasiopungua 50 wanaofanya biashara katika soko au eneo husika.</li>
+            <li>Kikubali kanuni za ulinzi wa data za wanachama (PDPA 2022) bila kuvujisha namba za NIDA au taarifa binafsi.</li>
+        </ol>
+    </div>
+</div>
+{% endblock %}

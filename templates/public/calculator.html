@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% from "macros/icons.html" import icon %}
+
+{% block title %}Kikokotoo cha Kodi ya Makadirio (Cap 332 Presumptive Calculator) | TRA{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="badge badge-gold" style="margin-bottom:8px;">
+            {{ icon('coins', 'icon-sm') }} HESABU ZA KISHERIA ZA CAP 332 R.E. 2023
+        </div>
+        <h1 class="page-title">Kikokotoo cha Kodi ya Makadirio (Cap 332 Calculator)</h1>
+        <p class="page-subtitle">Piga hesabu ya kodi yako ya mwaka kulingana na viwango rasmi vya Sheria ya Kodi ya Mapato Sura ya 332.</p>
+    </div>
+</div>
+
+<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:24px; align-items:start;">
+    <!-- Inputs Card -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">{{ icon('coins', 'icon-gold') }} Ingiza Mauzo Yako ya Mwaka (Gross Turnover)</h2>
+        </div>
+        <div class="card-body">
+            <form action="{{ url_for('public.tax_calculator') }}" method="GET">
+                <div class="form-group">
+                    <label class="form-label" for="calc-turnover">Makadirio ya Mauzo ya Mwaka (TZS): <span class="required">*</span></label>
+                    <input type="number" id="calc-turnover" name="turnover" class="form-control" style="font-size:1.2rem; font-weight:700; color:var(--primary-dark);" value="{{ calc.turnover|int }}" min="0" step="50000" required>
+                    <div class="form-text">Jumla ya fedha zote unazopokea kwa mwaka kabla ya kutoa gharama za uendeshaji.</div>
+                </div>
+
+                <div class="form-group" style="background:#F7FAF8; padding:14px; border-radius:8px; border:1px solid #E2ECE6;">
+                    <label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-weight:700; color:var(--primary-dark);">
+                        <input type="checkbox" id="calc-records" name="records" value="1" {% if calc.has_records %}checked{% endif %} style="width:18px; height:18px;">
+                        <span>Ninza kumbukumbu sahihi za hesabu (Daftari la Mauzo & Risiti)</span>
+                    </label>
+                    <div style="font-size:0.775rem; color:var(--text-muted); margin-top:6px; margin-left:28px;">
+                        Sheria ya Cap 332 inatoa unafuu wa asilimia 3% ya ziada kwa wajasiriamali wanaoweka kumbukumbu za mahesabu badala ya kiwango maalum.
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:10px; margin-top:20px;">
+                    <button type="submit" class="btn btn-primary" style="flex:1;">
+                        {{ icon('coins', 'icon-sm') }} Kokotoa Upya
+                    </button>
+                    <a href="{{ url_for('taxpayer.register') }}" class="btn btn-accent" style="flex:1;">
+                        {{ icon('user', 'icon-sm') }} Jisajili na Ulipe
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Results Card -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">{{ icon('chart', 'icon-gold') }} Matokeo ya Makadirio ya Kisheria</h2>
+            <span class="badge badge-success">{{ icon('check', 'icon-sm') }} {{ calc.band_name }}</span>
+        </div>
+        <div class="card-body">
+            <div id="calc-result">
+                <div style="background:var(--gold-subtle); border:2px solid var(--gold-border); border-radius:10px; padding:20px; margin-bottom:18px;">
+                    <div style="font-size:0.8rem; text-transform:uppercase; color:var(--gold-dark); font-weight:800; letter-spacing:0.5px;">KODI YA MWAKA INAYOSTAHILI (ANNUAL TAX):</div>
+                    <div style="font-size:2.3rem; font-weight:900; color:var(--primary-dark); margin:6px 0;">{{ calc.annual_tax|currency }}</div>
+                    <div style="font-size:0.875rem; color:var(--text-main); line-height:1.5;">{{ calc.explanation }}</div>
+                    {% if calc.efd_required %}
+                        <div style="margin-top:10px; display:inline-flex; align-items:center; gap:6px;" class="badge badge-warning">
+                            {{ icon('alert', 'icon-sm') }} Mauzo zaidi ya TZS 11M: EFD inashauriwa kisheria
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <h3 style="font-size:0.95rem; font-weight:700; color:var(--primary-dark); margin-bottom:10px;">Mpango Rahisi wa Malipo kwa Awamu:</h3>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                <div style="background:#FAFCFA; padding:14px; border-radius:8px; border:1px solid #E2ECE6;">
+                    <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">KILA ROBO MWAKA (Quarterly):</div>
+                    <div style="font-size:1.2rem; font-weight:800; color:var(--primary);">{{ calc.quarterly_tax|currency }}</div>
+                    <div style="font-size:0.7rem; color:var(--text-muted);">Hulipwa mara 4 kwa mwaka kupitia GePG</div>
+                </div>
+
+                <div style="background:#FAFCFA; padding:14px; border-radius:8px; border:1px solid #E2ECE6;">
+                    <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">KILA MWEZI (Monthly):</div>
+                    <div style="font-size:1.2rem; font-weight:800; color:var(--primary);">{{ calc.monthly_tax|currency }}</div>
+                    <div style="font-size:0.7rem; color:var(--text-muted);">Kadirio la akiba ya mwezi</div>
+                </div>
+            </div>
+
+            <div style="margin-top:20px; padding:14px; background:var(--gold-light); border:1px solid var(--gold-border); border-radius:8px; font-size:0.85rem; color:var(--gold-dark); display:flex; gap:10px; align-items:flex-start;">
+                {{ icon('award', 'icon-gold') }}
+                <div>
+                    <strong>Muda wa Neema (Miezi 12):</strong> Ikiwa unaanza kusajiliwa upya kwa mara ya kwanza, unaweza kustahili unafuu wa miezi 12 ya kwanza (tax holiday) ili kukuza mtaji wako kibiashara.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

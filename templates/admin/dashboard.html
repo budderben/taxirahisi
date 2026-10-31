@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}Dashibodi Kuu ya Mapato | TRA TaxRahisi Executive{% endblock %}
+
+{% block portal_subnav %}
+<div class="portal-subnav">
+    <div class="subnav-container">
+        <a href="{{ url_for('admin.dashboard') }}" class="subnav-link active">{{ icon('chart', 'icon-sm') }} Dashibodi Kuu</a>
+        <a href="{{ url_for('admin.taxpayers') }}" class="subnav-link">{{ icon('users', 'icon-sm') }} Walipakodi</a>
+        <a href="{{ url_for('admin.tax_rules') }}" class="subnav-link">{{ icon('settings', 'icon-sm') }} Viwango vya Kodi (Bands)</a>
+        <a href="{{ url_for('admin.payments') }}" class="subnav-link">{{ icon('card', 'icon-sm') }} Malipo (GePG)</a>
+        <a href="{{ url_for('admin.compliance') }}" class="subnav-link">{{ icon('target', 'icon-sm') }} Uchambuzi wa Hatari (Risk)</a>
+        <a href="{{ url_for('admin.associations') }}" class="subnav-link">{{ icon('building', 'icon-sm') }} Vyama & Gawio (3%)</a>
+        <a href="{{ url_for('admin.complaints') }}" class="subnav-link">{{ icon('message', 'icon-sm') }} Malalamiko ({{ pending_complaints }})</a>
+        <a href="{{ url_for('admin.reports') }}" class="subnav-link">{{ icon('download', 'icon-sm') }} Ripoti (CSV)</a>
+        <a href="{{ url_for('admin.audit_logs') }}" class="subnav-link">{{ icon('shield', 'icon-sm') }} Audit Logs</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Dashibodi Kuu ya Mapato (TRA Executive Revenue Dashboard)</h1>
+        <p class="page-subtitle">Takwimu Halisi za Ukusanyaji wa Mapato na Urasimishaji wa Sekta Isiyo Rasmi Tanzania</p>
+    </div>
+    <div class="page-actions">
+        <a href="{{ url_for('admin.reports') }}" class="btn btn-secondary btn-sm">Pakua Ripoti ya Siku (CSV)</a>
+        <span class="badge badge-success" style="padding:6px 12px;">GePG LIVE RECONCILED</span>
+    </div>
+</div>
+
+<!-- Aggregated KPI Cards -->
+<div class="stats-grid">
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Jumla ya Mapato Yaliyokusanywa</span>
+            <div class="metric-icon">{{ icon('coins', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value" style="color:var(--primary);">{{ total_collected|currency }}</div>
+        <div class="metric-sub">
+            <span class="badge badge-success">GePG Imethibitishwa</span>
+        </div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Salio Linalodaiwa (Outstanding)</span>
+            <div class="metric-icon">⏳</div>
+        </div>
+        <div class="metric-value" style="color:var(--amber);">{{ outstanding_balance|currency }}</div>
+        <div class="metric-sub">
+            Makadirio yanayosubiri awamu
+        </div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Walipakodi Waliosajiliwa</span>
+            <div class="metric-icon">{{ icon('users', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value">{{ total_taxpayers }}</div>
+        <div class="metric-sub">
+            <span class="badge badge-info">{{ compliance_rate }}% Uzingatiaji</span>
+        </div>
+    </div>
+
+    <div class="metric-card">
+        <div class="metric-header">
+            <span class="metric-label">Vyama vya Masoko</span>
+            <div class="metric-icon">{{ icon('building', 'icon-gold') }}</div>
+        </div>
+        <div class="metric-value">{{ total_associations }}</div>
+        <div class="metric-sub">
+            <span class="badge badge-gold">{{ pending_payouts }} Maombi ya Gawio</span>
+        </div>
+    </div>
+</div>
+
+<!-- Regional Revenue Distribution & Recent Transactions -->
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start;">
+    <!-- Regional Distribution -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">{{ icon('chart', 'icon-gold') }} Mgawanyo wa Mapato na Walipakodi kwa Mikoa</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Mkoa</th>
+                            <th>Idadi ya Walipakodi</th>
+                            <th>Makusanyo (GePG)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in regional_stats %}
+                        <tr>
+                            <td><strong>{{ r.region_name }}</strong></td>
+                            <td>{{ r.taxpayers_count }}</td>
+                            <td><strong style="color:var(--primary);">{{ r.total_collected|currency }}</strong></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Operational Actions -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">{{ icon('target', 'icon-gold') }} Hatua za Haraka za Kiutawala</h2>
+        </div>
+        <div class="card-body" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <a href="{{ url_for('admin.taxpayers') }}" class="btn btn-secondary" style="padding:16px; text-align:center; display:block;">
+                <div>{{ icon('users', 'icon-gold') }}</div>
+                <div style="font-weight:700; margin-top:4px;">Tafuta Mlipakodi</div>
+                <div style="font-size:0.75rem; color:#5C7268;">Angalia wasifu au sitisha TIN</div>
+            </a>
+
+            <a href="{{ url_for('admin.associations') }}" class="btn btn-secondary" style="padding:16px; text-align:center; display:block;">
+                <div>{{ icon('building', 'icon-gold') }}</div>
+                <div style="font-weight:700; margin-top:4px;">Idhinisha Gawio (3%)</div>
+                <div style="font-size:0.75rem; color:#5C7268;">{{ pending_payouts }} maombi yanasubiri</div>
+            </a>
+
+            <a href="{{ url_for('admin.tax_rules') }}" class="btn btn-secondary" style="padding:16px; text-align:center; display:block;">
+                <div>{{ icon('settings', 'icon-gold') }}</div>
+                <div style="font-weight:700; margin-top:4px;">Marekebisho ya Bands</div>
+                <div style="font-size:0.75rem; color:#5C7268;">Maker-Checker audit trails</div>
+            </a>
+
+            <a href="{{ url_for('admin.compliance') }}" class="btn btn-secondary" style="padding:16px; text-align:center; display:block;">
+                <div>{{ icon('target', 'icon-gold') }}</div>
+                <div style="font-weight:700; margin-top:4px;">Uchambuzi wa Hatari</div>
+                <div style="font-size:0.75rem; color:#5C7268;">Alama za hatari za walipakodi</div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Payments Stream -->
+<div class="card" style="margin-top:24px;">
+    <div class="card-header">
+        <h2 class="card-title">{{ icon('card', 'icon-gold') }} Miamala ya Hivi Karibuni ya GePG</h2>
+        <a href="{{ url_for('admin.payments') }}" class="btn btn-secondary btn-sm">Tazama Malipo Yote</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Muda</th>
+                        <th>Control Number</th>
+                        <th>Mlipakodi</th>
+                        <th>TIN</th>
+                        <th>Kiasi</th>
+                        <th>Njia ya Malipo</th>
+                        <th>Hali</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in recent_payments %}
+                    <tr>
+                        <td>{{ p.payment_date|datetime if p.payment_date else p.created_at|datetime }}</td>
+                        <td><code>{{ p.control_number }}</code></td>
+                        <td><strong>{{ p.taxpayer.full_name if p.taxpayer else '-' }}</strong></td>
+                        <td><code>{{ p.taxpayer.tin if p.taxpayer else '-' }}</code></td>
+                        <td><strong style="color:var(--primary);">{{ p.amount|currency }}</strong></td>
+                        <td>{{ p.provider.name if p.provider else 'GePG' }}</td>
+                        <td>
+                            {% if p.status == 'SUCCESSFUL' %}
+                                <span class="badge badge-success">Imekamilika</span>
+                            {% else %}
+                                <span class="badge badge-warning">{{ p.status }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" style="text-align:center; color:#5C7268;">Hakuna miamala ya hivi karibuni.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
