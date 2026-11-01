@@ -114,11 +114,11 @@ Access the application at `http://localhost:5000`.
 
 | Role | Username / Identifier | Password | Access Portal |
 | :--- | :--- | :--- | :--- |
-| **Taxpayer** | `0755123456` | `Pass123!` | `/portal/dashboard` |
-| **Taxpayer** | `0712345678` | `Pass123!` | `/portal/dashboard` |
-| **Association Admin** | `vibindo@taxrahisi.or.tz` | `Pass123!` | `/association/dashboard` |
-| **Market Agent** | `agent.juma@taxrahisi.or.tz` | `Pass123!` | `/agent/dashboard` |
-| **TRA Administrator** | `admin@taxrahisi.go.tz` | `AdminPass123!` | `/admin/dashboard` |
+| **Taxpayer (Mama Neema)** | `0755123456` | `Pass123!` | `/portal/dashboard` |
+| **Taxpayer (Juma)** | `0712345678` | `Pass123!` | `/portal/dashboard` |
+| **Association Admin** | `vibindo.admin` au `vibindo@taxrahisi.or.tz` | `Pass123!` | `/association/dashboard` |
+| **Market Agent** | `agent.mwangi` au `agent.juma@taxrahisi.or.tz` | `Pass123!` | `/agent/dashboard` |
+| **TRA Administrator** | `tra.admin` au `admin@taxrahisi.go.tz` | `AdminPass123!` | `/admin/dashboard` |
 
 ---
 

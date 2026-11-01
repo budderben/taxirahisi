@@ -168,11 +168,11 @@ def seed_database():
 
         # 9. Administrative & Portal Users
         u_admin = User(
-            username="admin@taxrahisi.go.tz",
+            username="tra.admin",
             email="admin@taxrahisi.go.tz",
             phone_number="+255700000001",
             full_name="Dr. Emmanuel Mwakyusa (Kamishna wa Mapato)",
-            password_hash=hash_password("Admin@2026"),
+            password_hash=hash_password("AdminPass123!"),
             role_id=role_map["super_admin"],
             is_active=True
         )
@@ -181,25 +181,25 @@ def seed_database():
             email="officer@tra.go.tz",
             phone_number="+255700000002",
             full_name="Mariam Mtoro (Afisa Kodi Mwandamizi - Ilala)",
-            password_hash=hash_password("Officer@2026"),
+            password_hash=hash_password("Pass123!"),
             role_id=role_map["revenue_officer"],
             is_active=True
         )
         u_assoc_vibindo = User(
-            username="vibindo@taxrahisi.or.tz",
+            username="vibindo.admin",
             email="vibindo@taxrahisi.or.tz",
             phone_number="+255754112233",
             full_name="Gaston Kikuwi (Mwenyekiti VIBINDO)",
-            password_hash=hash_password("Vibindo@2026"),
+            password_hash=hash_password("Pass123!"),
             role_id=role_map["association_admin"],
             is_active=True
         )
         u_agent = User(
-            username="agent.juma@taxrahisi.or.tz",
+            username="agent.mwangi",
             email="agent.juma@taxrahisi.or.tz",
             phone_number="+255711223344",
             full_name="Juma Selemani Bakari (Wakala wa VIBINDO)",
-            password_hash=hash_password("Agent@2026"),
+            password_hash=hash_password("Pass123!"),
             role_id=role_map["association_agent"],
             is_active=True
         )
@@ -225,7 +225,7 @@ def seed_database():
             email="neema.mwamba@gmail.com",
             phone_number="0755123456",
             full_name="Neema Mwamba (Mama Neema)",
-            password_hash=hash_password("Neema@2026"),
+            password_hash=hash_password("Pass123!"),
             role_id=role_map["taxpayer"],
             is_active=True
         )
@@ -343,7 +343,7 @@ def seed_database():
             email="juma.mchinga@gmail.com",
             phone_number="0712345678",
             full_name="Juma Rashid (Mwenge Vinyago)",
-            password_hash=hash_password("Juma@2026"),
+            password_hash=hash_password("Pass123!"),
             role_id=role_map["taxpayer"],
             is_active=True
         )

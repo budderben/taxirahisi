@@ -321,5 +321,30 @@ class TaxRahisiPlatformTestSuite(unittest.TestCase):
         self.assertTrue(content_info.startswith("END "))
         self.assertIn("Sheria ya Kodi Sura 332", content_info)
 
+    # ==========================================================================
+    # SCENARIO 12: Demo Accounts Authentication & Second-Time Login Switching
+    # ==========================================================================
+    def test_scenario_12_demo_accounts_login_and_switching(self):
+        # 1. Taxpayer login
+        res_tp = self.client.post('/login', data={'identifier': '0712345678', 'password': 'Pass123!'}, follow_redirects=False)
+        self.assertEqual(res_tp.status_code, 302)
+        self.assertEqual(res_tp.headers.get('Location'), '/portal/dashboard')
+        with self.client.session_transaction() as sess:
+            self.assertEqual(sess.get('user_role'), 'taxpayer')
+
+        # 2. Second login as TRA Admin without logging out first
+        res_admin = self.client.post('/login', data={'identifier': 'tra.admin', 'password': 'AdminPass123!'}, follow_redirects=False)
+        self.assertEqual(res_admin.status_code, 302)
+        self.assertEqual(res_admin.headers.get('Location'), '/admin/dashboard')
+        with self.client.session_transaction() as sess:
+            self.assertEqual(sess.get('user_role'), 'super_admin')
+
+        # 3. Third login as Association Admin
+        res_assoc = self.client.post('/login', data={'identifier': 'vibindo.admin', 'password': 'Pass123!'}, follow_redirects=False)
+        self.assertEqual(res_assoc.status_code, 302)
+        self.assertEqual(res_assoc.headers.get('Location'), '/association/dashboard')
+        with self.client.session_transaction() as sess:
+            self.assertEqual(sess.get('user_role'), 'association_admin')
+
 if __name__ == '__main__':
     unittest.main()
