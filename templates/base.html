@@ -18,23 +18,23 @@
     <div style="background: linear-gradient(90deg, #102A1C 0%, #004D26 100%); color: #FFFFFF; padding: 6px 14px; font-size: 0.775rem; border-bottom: 2px solid var(--gold-accent); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; z-index: 9999; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
         <div style="display: flex; align-items: center; gap: 8px; font-weight: 700;">
             <span style="background: var(--gold-accent); color: #000; padding: 2px 6px; border-radius: 4px; font-size: 0.675rem; font-weight: 900; letter-spacing: 0.5px;">PROTOTYPE DEMO</span>
-            <span style="color: #E2ECE6;">Bofya akaunti kuingia mara moja:</span>
+            <span style="color: #E2ECE6;">Majina ya Kuingilia (Bofya kuingia mara moja bila password):</span>
         </div>
         <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-            <a href="{{ url_for('public.demo_login', role_or_key='admin') }}" style="background: rgba(255,255,255,0.12); color: #FFF; padding: 3px 8px; border-radius: 4px; text-decoration: none; border: 1px solid rgba(255,255,255,0.25); display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: 0.75rem;">
-                👑 TRA Admin
+            <a href="{{ url_for('public.demo_login', role_or_key='emmanuel') }}" style="background: rgba(255,255,255,0.12); color: #FFF; padding: 3px 8px; border-radius: 4px; text-decoration: none; border: 1px solid rgba(255,255,255,0.25); display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: 0.75rem;" title="TRA Kamishna wa Mapato">
+                👑 Dr. Emmanuel Mwakyusa
             </a>
-            <a href="{{ url_for('public.demo_login', role_or_key='neema') }}" style="background: rgba(255,255,255,0.12); color: #FFF; padding: 3px 8px; border-radius: 4px; text-decoration: none; border: 1px solid rgba(255,255,255,0.25); display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: 0.75rem;">
+            <a href="{{ url_for('public.demo_login', role_or_key='neema') }}" style="background: rgba(255,255,255,0.12); color: #FFF; padding: 3px 8px; border-radius: 4px; text-decoration: none; border: 1px solid rgba(255,255,255,0.25); display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: 0.75rem;" title="Mlipakodi Kariakoo">
                 👩‍🍳 Mama Neema
             </a>
             <a href="{{ url_for('public.demo_login', role_or_key='juma') }}" style="background: rgba(252,209,22,0.18); color: #FCD116; padding: 3px 8px; border-radius: 4px; text-decoration: none; border: 1px solid #FCD116; display: inline-flex; align-items: center; gap: 4px; font-weight: 700; font-size: 0.75rem;" title="Mlipakodi katika Kipindi cha Neema cha Miezi 6">
-                🛠️ Juma (Miezi 6 Neema)
+                🛠️ Juma Rashid (Miezi 6 Neema)
             </a>
-            <a href="{{ url_for('public.demo_login', role_or_key='vibindo') }}" style="background: rgba(255,255,255,0.12); color: #FFF; padding: 3px 8px; border-radius: 4px; text-decoration: none; border: 1px solid rgba(255,255,255,0.25); display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: 0.75rem;">
-                🏢 Chama VIBINDO
+            <a href="{{ url_for('public.demo_login', role_or_key='vibindo') }}" style="background: rgba(255,255,255,0.12); color: #FFF; padding: 3px 8px; border-radius: 4px; text-decoration: none; border: 1px solid rgba(255,255,255,0.25); display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: 0.75rem;" title="Mwenyekiti VIBINDO">
+                🏢 Gaston Kikuwi (VIBINDO)
             </a>
-            <a href="{{ url_for('public.demo_login', role_or_key='agent') }}" style="background: rgba(255,255,255,0.12); color: #FFF; padding: 3px 8px; border-radius: 4px; text-decoration: none; border: 1px solid rgba(255,255,255,0.25); display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: 0.75rem;">
-                📱 Wakala Mwangi
+            <a href="{{ url_for('public.demo_login', role_or_key='bakari') }}" style="background: rgba(255,255,255,0.12); color: #FFF; padding: 3px 8px; border-radius: 4px; text-decoration: none; border: 1px solid rgba(255,255,255,0.25); display: inline-flex; align-items: center; gap: 4px; font-weight: 600; font-size: 0.75rem;" title="Wakala wa Ushuru Masokoni">
+                📱 Juma Bakari (Wakala)
             </a>
             {% if current_user %}
             <a href="{{ url_for('public.logout') }}" style="background: #DC2626; color: #FFF; padding: 3px 8px; border-radius: 4px; text-decoration: none; font-weight: 700; font-size: 0.725rem;" title="Ondoka kwenye akaunti hii">

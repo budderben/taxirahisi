@@ -150,25 +150,75 @@ def login():
 
     if request.method == 'POST':
         identifier = request.form.get('identifier', '').strip()
-        password = request.form.get('password', '').strip()
 
         db = SessionLocal()
         try:
             # Build set of candidate identifier variations
-            candidates = {identifier}
+            candidates = {identifier, identifier.lower()}
             
-            # Common demo account aliases mapping
-            aliases = {
-                'tra.admin': ['admin@taxrahisi.go.tz', 'tra.admin', '+255700000001', '0700000001'],
-                'admin@taxrahisi.go.tz': ['admin@taxrahisi.go.tz', 'tra.admin', '+255700000001', '0700000001'],
-                'vibindo.admin': ['vibindo@taxrahisi.or.tz', 'vibindo.admin', '+255754112233', '0754112233'],
-                'vibindo@taxrahisi.or.tz': ['vibindo@taxrahisi.or.tz', 'vibindo.admin', '+255754112233', '0754112233'],
-                'agent.mwangi': ['agent.juma@taxrahisi.or.tz', 'agent.mwangi', 'agent.juma', '+255711223344', '0711223344'],
-                'agent.juma': ['agent.juma@taxrahisi.or.tz', 'agent.mwangi', 'agent.juma', '+255711223344', '0711223344'],
-                'agent.juma@taxrahisi.or.tz': ['agent.juma@taxrahisi.or.tz', 'agent.mwangi', 'agent.juma', '+255711223344', '0711223344']
+            # Common demo account aliases and friendly full-name mapping
+            name_aliases = {
+                # TRA Admin / Commissioner
+                'dr. emmanuel mwakyusa': 'tra.admin',
+                'emmanuel mwakyusa': 'tra.admin',
+                'dr emmanuel mwakyusa': 'tra.admin',
+                'dr. emmanuel': 'tra.admin',
+                'emmanuel': 'tra.admin',
+                'mwakyusa': 'tra.admin',
+                'kamishna': 'tra.admin',
+                'kamishna wa mapato': 'tra.admin',
+                'tra admin': 'tra.admin',
+                'tra.admin': 'tra.admin',
+                'admin': 'tra.admin',
+                'admin@taxrahisi.go.tz': 'tra.admin',
+
+                # Mama Neema / Neema Mwamba
+                'mama neema': '0755123456',
+                'neema': '0755123456',
+                'neema mwamba': '0755123456',
+                'mama lishe': '0755123456',
+                '0755123456': '0755123456',
+                'neema.mwamba@gmail.com': '0755123456',
+
+                # Juma Rashid
+                'juma rashid': '0712345678',
+                'juma': '0712345678',
+                'rashid': '0712345678',
+                'mwenge vinyago': '0712345678',
+                'juma mwenge': '0712345678',
+                '0712345678': '0712345678',
+                'juma.mchinga@gmail.com': '0712345678',
+
+                # Gaston Kikuwi / VIBINDO
+                'gaston kikuwi': 'vibindo.admin',
+                'gaston': 'vibindo.admin',
+                'kikuwi': 'vibindo.admin',
+                'vibindo': 'vibindo.admin',
+                'vibindo.admin': 'vibindo.admin',
+                'vibindo@taxrahisi.or.tz': 'vibindo.admin',
+
+                # Juma Selemani Bakari / Wakala Mwangi
+                'juma bakari': 'agent.mwangi',
+                'juma selemani bakari': 'agent.mwangi',
+                'juma selemani': 'agent.mwangi',
+                'bakari': 'agent.mwangi',
+                'wakala mwangi': 'agent.mwangi',
+                'agent mwangi': 'agent.mwangi',
+                'agent.mwangi': 'agent.mwangi',
+                'agent.juma': 'agent.mwangi',
+                'agent.juma@taxrahisi.or.tz': 'agent.mwangi',
+
+                # Mariam Mtoro / Officer
+                'mariam mtoro': 'officer@tra.go.tz',
+                'mariam': 'officer@tra.go.tz',
+                'mtoro': 'officer@tra.go.tz',
+                'afisa kodi': 'officer@tra.go.tz',
+                'officer': 'officer@tra.go.tz',
+                'officer@tra.go.tz': 'officer@tra.go.tz'
             }
-            if identifier.lower() in aliases:
-                candidates.update(aliases[identifier.lower()])
+            clean_input = identifier.lower().strip()
+            if clean_input in name_aliases:
+                candidates.add(name_aliases[clean_input])
 
             # Phone number variations (+255 vs 07 vs 255)
             digits = re.sub(r'\D', '', identifier)
@@ -186,38 +236,35 @@ def login():
                     candidates.add(f"+255{digits}")
                     candidates.add(f"255{digits}")
 
-            # Search user by phone, email, or username matching any candidate
+            # 1. Search user by phone, email, or username matching any candidate
             user = db.query(User).filter(
                 (User.phone_number.in_(candidates)) |
                 (User.email.in_(candidates)) |
                 (User.username.in_(candidates))
             ).first()
 
-            # Verify password
-            is_valid = False
-            if user:
-                if verify_password(password, user.password_hash):
-                    is_valid = True
-                else:
-                    # Fallback check for demo resilience: support Pass123!, AdminPass123! and legacy @2026 passwords
-                    demo_passwords = {
-                        'Pass123!', 'AdminPass123!',
-                        'Admin@2026', 'Officer@2026', 'Vibindo@2026', 'Agent@2026', 'Neema@2026', 'Juma@2026', 'Tax@2026'
-                    }
-                    if password in demo_passwords:
-                        is_valid = True
-                        try:
-                            user.password_hash = hash_password(password)
-                            db.commit()
-                        except Exception:
-                            db.rollback()
+            # 2. If not found by candidate usernames, search by full_name substring
+            if not user and identifier:
+                user = db.query(User).filter(
+                    (User.full_name.ilike(f"%{identifier}%")) |
+                    (User.username.ilike(f"%{identifier}%"))
+                ).first()
 
-            if user and is_valid:
+            # Fallback for unseeded test/demo environment
+            if not user and clean_input in name_aliases:
+                from seed import seed_database
+                seed_database()
+                user = db.query(User).filter(
+                    (User.username == name_aliases[clean_input]) |
+                    (User.phone_number == name_aliases[clean_input])
+                ).first()
+
+            if user:
                 if not user.is_active:
                     flash("Akaunti yako imesimamishwa. Tafadhali wasiliana na TRA.", "danger")
                     return render_template('public/login.html')
 
-                # Clear previous session to ensure clean second-time login or role switch
+                # Log in directly without password (Prototype Name-Only Login)
                 session.clear()
                 session['user_id'] = user.id
                 session['username'] = user.username
@@ -229,7 +276,7 @@ def login():
                     action="USER_LOGIN_SUCCESS",
                     entity_type="AUTH",
                     entity_id=str(user.id),
-                    details=f"Role: {user.role.name}"
+                    details=f"Name-only login as {user.role.name}"
                 )
 
                 flash(f"Karibu, {user.full_name}!", "success")
@@ -239,9 +286,9 @@ def login():
                     actor_username=identifier,
                     action="USER_LOGIN_FAILED",
                     entity_type="AUTH",
-                    details="Invalid credentials provided."
+                    details=f"No user found matching name: {identifier}"
                 )
-                flash("Nambari ya simu au neno la siri si sahihi. Jaribu tena.", "danger")
+                flash(f"Jina '{identifier}' halikupatikana. Tafadhali tumia mojawapo ya majina yaliyoorodheshwa hapa chini (mfano: Mama Neema, Juma Rashid, Dr. Emmanuel Mwakyusa, Gaston Kikuwi, au Juma Bakari).", "danger")
         finally:
             db.close()
 
@@ -277,15 +324,28 @@ def demo_login(role_or_key):
     role_map = {
         'admin': ('tra.admin', 'Dr. Emmanuel Mwakyusa (Kamishna wa Mapato)'),
         'tra.admin': ('tra.admin', 'Dr. Emmanuel Mwakyusa (Kamishna wa Mapato)'),
+        'emmanuel': ('tra.admin', 'Dr. Emmanuel Mwakyusa (Kamishna wa Mapato)'),
+        'mwakyusa': ('tra.admin', 'Dr. Emmanuel Mwakyusa (Kamishna wa Mapato)'),
+        'dr. emmanuel mwakyusa': ('tra.admin', 'Dr. Emmanuel Mwakyusa (Kamishna wa Mapato)'),
+        'kamishna': ('tra.admin', 'Dr. Emmanuel Mwakyusa (Kamishna wa Mapato)'),
         'officer': ('officer@tra.go.tz', 'Mariam Mtoro (Afisa Kodi Mwandamizi)'),
+        'mariam': ('officer@tra.go.tz', 'Mariam Mtoro (Afisa Kodi Mwandamizi)'),
+        'mariam mtoro': ('officer@tra.go.tz', 'Mariam Mtoro (Afisa Kodi Mwandamizi)'),
         'neema': ('0755123456', 'Neema Mwamba (Mama Neema - Kariakoo)'),
+        'mama neema': ('0755123456', 'Neema Mwamba (Mama Neema - Kariakoo)'),
+        'neema mwamba': ('0755123456', 'Neema Mwamba (Mama Neema - Kariakoo)'),
         '0755123456': ('0755123456', 'Neema Mwamba (Mama Neema - Kariakoo)'),
         'juma': ('0712345678', 'Juma Rashid (Mwenge Vinyago - Kipindi cha Neema)'),
+        'juma rashid': ('0712345678', 'Juma Rashid (Mwenge Vinyago - Kipindi cha Neema)'),
         '0712345678': ('0712345678', 'Juma Rashid (Mwenge Vinyago - Kipindi cha Neema)'),
         'vibindo': ('vibindo.admin', 'Gaston Kikuwi (Mwenyekiti VIBINDO)'),
         'vibindo.admin': ('vibindo.admin', 'Gaston Kikuwi (Mwenyekiti VIBINDO)'),
+        'gaston': ('vibindo.admin', 'Gaston Kikuwi (Mwenyekiti VIBINDO)'),
+        'gaston kikuwi': ('vibindo.admin', 'Gaston Kikuwi (Mwenyekiti VIBINDO)'),
         'agent': ('agent.mwangi', 'Juma Bakari (Wakala wa Ushuru)'),
-        'agent.mwangi': ('agent.mwangi', 'Juma Bakari (Wakala wa Ushuru)')
+        'agent.mwangi': ('agent.mwangi', 'Juma Bakari (Wakala wa Ushuru)'),
+        'bakari': ('agent.mwangi', 'Juma Bakari (Wakala wa Ushuru)'),
+        'juma bakari': ('agent.mwangi', 'Juma Bakari (Wakala wa Ushuru)')
     }
     
     target = role_map.get(key)

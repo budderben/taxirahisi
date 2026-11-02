@@ -110,15 +110,18 @@ Access the application at `http://localhost:5000`.
 
 ---
 
-## 6. Pre-seeded Demo Credentials
+## 6. Prototype Demo Login (Name-Only / No Password Required)
 
-| Role | Username / Identifier | Password | Access Portal |
+For prototype demonstration on Render, passwords are not required. Simply enter the required name or click the prototype demo buttons on the top bar:
+
+| Role | Name Required for Login | Alternative Identifiers | Access Portal |
 | :--- | :--- | :--- | :--- |
-| **Taxpayer (Mama Neema)** | `0755123456` | `Pass123!` | `/portal/dashboard` |
-| **Taxpayer (Juma)** | `0712345678` | `Pass123!` | `/portal/dashboard` |
-| **Association Admin** | `vibindo.admin` au `vibindo@taxrahisi.or.tz` | `Pass123!` | `/association/dashboard` |
-| **Market Agent** | `agent.mwangi` au `agent.juma@taxrahisi.or.tz` | `Pass123!` | `/agent/dashboard` |
-| **TRA Administrator** | `tra.admin` au `admin@taxrahisi.go.tz` | `AdminPass123!` | `/admin/dashboard` |
+| **TRA Administrator (Kamishna)** | `Dr. Emmanuel Mwakyusa` | `tra.admin`, `Kamishna` | `/admin/dashboard` |
+| **Taxpayer (Mama Neema)** | `Mama Neema` | `Neema Mwamba`, `0755123456` | `/portal/dashboard` |
+| **Taxpayer (Juma - Miezi 6 Neema)** | `Juma Rashid` | `Juma`, `0712345678` | `/portal/dashboard` |
+| **Association Admin (VIBINDO)** | `Gaston Kikuwi` | `vibindo.admin`, `VIBINDO` | `/association/dashboard` |
+| **Market Agent** | `Juma Bakari` | `agent.mwangi`, `Wakala Mwangi` | `/agent/dashboard` |
+| **Senior Revenue Officer** | `Mariam Mtoro` | `officer@tra.go.tz` | `/admin/dashboard` |
 
 ---
 

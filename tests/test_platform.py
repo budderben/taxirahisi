@@ -326,26 +326,41 @@ class TaxRahisiPlatformTestSuite(unittest.TestCase):
     # SCENARIO 12: Demo Accounts Authentication & Second-Time Login Switching
     # ==========================================================================
     def test_scenario_12_demo_accounts_login_and_switching(self):
-        # 1. Taxpayer login
-        res_tp = self.client.post('/login', data={'identifier': '0712345678', 'password': 'Pass123!'}, follow_redirects=False)
+        # 1. Taxpayer login by phone (passwordless)
+        res_tp = self.client.post('/login', data={'identifier': '0712345678'}, follow_redirects=False)
         self.assertEqual(res_tp.status_code, 302)
         self.assertEqual(res_tp.headers.get('Location'), '/portal/dashboard')
         with self.client.session_transaction() as sess:
             self.assertEqual(sess.get('user_role'), 'taxpayer')
 
-        # 2. Second login as TRA Admin without logging out first
-        res_admin = self.client.post('/login', data={'identifier': 'tra.admin', 'password': 'AdminPass123!'}, follow_redirects=False)
+        # 2. Login by friendly name: 'Mama Neema' (passwordless)
+        res_neema = self.client.post('/login', data={'identifier': 'Mama Neema'}, follow_redirects=False)
+        self.assertEqual(res_neema.status_code, 302)
+        self.assertEqual(res_neema.headers.get('Location'), '/portal/dashboard')
+        with self.client.session_transaction() as sess:
+            self.assertEqual(sess.get('user_role'), 'taxpayer')
+            self.assertIn('Neema', sess.get('full_name'))
+
+        # 3. Login by friendly name: 'Dr. Emmanuel Mwakyusa' (TRA Admin)
+        res_admin = self.client.post('/login', data={'identifier': 'Dr. Emmanuel Mwakyusa'}, follow_redirects=False)
         self.assertEqual(res_admin.status_code, 302)
         self.assertEqual(res_admin.headers.get('Location'), '/admin/dashboard')
         with self.client.session_transaction() as sess:
             self.assertEqual(sess.get('user_role'), 'super_admin')
 
-        # 3. Third login as Association Admin
-        res_assoc = self.client.post('/login', data={'identifier': 'vibindo.admin', 'password': 'Pass123!'}, follow_redirects=False)
+        # 4. Login by friendly name: 'Gaston Kikuwi' (Association Admin)
+        res_assoc = self.client.post('/login', data={'identifier': 'Gaston Kikuwi'}, follow_redirects=False)
         self.assertEqual(res_assoc.status_code, 302)
         self.assertEqual(res_assoc.headers.get('Location'), '/association/dashboard')
         with self.client.session_transaction() as sess:
             self.assertEqual(sess.get('user_role'), 'association_admin')
+
+        # 5. Login by friendly name: 'Juma Bakari' (Market Agent)
+        res_agent = self.client.post('/login', data={'identifier': 'Juma Bakari'}, follow_redirects=False)
+        self.assertEqual(res_agent.status_code, 302)
+        self.assertEqual(res_agent.headers.get('Location'), '/agent/dashboard')
+        with self.client.session_transaction() as sess:
+            self.assertEqual(sess.get('user_role'), 'association_agent')
 
 if __name__ == '__main__':
     unittest.main()
