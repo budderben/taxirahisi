@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1b365d</color>
+    <color name="colorPrimaryDark">#0f2240</color>
+    <color name="colorAccent">#d4af37</color>
+    <color name="tzGreen">#1e7e34</color>
+    <color name="tzGold">#d4af37</color>
+    <color name="tzBlue">#1b365d</color>
+</resources>

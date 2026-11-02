@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="shieldGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE042"/>
+      <stop offset="100%" stop-color="#C69E00"/>
+    </linearGradient>
+    <linearGradient id="ribbonGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E2E8F0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Mount Kilimanjaro Base Silhouette -->
+  <polygon points="50,380 200,320 350,380 370,410 30,410" fill="#64748B"/>
+  <polygon points="160,336 200,320 240,336 220,350 200,342 180,350" fill="#FFFFFF"/>
+
+  <!-- Elephant Tusks Curves Framing Shield -->
+  <!-- Left Tusk -->
+  <path d="M 90 380 C 40 280 60 160 130 90 C 120 120 90 240 120 370 Z" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <!-- Right Tusk -->
+  <path d="M 310 380 C 360 280 340 160 270 90 C 280 120 310 240 280 370 Z" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+
+  <!-- Central Warrior Shield -->
+  <g transform="translate(130, 80)">
+    <!-- Shield Outline -->
+    <path d="M 0 0 L 140 0 C 140 140 120 220 70 260 C 20 220 0 140 0 0 Z" fill="#FFFFFF" stroke="#0F172A" stroke-width="4"/>
+    
+    <!-- Top 1st Section: Torch of Freedom on Golden Field -->
+    <path d="M 0 0 L 140 0 L 140 60 L 0 60 Z" fill="url(#shieldGold)"/>
+    <!-- Uhuru Torch Icon -->
+    <path d="M 70 12 L 73 38 L 67 38 Z" fill="#0A2540"/>
+    <circle cx="70" cy="12" r="5" fill="#EF4444"/>
+    <circle cx="70" cy="8" r="3" fill="#FCD116"/>
+
+    <!-- 2nd Section: National Flag of Tanzania -->
+    <g transform="translate(0, 60)">
+      <rect x="0" y="0" width="140" height="70" fill="#1EB53A"/>
+      <polygon points="0,70 140,70 140,0" fill="#00A3DD"/>
+      <polygon points="0,50 100,0 140,0 140,20 40,70 0,70" fill="#FCD116"/>
+      <polygon points="0,60 120,0 140,0 140,10 20,70 0,70" fill="#0F172A"/>
+    </g>
+
+    <!-- 3rd Section: Red Soil / Earth with Axe and Hoe -->
+    <path d="M 0 130 L 140 130 L 140 195 L 0 195 Z" fill="#DC2626"/>
+    <!-- Crossed Hoe and Axe -->
+    <line x1="45" y1="145" x2="95" y2="180" stroke="#FFE042" stroke-width="4" stroke-linecap="round"/>
+    <line x1="95" y1="145" x2="45" y2="180" stroke="#FFE042" stroke-width="4" stroke-linecap="round"/>
+
+    <!-- 4th Section: Blue and White Ocean Waves (Indian Ocean & Great Lakes) -->
+    <g transform="translate(0, 195)">
+      <path d="M 0 0 L 140 0 C 140 50 120 85 70 115 C 20 85 0 50 0 0 Z" fill="#0284C7"/>
+      <!-- Waves -->
+      <path d="M 10 15 Q 35 25 70 15 Q 105 5 130 15" stroke="#FFFFFF" stroke-width="3" fill="none"/>
+      <path d="M 20 35 Q 45 45 70 35 Q 95 25 120 35" stroke="#FFFFFF" stroke-width="3" fill="none"/>
+      <path d="M 35 55 Q 52 63 70 55 Q 88 47 105 55" stroke="#FFFFFF" stroke-width="3" fill="none"/>
+    </g>
+  </g>
+
+  <!-- Supporters: Man (Left) and Woman (Right) -->
+  <!-- Man on Left -->
+  <g transform="translate(60, 150)">
+    <!-- Head -->
+    <circle cx="25" cy="20" r="14" fill="#6B4226"/>
+    <!-- Body / Shirt -->
+    <path d="M 10 38 L 40 38 L 45 150 L 5 150 Z" fill="#FCD116"/>
+    <line x1="25" y1="150" x2="25" y2="230" stroke="#6B4226" stroke-width="10"/>
+  </g>
+
+  <!-- Woman on Right -->
+  <g transform="translate(300, 150)">
+    <!-- Head -->
+    <circle cx="15" cy="20" r="14" fill="#6B4226"/>
+    <!-- Kanga / Dress -->
+    <path d="M -5 38 L 35 38 L 45 160 L -15 160 Z" fill="#1EB53A"/>
+    <line x1="15" y1="160" x2="15" y2="230" stroke="#6B4226" stroke-width="10"/>
+  </g>
+
+  <!-- Bottom National Motto Banner: UHURU NA UMOJA -->
+  <g transform="translate(200, 420)">
+    <!-- Ribbon Shadow & Background -->
+    <path d="M -160 0 L 160 0 L 140 35 L -140 35 Z" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+    <polygon points="-160,0 -185,-12 -160,-24 -140,0" fill="#E2E8F0"/>
+    <polygon points="160,0 185,-12 160,-24 140,0" fill="#E2E8F0"/>
+    
+    <text x="0" y="24" fill="#0F172A" font-family="'Outfit', 'Inter', sans-serif" font-weight="900" font-size="18" text-anchor="middle" letter-spacing="4">
+      UHURU NA UMOJA
+    </text>
+  </g>
+</svg>

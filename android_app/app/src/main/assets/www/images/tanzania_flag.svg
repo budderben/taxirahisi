@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+  <!-- Top Green Field -->
+  <polygon points="0,0 600,0 0,400" fill="#1EB53A"/>
+  
+  <!-- Bottom Blue Field -->
+  <polygon points="600,0 600,400 0,400" fill="#00A3DD"/>
+  
+  <!-- Yellow Diagonal Borders -->
+  <polygon points="0,300 450,0 600,0 600,100 150,400 0,400" fill="#FCD116"/>
+  
+  <!-- Black Center Diagonal Stripe -->
+  <polygon points="0,335 500,0 600,0 600,65 100,400 0,400" fill="#000000"/>
+</svg>

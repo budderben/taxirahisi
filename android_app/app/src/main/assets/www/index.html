@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="sw-TZ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TaxRahisi Mobile | TRA</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Ambient Glowing Orbs for Frosted Glass Depth -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <!-- SVG Icon Definitions -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="icon-coins" viewBox="0 0 24 24"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M18 8a6 6 0 0 1-6 6M18 14a6 6 0 0 1-6 6" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+        <symbol id="icon-phone" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+        <symbol id="icon-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+        <symbol id="icon-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="2" y1="10" x2="22" y2="10" stroke="currentColor" stroke-width="2"/></symbol>
+        <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="9 12 11 14 15 10" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+        <symbol id="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+        <symbol id="icon-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+        <symbol id="icon-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="2"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+        <symbol id="icon-signal" viewBox="0 0 24 24"><path d="M2 20h2M7 20v-4M12 20v-8M17 20V8M22 20V4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+        <symbol id="icon-receipt" viewBox="0 0 24 24"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1z" fill="none" stroke="currentColor" stroke-width="2"/><line x1="8" y1="7" x2="16" y2="7" stroke="currentColor" stroke-width="2"/><line x1="8" y1="11" x2="16" y2="11" stroke="currentColor" stroke-width="2"/><line x1="8" y1="15" x2="13" y2="15" stroke="currentColor" stroke-width="2"/></symbol>
+        <symbol id="icon-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="19" r="3" fill="none" stroke="currentColor" stroke-width="2"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49" stroke="currentColor" stroke-width="2"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49" stroke="currentColor" stroke-width="2"/></symbol>
+        <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2"/></symbol>
+        <symbol id="icon-volume" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+        <symbol id="icon-building" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M8 10h.01M16 10h.01M8 14h.01M16 14h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    </svg>
+
+    <!-- Top App Bar -->
+    <header class="app-header">
+        <div class="header-inner">
+            <div class="brand-box">
+                <img src="images/tra_icon.png" alt="TRA" class="logo-img">
+                <div class="brand-text">
+                    <h1>
+                        TaxRahisi
+                        <span class="brand-badge">TRA TZ</span>
+                    </h1>
+                    <p class="brand-subtitle" id="lbl-subtitle">Mamlaka ya Mapato Tanzania</p>
+                </div>
+            </div>
+
+            <!-- Top Actions: Language & Server Status -->
+            <div class="header-actions">
+                <button type="button" id="langToggleBtn" onclick="toggleLanguage()" class="btn-pill">
+                    <svg class="icon-svg icon-sm"><use href="#icon-globe"/></svg>
+                    <span id="currentLangLabel">EN</span>
+                </button>
+                <button type="button" onclick="toggleServerModal()" class="btn-pill online">
+                    <svg class="icon-svg icon-sm"><use href="#icon-signal"/></svg>
+                    <span id="connStatusLabel">Offline</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- National Ribbon Accent -->
+        <div class="national-bar"></div>
+
+        <!-- Official TRA Banner Header -->
+        <div class="banner-strip">
+            <img src="images/tra_banner.png" alt="TRA Banner">
+        </div>
+
+        <!-- Prototype Quick Account Switcher (Website Parity) -->
+        <div class="demo-bar-container">
+            <span class="demo-bar-label">
+                <svg class="icon-svg icon-sm icon-gold"><use href="#icon-user"/></svg>
+                Demo:
+            </span>
+            <button type="button" class="demo-chip active" id="demo-mama" onclick="selectDemoProfile('mama')">
+                Mama Neema (Mama Lishe)
+            </button>
+            <button type="button" class="demo-chip" id="demo-juma" onclick="selectDemoProfile('juma')">
+                Juma Hamisi (Miezi 6 Neema)
+            </button>
+            <button type="button" class="demo-chip" id="demo-vibindo" onclick="selectDemoProfile('vibindo')">
+                John Mrema (VIBINDO)
+            </button>
+            <button type="button" class="demo-chip" id="demo-agent" onclick="selectDemoProfile('agent')">
+                Juma Bakari (Wakala)
+            </button>
+            <button type="button" class="demo-chip" id="demo-admin" onclick="selectDemoProfile('admin')">
+                Dr. Mwakyusa (TRA)
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+
+        <!-- ====================================================================
+             TAB 1: CALCULATOR (KIKOKOTOO CHA CAP 332)
+             ==================================================================== -->
+        <section id="tab-calculator" class="tab-pane active">
+
+            <!-- Photographic Welcome Banner -->
+            <div class="card-image-bg card-image-market">
+                <div class="card-badge" style="background:rgba(252, 209, 22, 0.25); border-color:var(--gold-accent); color:var(--gold-light); margin-bottom:8px;">
+                    <svg class="icon-svg icon-sm icon-gold"><use href="#icon-shield"/></svg>
+                    <span>SHERIA YA KODI YA MAPATO (CAP 332 R.E. 2023)</span>
+                </div>
+                <h2 style="font-size:1.15rem; font-weight:800; margin-bottom:4px;">Kila Mfanyabiashara Ana Thamani</h2>
+                <p>Kadiria kodi yako ya mwaka kwa uwazi, panga awamu za malipo, na ufaidike na unafuu wa miezi 6 ya neema kwa biashara mpya bila faini.</p>
+            </div>
+
+            <div class="app-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <svg class="icon-svg icon-gold"><use href="#icon-coins"/></svg>
+                        <span data-i18n="calc_title">Kikokotoo cha Kodi ya Makadirio</span>
+                    </h2>
+                    <span class="card-badge">Cap 332</span>
+                </div>
+
+                <p class="card-desc" data-i18n="calc_desc">
+                    Hesabu kodi yako kwa urahisi kulingana na mauzo yako ya mwaka bila mahesabu magumu.
+                </p>
+
+                <!-- Turnover Input -->
+                <div class="form-group">
+                    <label class="form-label" data-i18n="turnover_label">
+                        Mauzo Yaliyokadiriwa kwa Mwaka (TZS):
+                    </label>
+                    <div class="input-with-prefix">
+                        <span class="input-prefix">TZS</span>
+                        <input type="number" id="calcTurnover" value="6500000" step="250000" min="0" max="200000000"
+                               oninput="calculateTax()" class="form-input has-prefix">
+                    </div>
+                </div>
+
+                <!-- Preset Chips -->
+                <div class="chips-container">
+                    <button type="button" onclick="setPresetTurnover(3500000)" class="chip">3.5M (Bure)</button>
+                    <button type="button" onclick="setPresetTurnover(6500000)" class="chip active">6.5M (Mama Lishe)</button>
+                    <button type="button" onclick="setPresetTurnover(9500000)" class="chip">9.5M (Machinga)</button>
+                    <button type="button" onclick="setPresetTurnover(13000000)" class="chip">13M (Kariakoo)</button>
+                    <button type="button" onclick="setPresetTurnover(25000000)" class="chip">25M (Duka)</button>
+                </div>
+
+                <!-- Category Selector (Transport / Standard) -->
+                <div class="form-group">
+                    <label class="form-label">Kundi Maalumu la Biashara (Optional):</label>
+                    <select id="calcCategory" class="form-input" onchange="calculateTax()" style="padding:8px 10px; font-size:0.8rem; font-weight:700;">
+                        <option value="general">Biashara ya Kawaida / Soko (Presumptive General)</option>
+                        <option value="bodaboda">Bodaboda / Pikipiki ya Abiria (TZS 65,000 / mwaka)</option>
+                        <option value="bajaj">Bajaj / Pikipiki ya Miguu 3 (TZS 120,000 / mwaka)</option>
+                        <option value="daladala">Daladala ya Mjini (TZS 250,000 / mwaka)</option>
+                        <option value="lori">Gari la Mizigo Tani 1 - 3 (TZS 450,000 / mwaka)</option>
+                    </select>
+                </div>
+
+                <!-- Record Keeping Toggle -->
+                <div class="toggle-card">
+                    <div>
+                        <span class="form-label" style="margin-bottom:0;" data-i18n="record_toggle">Una rekodi za hesabu (Daftari la Mauzo)?</span>
+                        <span style="font-size:0.6875rem; color:#64748b;" data-i18n="record_sub">Pata unafuu wa asilimia 3% ya mauzo</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="calcHasRecords" onchange="calculateTax()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- Calculation Result Box -->
+                <div class="result-card">
+                    <div class="result-card-header">
+                        <span class="result-card-title" data-i18n="total_tax">KODI YA MWAKA (ANNUAL TAX):</span>
+                        <span id="taxBandBadge" class="brand-badge">Band 2</span>
+                    </div>
+                    <div class="result-amount" id="totalTaxDisplay">
+                        TZS 100,000
+                    </div>
+
+                    <!-- Installments Breakdown -->
+                    <div class="installments-grid">
+                        <div class="installment-item">
+                            <span class="installment-lbl" data-i18n="quarterly">Robo Mwaka (Qtr)</span>
+                            <span class="installment-val" id="quarterlyDisplay">TZS 25,000</span>
+                        </div>
+                        <div class="installment-item">
+                            <span class="installment-lbl" data-i18n="monthly">Kila Mwezi</span>
+                            <span class="installment-val" id="monthlyDisplay">TZS 8,333</span>
+                        </div>
+                        <div class="installment-item">
+                            <span class="installment-lbl" data-i18n="weekly">Kila Wiki</span>
+                            <span class="installment-val" id="weeklyDisplay">TZS 1,923</span>
+                        </div>
+                    </div>
+
+                    <!-- 3% Market Development Reinvestment -->
+                    <div style="margin-top:10px; padding-top:8px; border-top:1px dashed var(--gold-border); font-size:0.7rem; color:var(--gold-dark); display:flex; align-items:center; gap:6px;">
+                        <svg class="icon-svg icon-sm icon-gold"><use href="#icon-award"/></svg>
+                        <span><strong>Gawio la Soko (3%):</strong> TZS <span id="marketShareDisplay">3,000</span> inarejeshwa kwa miradi ya soko lako (Taa za sola, vyoo, usafi).</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                    <button type="button" onclick="transferToPayment()" class="btn-primary">
+                        <svg class="icon-svg"><use href="#icon-card"/></svg>
+                        <span data-i18n="pay_via_gepg">Lipa kwa GePG</span>
+                    </button>
+                    <button type="button" onclick="switchTab('ussd')" class="btn-outline">
+                        <svg class="icon-svg icon-gold"><use href="#icon-phone"/></svg>
+                        <span>Piga *152*00#</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tax Rate Table Card -->
+            <div class="app-card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <svg class="icon-svg icon-gold"><use href="#icon-award"/></svg>
+                        <span data-i18n="tax_rates_title">Viwango Rasmi vya Cap 332 R.E. 2023</span>
+                    </h3>
+                </div>
+                <div style="overflow-x:auto;">
+                    <table class="tax-table">
+                        <thead>
+                            <tr>
+                                <th>Mauzo ya Mwaka</th>
+                                <th>Bila Kumbukumbu</th>
+                                <th>Ukiwa na Kumbukumbu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight:700;">Hadi TZS 4,000,000</td>
+                                <td class="free">TZS 0 (Bure)</td>
+                                <td class="free">TZS 0 (Bure)</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:700;">4,000,001 - 7,000,000</td>
+                                <td>TZS 100,000</td>
+                                <td>3% ya ziada ya 4M</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:700;">7,000,001 - 11,000,000</td>
+                                <td>TZS 250,000</td>
+                                <td>TZS 90,000 + 3%</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:700;">11,000,001 - 200,000,000</td>
+                                <td>4.0% ya mauzo</td>
+                                <td>4.0% ya mauzo</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====================================================================
+             TAB 2: USSD SIMULATOR (TACTILE BUTTON PHONE HARDWARE MODEL)
+             ==================================================================== -->
+        <section id="tab-ussd" class="tab-pane">
+
+            <!-- Persona & Sound Options -->
+            <div class="app-card" style="padding:12px; margin-bottom:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+                    <div style="flex:1;">
+                        <label class="form-label" style="margin-bottom:2px;">Chagua Mfanyabiashara:</label>
+                        <select id="personaSelect" class="form-input" onchange="onPersonaChange()" style="padding:6px 8px; font-size:0.75rem;">
+                            <option value="0755123456" selected>Mama Neema (Ilala - Mama Lishe)</option>
+                            <option value="0712345678">Juma Hamisi (Kariakoo - Miezi 6 Neema)</option>
+                            <option value="0784998877">John Mrema (Mwenge - VIBINDO)</option>
+                            <option value="0768222333">Juma Bakari (Temeke - Wakala)</option>
+                            <option value="0799887766">Mfanyabiashara Mpya (Bila TIN)</option>
+                        </select>
+                    </div>
+                    <button type="button" id="btnToggleAudio" onclick="toggleAudio()" class="btn-pill online" style="margin-top:14px;">
+                        <svg class="icon-svg icon-sm"><use href="#icon-volume"/></svg>
+                        <span id="audioStatusLbl">Sauti: ON</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TACTILE BUTTON PHONE HARDWARE MODEL WITH GLASS BEZEL -->
+            <div class="phone-chassis">
+                <!-- Top Speaker -->
+                <div class="phone-speaker"></div>
+
+                <!-- Brand Plaque -->
+                <div class="phone-brand-label">
+                    TAXRAHISI &bull; TRA KITOCHI
+                </div>
+
+                <!-- Screen Bezel -->
+                <div class="screen-bezel">
+                    <!-- Dot-Matrix Backlit LCD Screen -->
+                    <div class="lcd-display" id="lcdDisplay">
+                        <!-- Status Bar -->
+                        <div class="lcd-status-bar">
+                            <span id="lcdCarrier">AIRTEL TZ</span>
+                            <span id="lcdClock">12:00</span>
+                            <span>BAT: 85%</span>
+                        </div>
+
+                        <!-- LCD Monospace Content -->
+                        <div class="lcd-content" id="lcdTextDisplay">MAMLAKA YA MAPATO (TRA)
+Karibu TaxRahisi USSD
+-----------------------
+Piga *152*00# kuanza
+au bofya kitufe cha PIGA</div>
+
+                        <!-- Inside Screen Input Field -->
+                        <div class="lcd-input-bar">
+                            <span style="font-weight:900;">&gt;</span>
+                            <input type="text" id="lcdInputField" class="lcd-input-field" placeholder="Ingiza hapa..." autocomplete="off">
+                        </div>
+
+                        <!-- Softkey Hints -->
+                        <div class="lcd-softkeys">
+                            <span id="lcdSoftLeft">[ SAWA ]</span>
+                            <span id="lcdSoftRight">[ FUTA ]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Cluster -->
+                <div class="nav-cluster">
+                    <button type="button" class="btn-softkey" onclick="handleSoftLeft()">
+                        SAWA
+                    </button>
+                    <div class="d-pad" onclick="handleSoftLeft()">
+                        OK
+                    </div>
+                    <button type="button" class="btn-softkey" onclick="handleSoftRight()">
+                        FUTA
+                    </button>
+                </div>
+
+                <!-- Call & End Cluster -->
+                <div class="call-end-cluster">
+                    <button type="button" class="btn-call" onclick="handleCall()">
+                        <svg class="icon-svg icon-sm"><use href="#icon-phone"/></svg>
+                        <span>PIGA</span>
+                    </button>
+                    <button type="button" class="btn-end" onclick="handleEnd()">
+                        <svg class="icon-svg icon-sm"><use href="#icon-phone"/></svg>
+                        <span>KATA</span>
+                    </button>
+                </div>
+
+                <!-- 12-Key Alphanumeric Keypad -->
+                <div class="keypad-grid">
+                    <button type="button" class="key-btn" onclick="pressKey('1')">
+                        <span class="key-num">1</span>
+                        <span class="key-sub">. - _</span>
+                    </button>
+                    <button type="button" class="key-btn" onclick="pressKey('2')">
+                        <span class="key-num">2</span>
+                        <span class="key-sub">ABC</span>
+                    </button>
+                    <button type="button" class="key-btn" onclick="pressKey('3')">
+                        <span class="key-num">3</span>
+                        <span class="key-sub">DEF</span>
+                    </button>
+                    <button type="button" class="key-btn" onclick="pressKey('4')">
+                        <span class="key-num">4</span>
+                        <span class="key-sub">GHI</span>
+                    </button>
+                    <button type="button" class="key-btn" onclick="pressKey('5')">
+                        <span class="key-num">5</span>
+                        <span class="key-sub">JKL</span>
+                    </button>
+                    <button type="button" class="key-btn" onclick="pressKey('6')">
+                        <span class="key-num">6</span>
+                        <span class="key-sub">MNO</span>
+                    </button>
+                    <button type="button" class="key-btn" onclick="pressKey('7')">
+                        <span class="key-num">7</span>
+                        <span class="key-sub">PQRS</span>
+                    </button>
+                    <button type="button" class="key-btn" onclick="pressKey('8')">
+                        <span class="key-num">8</span>
+                        <span class="key-sub">TUV</span>
+                    </button>
+                    <button type="button" class="key-btn" onclick="pressKey('9')">
+                        <span class="key-num">9</span>
+                        <span class="key-sub">WXYZ</span>
+                    </button>
+                    <button type="button" class="key-btn" onclick="pressKey('*')">
+                        <span class="key-num">*</span>
+                        <span class="key-sub">+</span>
+                    </button>
+                    <button type="button" class="key-btn" onclick="pressKey('0')">
+                        <span class="key-num">0</span>
+                        <span class="key-sub">SPACE</span>
+                    </button>
+                    <button type="button" class="key-btn" onclick="pressKey('#')">
+                        <span class="key-num">#</span>
+                        <span class="key-sub">&#x21E7;</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Native Dial Launcher -->
+            <button type="button" onclick="dialNativeUssd('*152*00#')" class="btn-primary" style="margin-top:4px;">
+                <svg class="icon-svg"><use href="#icon-phone"/></svg>
+                <span>Piga *152*00# Kwenye Simu Halisi (Dialer)</span>
+            </button>
+        </section>
+
+        <!-- ====================================================================
+             TAB 3: REGISTRATION (USAJILI WA NIDA & TIN + MIEZI 6 NEEMA)
+             ==================================================================== -->
+        <section id="tab-register" class="tab-pane">
+
+            <!-- Photographic Artisan Banner -->
+            <div class="card-image-bg card-image-artisan">
+                <div class="card-badge" style="background:rgba(252, 209, 22, 0.25); border-color:var(--gold-accent); color:var(--gold-light); margin-bottom:8px;">
+                    <svg class="icon-svg icon-sm icon-gold"><use href="#icon-award"/></svg>
+                    <span>USAJILI WA PAPO HAPO (DAKIKA 2)</span>
+                </div>
+                <h2 style="font-size:1.15rem; font-weight:800; margin-bottom:4px;">Pata TIN Yako Papo Hapo</h2>
+                <p>Uhakiki wa moja kwa moja wa NIDA unakuwezesha kupata namba ya TIN mara moja na kufaidika na kipindi cha neema cha miezi sita (6) kujisajili bila faini au adhabu.</p>
+            </div>
+
+            <div class="app-card">
+                <!-- Grace Period Notice (Website Parity) -->
+                <div style="background:rgba(252, 209, 22, 0.15); border:1.5px solid var(--gold-border); border-radius:var(--radius-md); padding:12px 14px; margin-bottom:14px; backdrop-filter:blur(8px);">
+                    <div style="font-weight:800; color:var(--gold-dark); font-size:0.775rem; margin-bottom:3px; display:flex; align-items:center; gap:6px;">
+                        <svg class="icon-svg icon-sm icon-gold"><use href="#icon-shield"/></svg>
+                        <span data-i18n="grace_badge">Kipindi cha Neema (Grace Period) cha Miezi Sita:</span>
+                    </div>
+                    <p data-i18n="grace_desc" style="font-size:0.725rem; color:#594406; line-height:1.45;">
+                        Mara baada ya mfumo wa TaxRahisi kuanza kutumika, kutakuwa na kipindi cha neema cha miezi sita (6) kitakachowapa wafanyabiashara ambao bado hawajasajiliwa au kujiunga na mfumo wa ulipaji kodi fursa ya kujisajili na kujiunga kwa hiari bila kutozwa faini au adhabu yoyote.
+                    </p>
+                </div>
+
+                <form id="regForm" onsubmit="handleRegistration(event)">
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="full_name">Jina Kamili la Mfanyabiashara:</label>
+                        <input type="text" id="regFullName" required value="Neema Juma Mwangi" placeholder="Juma Rashid Bakari" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="phone_number">Namba ya Simu (M-Pesa / Tigo Pesa):</label>
+                        <input type="tel" id="regPhone" required value="0755123456" placeholder="07XXXXXXXX" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="nida_number">Namba ya NIDA (Tarakimu 20):</label>
+                        <input type="text" id="regNida" required value="19850412-11101-00001-23" class="form-input" style="font-family:monospace; font-weight:700;">
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;" class="form-group">
+                        <div>
+                            <label class="form-label" data-i18n="market_loc">Soko / Eneo:</label>
+                            <select id="regMarket" class="form-input" style="padding:8px 10px; font-size:0.775rem;">
+                                <option value="Kariakoo">Soko Kuu Kariakoo</option>
+                                <option value="Mwenge">Mwenge Crafts Market</option>
+                                <option value="Ilala">Machinga Complex Ilala</option>
+                                <option value="Buguruni">Soko la Buguruni</option>
+                                <option value="Tegeta">Tegeta Nyuki Market</option>
+                                <option value="Tandale">Soko la Tandale</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label" data-i18n="biz_type">Aina ya Biashara:</label>
+                            <select id="regBizType" class="form-input" style="padding:8px 10px; font-size:0.775rem;">
+                                <option value="Mama Lishe">Mama Lishe (Chakula)</option>
+                                <option value="Machinga Nguo">Machinga (Nguo & Viatu)</option>
+                                <option value="Bodaboda">Bodaboda / Usafirishaji</option>
+                                <option value="Fundi Simu">Fundi Simu & Vifaa</option>
+                                <option value="Matunda & Mboga">Matunda & Mbogamboga</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="association">Chama cha Wafanyabiashara:</label>
+                        <select id="regAssoc" class="form-input" style="padding:8px 10px; font-size:0.775rem;">
+                            <option value="VIBINDO Society">VIBINDO Society (Vikundi vya Biashara Ndogo)</option>
+                            <option value="UWAWAMA">UWAWAMA (Umoja wa Wamachinga Mkoa)</option>
+                            <option value="WAMAKU">WAMAKU (Wafanyabiashara Kariakoo)</option>
+                            <option value="Umoja wa Bodaboda TZ">Umoja wa Waendesha Bodaboda TZ</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="margin-top:8px;">
+                        <svg class="icon-svg"><use href="#icon-check"/></svg>
+                        <span data-i18n="btn_register">Thibitisha NIDA na Toa TIN</span>
+                    </button>
+                </form>
+
+                <!-- Success Box -->
+                <div id="regSuccessCard" class="hidden" style="margin-top:14px; padding:14px; background:rgba(240, 253, 244, 0.9); border:2px solid #86EFAC; border-radius:var(--radius-lg); backdrop-filter:blur(10px);">
+                    <div style="font-weight:800; font-size:0.875rem; color:#166534; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+                        <svg class="icon-svg icon-sm" style="color:#166534;"><use href="#icon-check"/></svg>
+                        <span>Usajili Umekamilika kwa Mafanikio!</span>
+                    </div>
+                    <div style="font-size:0.775rem; color:#14532D; line-height:1.6;">
+                        <p>Jina: <strong id="resName"></strong></p>
+                        <p>TIN Mpya: <strong id="resTin" style="font-family:monospace; color:#087A45; font-size:1rem;"></strong></p>
+                        <p>Chama: <span id="resAssoc"></span></p>
+                        <p style="color:#7A5C05; font-size:0.725rem; font-weight:700;">Umepewa cheti cha nafuu ya kipindi cha neema cha miezi sita (6) bila faini wala adhabu.</p>
+                    </div>
+                    <button type="button" onclick="viewGeneratedCard()" class="btn-secondary" style="margin-top:10px; padding:9px;">
+                        Tazama Kadi ya Mlipakodi ➔
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====================================================================
+             TAB 4: PAYMENTS (MALIPO YA GEPG)
+             ==================================================================== -->
+        <section id="tab-payments" class="tab-pane">
+
+            <!-- Photographic Trader Banner -->
+            <div class="card-image-bg card-image-trader">
+                <div class="card-badge" style="background:rgba(252, 209, 22, 0.25); border-color:var(--gold-accent); color:var(--gold-light); margin-bottom:8px;">
+                    <svg class="icon-svg icon-sm icon-gold"><use href="#icon-card"/></svg>
+                    <span>GOVERNMENT E-PAYMENT GATEWAY (GEPG)</span>
+                </div>
+                <h2 style="font-size:1.15rem; font-weight:800; margin-bottom:4px;">Malipo Salama ya Serikali</h2>
+                <p>Lipa moja kwa moja kupitia Vodacom M-Pesa, Tigo Pesa, Airtel Money, au HaloPesa kwa Namba ya Control (991...).</p>
+            </div>
+
+            <div class="app-card">
+                <div class="form-group">
+                    <label class="form-label" data-i18n="control_num_label">Namba ya Kumbukumbu ya Malipo (GePG Control No):</label>
+                    <div style="display:flex; gap:6px;">
+                        <input type="text" id="payControlNumber" value="991240091823" readonly class="form-input" style="font-family:monospace; font-weight:900; font-size:1.1rem; color:var(--primary-dark); background:rgba(252, 209, 22, 0.15); border-color:var(--gold-border);">
+                        <button type="button" onclick="generateNewControlNumber()" class="btn-pill" style="background:var(--primary-deep); color:var(--gold-accent); border:1px solid var(--gold-border); padding:0 12px; white-space:nowrap;">
+                            Tengeneza
+                        </button>
+                    </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;" class="form-group">
+                    <div>
+                        <label class="form-label">Kiasi (TZS):</label>
+                        <input type="number" id="payAmount" value="25000" step="5000" class="form-input" style="font-weight:800; font-size:1rem;">
+                    </div>
+                    <div>
+                        <label class="form-label">Awamu ya Malipo:</label>
+                        <select id="payInstallmentType" class="form-input" style="padding:9px 8px; font-size:0.775rem;">
+                            <option value="Robo ya 1 (Q1)">Robo ya 1 (Q1)</option>
+                            <option value="Robo ya 2 (Q2)">Robo ya 2 (Q2)</option>
+                            <option value="Robo ya 3 (Q3)">Robo ya 3 (Q3)</option>
+                            <option value="Robo ya 4 (Q4)">Robo ya 4 (Q4)</option>
+                            <option value="Mwaka Mzima">Mwaka Mzima</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Mtandao wa Malipo ya Simu:</label>
+                    <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px;">
+                        <label style="border:1.5px solid #FECACA; border-radius:var(--radius-md); padding:8px 4px; text-align:center; background:rgba(254, 242, 242, 0.85); backdrop-filter:blur(6px); cursor:pointer;">
+                            <input type="radio" name="payProvider" value="M-Pesa" checked style="display:none;">
+                            <span style="font-size:0.725rem; font-weight:800; color:#DC2626; display:block;">M-Pesa</span>
+                            <span style="font-size:0.6rem; color:#64748B;">Vodacom</span>
+                        </label>
+                        <label style="border:1.5px solid #BFDBFE; border-radius:var(--radius-md); padding:8px 4px; text-align:center; background:rgba(239, 246, 255, 0.85); backdrop-filter:blur(6px); cursor:pointer;">
+                            <input type="radio" name="payProvider" value="Tigo Pesa" style="display:none;">
+                            <span style="font-size:0.725rem; font-weight:800; color:#2563EB; display:block;">Tigo</span>
+                            <span style="font-size:0.6rem; color:#64748B;">Mixx</span>
+                        </label>
+                        <label style="border:1.5px solid #FECDD3; border-radius:var(--radius-md); padding:8px 4px; text-align:center; background:rgba(255, 241, 242, 0.85); backdrop-filter:blur(6px); cursor:pointer;">
+                            <input type="radio" name="payProvider" value="Airtel Money" style="display:none;">
+                            <span style="font-size:0.725rem; font-weight:800; color:#E11D48; display:block;">Airtel</span>
+                            <span style="font-size:0.6rem; color:#64748B;">Money</span>
+                        </label>
+                        <label style="border:1.5px solid #FED7AA; border-radius:var(--radius-md); padding:8px 4px; text-align:center; background:rgba(255, 247, 237, 0.85); backdrop-filter:blur(6px); cursor:pointer;">
+                            <input type="radio" name="payProvider" value="HaloPesa" style="display:none;">
+                            <span style="font-size:0.725rem; font-weight:800; color:#EA580C; display:block;">Halo</span>
+                            <span style="font-size:0.6rem; color:#64748B;">Halotel</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="button" onclick="triggerPaymentSimulation()" class="btn-primary" style="margin-top:10px;">
+                    <svg class="icon-svg"><use href="#icon-card"/></svg>
+                    <span>Tuma Maombi ya Malipo (STK Push)</span>
+                </button>
+
+                <!-- Electronic Receipt Box -->
+                <div id="receiptCard" class="hidden" style="margin-top:14px; padding:16px; background:rgba(255, 255, 255, 0.95); backdrop-filter:blur(14px); border:2px solid var(--gold-border); border-radius:var(--radius-lg); box-shadow:var(--shadow-md);">
+                    <div style="text-align:center; border-bottom:1px dashed #CBD5E1; padding-bottom:8px; margin-bottom:8px;">
+                        <img src="images/tra_icon.png" alt="TRA" style="width:38px; height:38px; margin:0 auto 4px auto; display:block; border-radius:6px;">
+                        <h4 style="font-size:0.8rem; font-weight:900; color:var(--primary-dark);">MAMLAKA YA MAPATO TANZANIA</h4>
+                        <p style="font-size:0.65rem; color:var(--text-muted); font-weight:700;">STAKABADHI YA KODI YA SERIKALI (GePG)</p>
+                    </div>
+                    <div style="font-size:0.725rem; font-family:monospace; line-height:1.7;">
+                        <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">Tarehe:</span><strong id="rcptDate"></strong></div>
+                        <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">Control No:</span><strong id="rcptCtrl" style="color:var(--primary-dark);"></strong></div>
+                        <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">Mlipaji:</span><strong id="rcptTrader">Mama Neema</strong></div>
+                        <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">TIN:</span><strong id="rcptTin">142-984-102</strong></div>
+                        <div style="display:flex; justify-content:space-between; border-top:1px dashed #CBD5E1; padding-top:4px;"><span style="color:#64748B;">Kiasi Kilicholipwa:</span><strong id="rcptAmount" style="color:#087A45; font-size:0.85rem;"></strong></div>
+                        <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">Mtandao:</span><strong id="rcptProvider"></strong></div>
+                        <div style="display:flex; justify-content:space-between;"><span style="color:#64748B;">Tx ID:</span><strong id="rcptTxId" style="color:#1E40AF;"></strong></div>
+                        <div style="display:flex; justify-content:space-between; border-top:1px dashed #CBD5E1; padding-top:4px; color:var(--gold-dark);"><span style="font-weight:700;">Gawio la Soko (3%):</span><strong id="rcptMarketShare">TZS 750</strong></div>
+                    </div>
+                    <button type="button" onclick="shareOfficialReceipt()" class="btn-secondary" style="margin-top:12px; padding:9px;">
+                        <svg class="icon-svg icon-sm"><use href="#icon-share"/></svg>
+                        <span>Shiriki Risiti (WhatsApp / SMS)</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====================================================================
+             TAB 5: COMPLIANCE CARD (KADI YA MLIPAKODI KIDIITALI)
+             ==================================================================== -->
+        <section id="tab-card" class="tab-pane">
+            <div class="app-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <svg class="icon-svg icon-gold"><use href="#icon-shield"/></svg>
+                        <span>Kadi ya Mlipakodi Kidijitali</span>
+                    </h2>
+                    <span class="card-badge" style="background:#DCFCE7; color:#15803D; border-color:#86EFAC;">Hai & Halali</span>
+                </div>
+
+                <!-- Digital Holographic Glass ID Card Container -->
+                <div class="digital-id-card">
+                    <div class="digital-card-top">
+                        <div class="digital-card-brand">
+                            <img src="images/tra_icon.png" alt="TRA">
+                            <div class="digital-card-brand-text">
+                                <h3>MAMLAKA YA MAPATO TANZANIA</h3>
+                                <p>Kadi ya Utambulisho wa Mlipakodi</p>
+                            </div>
+                        </div>
+                        <img src="images/tanzania_coat_of_arms.svg" alt="TZ" class="digital-card-arms">
+                    </div>
+
+                    <div class="digital-card-content">
+                        <img src="images/mama_neema.jpg" alt="Trader Photo" id="cardPhoto" class="digital-card-photo">
+                        <div class="digital-card-info">
+                            <p class="digital-card-name" id="cardName">Neema Juma Mwangi</p>
+                            <p>TIN: <span id="cardTin" style="font-family:monospace; font-weight:800; color:var(--gold-accent);">142-984-102</span></p>
+                            <p>Biashara: <span id="cardBiz">Mama Lishe (Chakula)</span></p>
+                            <p>Soko: <span id="cardMarket">Soko Kuu Kariakoo</span></p>
+                            <p>Chama: <span id="cardAssoc" style="color:var(--gold-accent); font-weight:700;">VIBINDO Society</span></p>
+                        </div>
+                    </div>
+
+                    <div class="digital-card-footer">
+                        <div class="compliance-badge">
+                            <span class="pulse-dot"></span>
+                            <span id="cardComplianceText">HALI: AMELIPA KODI (COMPLIANT)</span>
+                        </div>
+                        <div class="qr-placeholder">
+                            <svg viewBox="0 0 24 24" fill="#022416">
+                                <path d="M2 2h8v8H2V2zm2 2v4h4V4H4zm10-2h8v8h-8V2zm2 2v4h4V4h-4zM2 14h8v8H2v-8zm2 2v4h4v-4H4zm14 2h2v4h-2v-4zm-4-4h2v2h-2v-2zm4 0h2v2h-2v-2zm-2 2h2v2h-2v-2zm4 2h2v4h-2v-4z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                    <button type="button" onclick="shareDigitalCard()" class="btn-secondary" style="padding:9px;">
+                        <svg class="icon-svg icon-sm"><use href="#icon-share"/></svg>
+                        <span>Tuma Kadi</span>
+                    </button>
+                    <button type="button" onclick="verifyCardOnline()" class="btn-primary" style="padding:9px;">
+                        <svg class="icon-svg icon-sm"><use href="#icon-search"/></svg>
+                        <span>Hakiki Mtandaoni</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Photographic Reinvestment Card -->
+            <div class="card-image-bg card-image-market">
+                <div class="card-badge" style="background:rgba(252, 209, 22, 0.25); border-color:var(--gold-accent); color:var(--gold-light); margin-bottom:8px;">
+                    <svg class="icon-svg icon-sm icon-gold"><use href="#icon-building"/></svg>
+                    <span>UBIA WA MAENDELEO MASOKONI (3% REVENUE SHARE)</span>
+                </div>
+                <h3 style="font-size:1.05rem; font-weight:800; margin-bottom:4px;">Kodi Yako Inajenga Soko Lako</h3>
+                <p>Asilimia 3 ya kodi unayolipa inarejeshwa kwa chama chako cha soko kwa ajili ya kufunga taa za sola, usafi wa mazingira, vyoo vya kisasa, na ulinzi.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Floating Frosted Glass Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <button type="button" onclick="switchTab('calculator')" id="nav-calculator" class="nav-item active">
+            <span class="nav-icon"><svg class="icon-svg"><use href="#icon-coins"/></svg></span>
+            <span class="nav-label" data-i18n="nav_calc">Kodi</span>
+        </button>
+        <button type="button" onclick="switchTab('ussd')" id="nav-ussd" class="nav-item">
+            <span class="nav-icon"><svg class="icon-svg"><use href="#icon-phone"/></svg></span>
+            <span class="nav-label">USSD</span>
+        </button>
+        <button type="button" onclick="switchTab('register')" id="nav-register" class="nav-item">
+            <span class="nav-icon"><svg class="icon-svg"><use href="#icon-user"/></svg></span>
+            <span class="nav-label" data-i18n="nav_reg">Sajili</span>
+        </button>
+        <button type="button" onclick="switchTab('payments')" id="nav-payments" class="nav-item">
+            <span class="nav-icon"><svg class="icon-svg"><use href="#icon-card"/></svg></span>
+            <span class="nav-label" data-i18n="nav_pay">Malipo</span>
+        </button>
+        <button type="button" onclick="switchTab('card')" id="nav-card" class="nav-item">
+            <span class="nav-icon"><svg class="icon-svg"><use href="#icon-shield"/></svg></span>
+            <span class="nav-label" data-i18n="nav_card">Kadi</span>
+        </button>
+    </nav>
+
+    <!-- Server Connection Modal -->
+    <div id="serverModal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <h3 style="font-size:0.9375rem; font-weight:800; color:var(--primary-dark); margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+                <svg class="icon-svg icon-sm icon-gold"><use href="#icon-signal"/></svg>
+                <span>Mipangilio ya Seva</span>
+            </h3>
+            <p style="font-size:0.75rem; color:#64748B; margin-bottom:12px;">
+                Mfumo unajitegemea 100% bila mtandao (Offline). Unaweza pia kuunganisha na seva ya TaxRahisi:
+            </p>
+            <div class="form-group">
+                <label class="form-label">Seva URL:</label>
+                <input type="text" id="serverUrlInput" value="http://10.0.2.2:5000" class="form-input" style="font-family:monospace; font-size:0.75rem;">
+                <p style="font-size:0.625rem; color:#94A3B8; margin-top:4px;">Kwa simu halisi kwenye Wi-Fi moja, weka IP ya kompyuta yako (mfano http://192.168.1.109:5000).</p>
+            </div>
+            <div style="display:flex; gap:8px; margin-top:12px;">
+                <button type="button" onclick="testServerConnection()" class="btn-primary" style="flex:1; padding:8px;">
+                    Unganisha
+                </button>
+                <button type="button" onclick="toggleServerModal()" class="btn-pill" style="background:#E2E8F0; color:#334155; border:none; padding:8px 14px;">
+                    Funga
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
