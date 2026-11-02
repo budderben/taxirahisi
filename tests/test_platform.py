@@ -60,10 +60,11 @@ class TaxRahisiPlatformTestSuite(unittest.TestCase):
         self.assertTrue(taxpayer.tin.startswith('14'))
         self.assertEqual(taxpayer.nida_number, nida)
 
-        # Verify 12-month grace period granted
+        # Verify 6-month grace period granted
         grace = self.db.query(GracePeriod).filter(GracePeriod.taxpayer_id == taxpayer.id).first()
         self.assertIsNotNone(grace)
         self.assertTrue(grace.is_active)
+        self.assertEqual(grace.duration_months, 6)
         self.assertTrue(grace.penalty_relief_granted)
 
     # ==========================================================================

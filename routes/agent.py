@@ -153,11 +153,12 @@ def onboard():
 
             grace = GracePeriod(
                 taxpayer_id=taxpayer.id,
-                duration_months=12,
+                duration_months=6,
                 start_date=datetime.datetime.utcnow(),
-                end_date=datetime.datetime.utcnow() + datetime.timedelta(days=365),
+                end_date=datetime.datetime.utcnow() + datetime.timedelta(days=180),
                 is_active=True,
-                penalty_relief_granted=True
+                penalty_relief_granted=True,
+                notes="Msamaha wa adhabu kwa mlipakodi mpya wa sekta isiyo rasmi (Mwezi 1-6)."
             )
             db.add(grace)
 

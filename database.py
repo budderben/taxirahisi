@@ -410,7 +410,7 @@ class GracePeriod(Base):
     __tablename__ = "grace_periods"
     id = Column(Integer, primary_key=True)
     taxpayer_id = Column(Integer, ForeignKey("taxpayers.id"), nullable=False)
-    duration_months = Column(Integer, default=12)
+    duration_months = Column(Integer, default=6)
     start_date = Column(DateTime, default=datetime.datetime.utcnow)
     end_date = Column(DateTime, nullable=False)
     is_active = Column(Boolean, default=True)

@@ -109,6 +109,24 @@ def create_app():
     def internal_error(e):
         return render_template('public/500.html'), 500
 
+    # Ensure database tables and demo seed data exist (Critical for Render / Production startup)
+    try:
+        from database import init_db
+        init_db()
+        db = SessionLocal()
+        try:
+            admin_user = db.query(User).filter(User.username == "tra.admin").first()
+            if not admin_user:
+                print("Database has no demo admin. Seeding TaxRahisi demo accounts for prototype...")
+                from seed import seed_database
+                seed_database()
+        except Exception as seed_err:
+            print(f"Notice: DB check during startup: {seed_err}")
+        finally:
+            db.close()
+    except Exception as db_init_err:
+        print(f"Notice: init_db during startup: {db_init_err}")
+
     return app
 
 app = create_app()

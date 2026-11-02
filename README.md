@@ -29,7 +29,7 @@ The platform operates 5 integrated, role-based interfaces plus automated backend
    - **Mawasiliano (`/contact`)**: Regional offices, TRA toll-free lines (0800 110 016), and public inquiry form.
 
 2. **Taxpayer Self-Service Portal (`/portal/`)**:
-   - **Guided Registration (`/portal/register`)**: Instant 20-digit NIDA validation, instant TIN generation (`14X-XXX-XXX`), and automatic 12-month first-time grace period certification.
+   - **Guided Registration (`/portal/register`)**: Instant 20-digit NIDA validation, instant TIN generation (`14X-XXX-XXX`), and automatic 6-month first-time grace period certification.
    - **Dashboard (`/portal/dashboard`)**: Compliance score meter, active grace period banner, assessment breakdown, and payment status.
    - **Assessment & Reassessment (`/portal/assessment`)**: Transparent breakdown of Cap 332 tax band calculation and formal reassessment request form (Section 71).
    - **GePG Payments (`/portal/payments`)**: Direct GePG control number generator (`991...`), mobile money instructions (M-Pesa, Tigo Pesa, Airtel Money), and instant receipt generation.

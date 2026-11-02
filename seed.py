@@ -385,15 +385,15 @@ def seed_database():
             is_active=True
         ))
 
-        # Grace period for Juma
+        # Grace period for Juma (6-Month Grace Period)
         db.add(GracePeriod(
             taxpayer_id=tp_juma.id,
-            duration_months=12,
+            duration_months=6,
             start_date=datetime.datetime.utcnow(),
-            end_date=datetime.datetime.utcnow() + datetime.timedelta(days=365),
+            end_date=datetime.datetime.utcnow() + datetime.timedelta(days=180),
             is_active=True,
             penalty_relief_granted=True,
-            notes="Biashara mpya iliyosajiliwa Mwenge."
+            notes="Kipindi cha Neema cha Miezi 6 - Biashara mpya iliyosajiliwa Mwenge (Mwezi 1-6)."
         ))
 
         # 11. Community Projects

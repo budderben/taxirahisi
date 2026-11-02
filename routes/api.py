@@ -92,7 +92,7 @@ def ussd_gateway():
                 db.add(new_taxpayer)
                 db.commit()
 
-                response_text = f"END Hongera! Usajili umekamilika.\nTIN Yako: {new_tin}\nUtapewa msamaha wa miezi 12 kama biashara mpya. TRA itakutumia SMS ya uthibitisho."
+                response_text = f"END Hongera! Usajili umekamilika.\nTIN Yako: {new_tin}\nUtapewa msamaha wa miezi 6 kama biashara mpya. TRA itakutumia SMS ya uthibitisho."
 
         elif inputs[0] == "2":
             # 2. Check Tax Assessment

@@ -269,3 +269,67 @@ def redirect_by_role(role_name):
     elif role_name == 'taxpayer':
         return redirect(url_for('taxpayer.dashboard'))
     return redirect(url_for('public.index'))
+
+@public_bp.route('/demo-login/<role_or_key>')
+def demo_login(role_or_key):
+    key = (role_or_key or '').lower().strip()
+    
+    role_map = {
+        'admin': ('tra.admin', 'Dr. Emmanuel Mwakyusa (Kamishna wa Mapato)'),
+        'tra.admin': ('tra.admin', 'Dr. Emmanuel Mwakyusa (Kamishna wa Mapato)'),
+        'officer': ('officer@tra.go.tz', 'Mariam Mtoro (Afisa Kodi Mwandamizi)'),
+        'neema': ('0755123456', 'Neema Mwamba (Mama Neema - Kariakoo)'),
+        '0755123456': ('0755123456', 'Neema Mwamba (Mama Neema - Kariakoo)'),
+        'juma': ('0712345678', 'Juma Rashid (Mwenge Vinyago - Kipindi cha Neema)'),
+        '0712345678': ('0712345678', 'Juma Rashid (Mwenge Vinyago - Kipindi cha Neema)'),
+        'vibindo': ('vibindo.admin', 'Gaston Kikuwi (Mwenyekiti VIBINDO)'),
+        'vibindo.admin': ('vibindo.admin', 'Gaston Kikuwi (Mwenyekiti VIBINDO)'),
+        'agent': ('agent.mwangi', 'Juma Bakari (Wakala wa Ushuru)'),
+        'agent.mwangi': ('agent.mwangi', 'Juma Bakari (Wakala wa Ushuru)')
+    }
+    
+    target = role_map.get(key)
+    if not target:
+        flash("Akaunti hiyo ya demo haijapatikana.", "warning")
+        return redirect(url_for('public.login'))
+        
+    username, title = target
+    db = SessionLocal()
+    try:
+        user = db.query(User).filter(
+            (User.username == username) |
+            (User.phone_number == username) |
+            (User.email == username)
+        ).first()
+        
+        if not user:
+            from seed import seed_database
+            seed_database()
+            user = db.query(User).filter(
+                (User.username == username) |
+                (User.phone_number == username) |
+                (User.email == username)
+            ).first()
+            
+        if user and user.is_active:
+            session.clear()
+            session['user_id'] = user.id
+            session['username'] = user.username
+            session['full_name'] = user.full_name
+            session['user_role'] = user.role.name
+            
+            log_audit_event(
+                actor_username=user.username,
+                action="DEMO_LOGIN_SUCCESS",
+                entity_type="AUTH",
+                entity_id=str(user.id),
+                details=f"Demo prototype login as {user.role.name}"
+            )
+            role_label = user.role.name.replace('_', ' ').title()
+            flash(f"🎯 Umeingia kama: {user.full_name} ({role_label}) [Hali ya Majaribio / Prototype]", "success")
+            return redirect_by_role(user.role.name)
+        else:
+            flash("Imeshindikana kuingia kwenye akaunti ya majaribio.", "danger")
+            return redirect(url_for('public.login'))
+    finally:
+        db.close()
