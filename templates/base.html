@@ -168,6 +168,13 @@
                         <span class="badge badge-gold" style="padding:2px 6px; font-size:0.65rem;">*152*00#</span> USSD Simu ya Kitochi
                     </a>
                 </li>
+
+                <!-- 5. Android Mobile App Link -->
+                <li>
+                    <a href="{{ url_for('public.mobile_app') }}" class="nav-link {% if request.endpoint in ['public.mobile_app', 'public.download_apk'] %}active{% endif %}" style="display:flex; align-items:center; gap:6px;">
+                        {{ icon('phone', 'icon-sm') }} Pakua App <span class="badge badge-success" style="padding:2px 6px; font-size:0.65rem;">APK</span>
+                    </a>
+                </li>
             </ul>
 
             <div class="nav-actions">
@@ -239,6 +246,7 @@
                 <h4>Huduma za Mfumo</h4>
                 <ul class="footer-links">
                     <li><a href="{{ url_for('taxpayer.register') }}">Usajili Mpya wa TIN</a></li>
+                    <li><a href="{{ url_for('public.mobile_app') }}">Pakua App ya Android (TaxRahisi.apk)</a></li>
                     <li><a href="{{ url_for('public.ussd_simulator') }}">USSD Simu ya Kitochi (*152*00#)</a></li>
                     <li><a href="{{ url_for('public.calculator') }}">Kikokotoo cha Kodi (Cap 332)</a></li>
                     <li><a href="{{ url_for('public.verify') }}">Hakiki Stakabadhi & TIN</a></li>

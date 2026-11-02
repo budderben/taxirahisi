@@ -24,6 +24,9 @@
             <a href="{{ url_for('taxpayer.register') }}" class="btn btn-accent btn-lg">
                 {{ icon('user', 'icon-sm') }} Jisajili Sasa (Dakika 2)
             </a>
+            <a href="{{ url_for('public.download_apk') }}" class="btn btn-primary btn-lg" style="background:#0F5132; border:2px solid var(--gold-accent); color:#FFFFFF; box-shadow:0 4px 14px rgba(0,0,0,0.25);">
+                {{ icon('download', 'icon-sm') }} Pakua App (APK 4.5 MB)
+            </a>
             <a href="{{ url_for('public.ussd_simulator') }}" class="btn btn-outline btn-lg" style="color:var(--gold-light); border-color:var(--gold-accent); background:rgba(252, 209, 22, 0.12);">
                 {{ icon('phone', 'icon-sm') }} Jaribu USSD (*152*00#)
             </a>
@@ -118,6 +121,48 @@
                     Inapatikana mitandao yote:<br>
                     <strong>Airtel, Vodacom, Tigo, Halotel, TTCL</strong><br>
                     <span class="badge badge-success" style="margin-top:6px;">{{ icon('check', 'icon-sm') }} Bure Kabisa (Zero-Rated)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 3b. FEATURE SHOWCASE: Android Mobile Application (APK) -->
+<div class="card" style="margin-top:24px; border:2px solid var(--gold-border); background:linear-gradient(135deg, #0A381B 0%, #004D26 60%, #102A1C 100%); color:#FFFFFF;">
+    <div class="card-body" style="padding:28px;">
+        <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:24px;">
+            <div style="flex:1; min-width:300px;">
+                <div class="badge badge-gold" style="margin-bottom:8px; background:rgba(252, 209, 22, 0.2); color:var(--gold-light); border-color:var(--gold-accent);">
+                    {{ icon('phone', 'icon-sm') }} PROGRAMU YA ANDROID (APK) &bull; INAFANYA KAZI BILA INTANETI
+                </div>
+                <h2 style="font-size:1.6rem; font-weight:800; color:#FFFFFF; margin-bottom:10px;">
+                    Pakua TaxRahisi Kwenye Simu Yako ya Mkononi
+                </h2>
+                <p style="font-size:0.95rem; color:#E2ECE6; line-height:1.6; margin-bottom:16px;">
+                    Tumia mfumo mzima wa TaxRahisi popote ulipo hata <strong>bila bando la intaneti</strong>. APK ya Android inajumuisha kikokotoo cha kodi (Cap 332), upigaji wa USSD (*150*88#), utoaji wa namba za GePG (991...), na stakabadhi za kidijitali za TRA.
+                </p>
+                <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                    <a href="{{ url_for('public.download_apk') }}" class="btn btn-accent btn-lg" style="box-shadow: 0 4px 16px rgba(0,0,0,0.3); font-weight:800;">
+                        {{ icon('download', 'icon-sm') }} Pakua TaxRahisi.apk (4.5 MB)
+                    </a>
+                    <a href="{{ url_for('public.mobile_app') }}" class="btn btn-outline btn-lg" style="color:var(--gold-light); border-color:var(--gold-accent); background:rgba(252, 209, 22, 0.1);">
+                        {{ icon('info', 'icon-sm') }} Maelekezo ya Usakinishaji
+                    </a>
+                </div>
+            </div>
+            <div style="text-align:center; padding:20px; background:#FFFFFF; border-radius:12px; border:2px solid var(--gold-border); box-shadow:var(--shadow-md); min-width:230px; color:var(--primary-dark);">
+                <img src="{{ url_for('static', filename='images/tra_icon.png') }}" alt="TRA Logo" style="width:64px; height:64px; border-radius:12px; margin-bottom:8px; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+                <div style="font-size:1rem; font-weight:800; color:var(--primary-dark); margin-bottom:2px;">
+                    TaxRahisi App
+                </div>
+                <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:8px;">
+                    Android 5.0+ &bull; 4.5 MB
+                </div>
+                <span class="badge badge-success" style="font-size:0.7rem;">{{ icon('check', 'icon-sm') }} 100% Bure (Zero-Rated)</span>
+                <div style="margin-top:10px;">
+                    <a href="{{ url_for('public.download_apk') }}" class="btn btn-primary btn-sm" style="width:100%; justify-content:center;">
+                        {{ icon('download', 'icon-sm') }} Pakua APK
+                    </a>
                 </div>
             </div>
         </div>

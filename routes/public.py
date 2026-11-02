@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session, send_file
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session, send_file, current_app
+import os
 import io
 import re
 from database import SessionLocal, User, Role, Taxpayer, Association, EducationalContent, Complaint, AuditLog, DigitalReceipt, Payment
@@ -83,6 +84,34 @@ Tovuti Rasmi: https://www.tra.go.tz | Dawati la Msaada: 0800 780 078 / 0800 110 
         return send_file(mem, as_attachment=True, download_name=filename, mimetype='text/plain')
     finally:
         db.close()
+
+@public_bp.route('/app', endpoint='mobile_app')
+@public_bp.route('/mobile-app')
+def mobile_app():
+    return render_template('public/mobile_app.html')
+
+@public_bp.route('/download/TaxRahisi.apk', endpoint='download_apk_file')
+@public_bp.route('/download-apk', endpoint='download_apk')
+def download_apk():
+    # Primary locations to check for TaxRahisi.apk:
+    possible_paths = [
+        os.path.join(current_app.root_path, 'TaxRahisi.apk'),
+        os.path.join(current_app.root_path, 'static', 'downloads', 'TaxRahisi.apk'),
+        os.path.join(os.path.dirname(current_app.root_path), 'TaxRahisi.apk'),
+        os.path.join(os.path.dirname(current_app.root_path), 'android_app', 'TaxRahisi.apk')
+    ]
+    for path in possible_paths:
+        if os.path.exists(path) and os.path.isfile(path):
+            return send_file(
+                path,
+                as_attachment=True,
+                download_name='TaxRahisi.apk',
+                mimetype='application/vnd.android.package-archive'
+            )
+    
+    # Fallback to direct raw download from GitHub if file is not found locally
+    github_url = "https://github.com/budderben/taxirahisi/raw/master/TaxRahisi.apk"
+    return redirect(github_url)
 
 @public_bp.route('/associations-programme', endpoint='associations_programme')
 @public_bp.route('/associations', endpoint='associations')

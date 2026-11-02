@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% from "macros/icons.html" import icon %}
+
+{% block title %}Pakua App ya Android — TaxRahisi APK | TRA{% endblock %}
+
+{% block content %}
+<!-- Header Banner -->
+<div class="official-tra-banner-wrapper" style="margin-bottom:20px; border-radius:12px; overflow:hidden; box-shadow:var(--shadow-sm); border:1px solid var(--gold-border);">
+    <img src="{{ url_for('static', filename='images/tra_banner.png') }}" alt="TRA Banner" style="width:100%; height:auto; display:block; max-height:140px; object-fit:cover;">
+</div>
+
+<!-- Hero Section -->
+<section class="hero" style="position:relative; overflow:hidden; margin-bottom:24px;">
+    <div class="hero-inner">
+        <div class="hero-tag" style="background:rgba(252, 209, 22, 0.15); border-color:var(--gold-accent); color:var(--gold-light);">
+            {{ icon('phone', 'icon-gold') }}
+            <span>PROGRAMU RASMI YA SIMU YA MKONONI &bull; ANDROID MOBILE APK</span>
+        </div>
+        <h1 class="hero-title">TaxRahisi Kwenye Simu Yako ya Mkononi</h1>
+        <p class="hero-lead">
+            Pakua programu ya Android ya TaxRahisi (APK) kwa ajili ya kufanya makadirio ya kodi ya Cap 332, kufanya majaribio ya USSD, kuzalisha stakabadhi za GePG, na kupata beji yako ya mlipakodi — <strong>yote haya yanafanya kazi hata bila bando la intaneti (100% Offline)!</strong>
+        </p>
+
+        <!-- Big Download Action Box -->
+        <div style="background:rgba(255, 255, 255, 0.08); border:2px solid var(--gold-accent); border-radius:16px; padding:24px; margin-top:20px; backdrop-filter:blur(8px);">
+            <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px;">
+                <div style="flex:1; min-width:280px;">
+                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+                        <img src="{{ url_for('static', filename='images/tra_icon.png') }}" alt="TaxRahisi App Icon" style="width:54px; height:54px; border-radius:12px; border:2px solid var(--gold-accent); box-shadow:0 4px 10px rgba(0,0,0,0.3);">
+                        <div>
+                            <div style="font-size:1.25rem; font-weight:800; color:#FFFFFF;">TaxRahisi Android Client</div>
+                            <div style="font-size:0.8rem; color:var(--gold-light); font-weight:600;">Toleo 1.0.0 &bull; Fayili ya APK &bull; 4.5 MB</div>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
+                        <span class="badge badge-gold">{{ icon('check', 'icon-sm') }} 100% Offline Mode</span>
+                        <span class="badge badge-success">{{ icon('shield', 'icon-sm') }} Imehakikiwa & Kusainiwa</span>
+                        <span class="badge badge-info">{{ icon('award', 'icon-sm') }} Android 5.0+</span>
+                    </div>
+                    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                        <a href="{{ url_for('public.download_apk') }}" class="btn btn-accent btn-lg" style="box-shadow: 0 4px 16px rgba(252, 209, 22, 0.4); font-weight:800;">
+                            {{ icon('download', 'icon-sm') }} Pakua TaxRahisi APK (4.5 MB)
+                        </a>
+                        <a href="https://github.com/budderben/taxirahisi/raw/master/TaxRahisi.apk" class="btn btn-outline btn-lg" style="color:#FFFFFF; border-color:rgba(255,255,255,0.4);" target="_blank" rel="noopener">
+                            {{ icon('download', 'icon-sm') }} Pakua kutoka GitHub (Backup)
+                        </a>
+                    </div>
+                </div>
+
+                <!-- QR Code Box for Desktop Users to Scan with Phone -->
+                <div style="background:#FFFFFF; border-radius:14px; padding:16px; text-align:center; min-width:180px; box-shadow:0 8px 24px rgba(0,0,0,0.25); border:2px solid var(--gold-border);">
+                    <div style="font-size:0.7rem; font-weight:800; color:var(--primary-dark); text-transform:uppercase; margin-bottom:8px; letter-spacing:0.5px;">
+                        Changanua kwa Simu
+                    </div>
+                    <!-- Generative SVG QR Code Representation -->
+                    <div style="display:inline-block; padding:8px; background:#fff; border-radius:8px; border:1px solid #E2ECE6;">
+                        <svg width="128" height="128" viewBox="0 0 33 33" shape-rendering="crispEdges">
+                            <rect width="33" height="33" fill="#ffffff"/>
+                            <!-- Top Left Finder Pattern -->
+                            <rect x="2" y="2" width="7" height="7" fill="#004D26"/>
+                            <rect x="3" y="3" width="5" height="5" fill="#ffffff"/>
+                            <rect x="4" y="4" width="3" height="3" fill="#004D26"/>
+                            <!-- Top Right Finder Pattern -->
+                            <rect x="24" y="2" width="7" height="7" fill="#004D26"/>
+                            <rect x="25" y="3" width="5" height="5" fill="#ffffff"/>
+                            <rect x="26" y="4" width="3" height="3" fill="#004D26"/>
+                            <!-- Bottom Left Finder Pattern -->
+                            <rect x="2" y="24" width="7" height="7" fill="#004D26"/>
+                            <rect x="3" y="25" width="5" height="5" fill="#ffffff"/>
+                            <rect x="4" y="26" width="3" height="3" fill="#004D26"/>
+                            <!-- Data Dots Simulation -->
+                            <rect x="11" y="3" width="2" height="1" fill="#004D26"/>
+                            <rect x="15" y="2" width="1" height="2" fill="#004D26"/>
+                            <rect x="18" y="3" width="2" height="2" fill="#004D26"/>
+                            <rect x="11" y="6" width="1" height="3" fill="#004D26"/>
+                            <rect x="13" y="7" width="2" height="1" fill="#004D26"/>
+                            <rect x="17" y="6" width="2" height="2" fill="#004D26"/>
+                            <rect x="20" y="7" width="1" height="2" fill="#004D26"/>
+                            <!-- Center Pattern -->
+                            <rect x="13" y="13" width="7" height="7" fill="#FCD116"/>
+                            <rect x="14" y="14" width="5" height="5" fill="#004D26"/>
+                            <rect x="15" y="15" width="3" height="3" fill="#ffffff"/>
+                            <rect x="4" y="11" width="2" height="2" fill="#004D26"/>
+                            <rect x="8" y="12" width="2" height="1" fill="#004D26"/>
+                            <rect x="2" y="15" width="2" height="2" fill="#004D26"/>
+                            <rect x="6" y="16" width="3" height="1" fill="#004D26"/>
+                            <rect x="24" y="11" width="2" height="2" fill="#004D26"/>
+                            <rect x="28" y="13" width="2" height="2" fill="#004D26"/>
+                            <rect x="24" y="16" width="3" height="1" fill="#004D26"/>
+                            <rect x="11" y="22" width="2" height="2" fill="#004D26"/>
+                            <rect x="14" y="24" width="2" height="2" fill="#004D26"/>
+                            <rect x="18" y="22" width="2" height="1" fill="#004D26"/>
+                            <rect x="20" y="25" width="1" height="3" fill="#004D26"/>
+                            <rect x="24" y="23" width="2" height="2" fill="#004D26"/>
+                            <rect x="27" y="26" width="3" height="2" fill="#004D26"/>
+                            <rect x="25" y="29" width="2" height="2" fill="#004D26"/>
+                        </svg>
+                    </div>
+                    <div style="font-size:0.65rem; color:var(--text-muted); margin-top:4px;">
+                        Kamera ya Simu &bull; Direct APK
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 4 Key App Capabilities -->
+<div class="page-header" style="margin-top:28px;">
+    <div>
+        <h2 class="page-title">Vipengele vya Programu ya Android</h2>
+        <p class="page-subtitle">Imeundwa mahsusi kukidhi mahitaji ya wafanyabiashara wadogo masokoni na maeneo yasiyo na mtandao imara.</p>
+    </div>
+</div>
+
+<div class="features-grid">
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('shield', 'icon-gold') }}</div>
+        <h3 class="feature-title">100% Inafanya Kazi Bila Bando (Offline)</h3>
+        <p class="feature-text">
+            Huna haja ya kumaliza bando lako. Mfumo mzima wa mahesabu ya kodi, tarakimu, na miongozo imejumuishwa ndani ya programu. Unaweza kukokotoa kodi popote ulipo hata kama huna mtandao wa data.
+        </p>
+    </div>
+
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('coins', 'icon-gold') }}</div>
+        <h3 class="feature-title">Kikokotoo cha Kodi ya Cap 332</h3>
+        <p class="feature-text">
+            Kadiria kodi yako kwa sekunde kulingana na sheria ya serikali. Angalia mgawanyo wa malipo ya kila robo mwaka, kila mwezi, au kila wiki ili kupanga bajeti yako kwa amani.
+        </p>
+    </div>
+
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('phone', 'icon-gold') }}</div>
+        <h3 class="feature-title">USSD & Kupiga Simu Moja kwa Moja</h3>
+        <p class="feature-text">
+            Imeunganishwa na kipiga simu (Dialer) cha simu yako. Bonyeza kitufe kimoja kupiga <strong>*150*88#</strong> au <strong>*152*00#</strong> kwa ajili ya kufanya malipo na kupata huduma za TRA bila kuandika tarakimu kwa mkono.
+        </p>
+    </div>
+
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('receipt', 'icon-gold') }}</div>
+        <h3 class="feature-title">Stakabadhi na Malipo ya GePG</h3>
+        <p class="feature-text">
+            Tengeneza namba rasmi za GePG (991...) na upate risiti halisi zenye muhuri wa kidijitali wa TRA. Unaweza kutuma risiti yako moja kwa moja kupitia WhatsApp au SMS kwa kubonyeza kitufe kimoja.
+        </p>
+    </div>
+
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('award', 'icon-gold') }}</div>
+        <h3 class="feature-title">Kadi ya Mlipakodi Bora (Badge)</h3>
+        <p class="feature-text">
+            Onyesha kadi yako ya mlipakodi kidijitali yenye nembo ya TRA, picha yako, TIN, na jina la chama chako (mfano VIBINDO, UWAWAMA) ikiwa na QR Code inayothibitisha uhalali wako.
+        </p>
+    </div>
+
+    <div class="feature-box">
+        <div class="feature-icon-box">{{ icon('scale', 'icon-gold') }}</div>
+        <h3 class="feature-title">Lugha ya Kiswahili na Kiingereza</h3>
+        <p class="feature-text">
+            Kiolesura rahisi kinachopatikana kwa lugha ya Kiswahili fasaha pamoja na Kiingereza. Badilisha lugha wakati wowote kwa kubonyeza alama ya dunia (🌐).
+        </p>
+    </div>
+</div>
+
+<!-- Step by Step Installation Guide -->
+<div class="card" style="margin-top:28px; border:2px solid var(--gold-border);">
+    <div class="card-header" style="background:var(--primary-dark); color:#FFFFFF;">
+        <div class="card-title" style="color:#FFFFFF;">
+            {{ icon('check', 'icon-gold') }}
+            <span>Mwongozo wa Kusakinisha (Hatua 4 za Kusanidi APK kwenye Simu Yako)</span>
+        </div>
+        <span class="badge badge-gold">Rahisi Sana</span>
+    </div>
+    <div class="card-body" style="padding:28px;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:20px;">
+            <div style="background:#F6FAF8; border:1px solid #D1E5DA; border-radius:12px; padding:20px;">
+                <div style="width:36px; height:36px; border-radius:50%; background:var(--primary-green); color:#FFFFFF; font-weight:800; display:flex; align-items:center; justify-content:center; margin-bottom:12px;">1</div>
+                <h4 style="color:var(--primary-dark); font-size:1.05rem; font-weight:800; margin-bottom:6px;">Pakua Faili la APK</h4>
+                <p style="font-size:0.875rem; color:var(--text-muted); line-height:1.5;">
+                    Bonyeza kitufe cha dhahabu cha <strong>"Pakua TaxRahisi APK"</strong>. Simu yako ya Android itaanza kupakua faili la <code>TaxRahisi.apk</code> (4.5 MB).
+                </p>
+            </div>
+
+            <div style="background:#F6FAF8; border:1px solid #D1E5DA; border-radius:12px; padding:20px;">
+                <div style="width:36px; height:36px; border-radius:50%; background:var(--primary-green); color:#FFFFFF; font-weight:800; display:flex; align-items:center; justify-content:center; margin-bottom:12px;">2</div>
+                <h4 style="color:var(--primary-dark); font-size:1.05rem; font-weight:800; margin-bottom:6px;">Fungua Faili</h4>
+                <p style="font-size:0.875rem; color:var(--text-muted); line-height:1.5;">
+                    Upakuaji ukikamilika, bonyeza taarifa ya upakuaji (notification) au nenda kwenye faili zako (<strong>Files &gt; Downloads</strong>) na ubofye <code>TaxRahisi.apk</code>.
+                </p>
+            </div>
+
+            <div style="background:#F6FAF8; border:1px solid #D1E5DA; border-radius:12px; padding:20px;">
+                <div style="width:36px; height:36px; border-radius:50%; background:var(--gold-accent); color:#000000; font-weight:800; display:flex; align-items:center; justify-content:center; margin-bottom:12px;">3</div>
+                <h4 style="color:var(--primary-dark); font-size:1.05rem; font-weight:800; margin-bottom:6px;">Ruhusu Usakinishaji</h4>
+                <p style="font-size:0.875rem; color:var(--text-muted); line-height:1.5;">
+                    Ikiwa simu itaomba idhini (Security / Unknown Sources), chagua <strong>Settings</strong> kisha wezesha <em>"Allow from this source"</em> (Ruhusu kutoka chanzo hiki).
+                </p>
+            </div>
+
+            <div style="background:#F6FAF8; border:1px solid #D1E5DA; border-radius:12px; padding:20px;">
+                <div style="width:36px; height:36px; border-radius:50%; background:var(--primary-green); color:#FFFFFF; font-weight:800; display:flex; align-items:center; justify-content:center; margin-bottom:12px;">4</div>
+                <h4 style="color:var(--primary-dark); font-size:1.05rem; font-weight:800; margin-bottom:6px;">Bonyeza "Install"</h4>
+                <p style="font-size:0.875rem; color:var(--text-muted); line-height:1.5;">
+                    Bonyeza <strong>Install</strong> (Sakinisha). Ndani ya sekunde chache programu itakuwa tayari kutumika kwenye simu yako!
+                </p>
+            </div>
+        </div>
+
+        <div style="text-align:center; margin-top:28px;">
+            <a href="{{ url_for('public.download_apk') }}" class="btn btn-accent btn-lg" style="box-shadow: 0 4px 16px rgba(0,0,0,0.15);">
+                {{ icon('download', 'icon-sm') }} Pakua Sasa — TaxRahisi.apk (4.5 MB)
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
