@@ -78,7 +78,7 @@
 </div>
 
 <!-- Regional Revenue Distribution & Recent Transactions -->
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start;">
+<div class="admin-dashboard-grid">
     <!-- Regional Distribution -->
     <div class="card">
         <div class="card-header">
@@ -113,30 +113,32 @@
         <div class="card-header">
             <h2 class="card-title">{{ icon('target', 'icon-gold') }} Hatua za Haraka za Kiutawala</h2>
         </div>
-        <div class="card-body" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-            <a href="{{ url_for('admin.taxpayers') }}" class="btn btn-secondary" style="padding:16px; text-align:center; display:block;">
-                <div>{{ icon('users', 'icon-gold') }}</div>
-                <div style="font-weight:700; margin-top:4px;">Tafuta Mlipakodi</div>
-                <div style="font-size:0.75rem; color:#5C7268;">Angalia wasifu au sitisha TIN</div>
-            </a>
+        <div class="card-body">
+            <div class="quick-actions-grid">
+                <a href="{{ url_for('admin.taxpayers') }}" class="btn btn-secondary quick-action-card">
+                    <div>{{ icon('users', 'icon-gold') }}</div>
+                    <div style="font-weight:700; margin-top:4px; font-size:0.875rem;">Tafuta Mlipakodi</div>
+                    <div style="font-size:0.75rem; color:#5C7268; margin-top:2px;">Angalia wasifu au sitisha TIN</div>
+                </a>
 
-            <a href="{{ url_for('admin.associations') }}" class="btn btn-secondary" style="padding:16px; text-align:center; display:block;">
-                <div>{{ icon('building', 'icon-gold') }}</div>
-                <div style="font-weight:700; margin-top:4px;">Idhinisha Gawio (3%)</div>
-                <div style="font-size:0.75rem; color:#5C7268;">{{ pending_payouts }} maombi yanasubiri</div>
-            </a>
+                <a href="{{ url_for('admin.associations') }}" class="btn btn-secondary quick-action-card">
+                    <div>{{ icon('building', 'icon-gold') }}</div>
+                    <div style="font-weight:700; margin-top:4px; font-size:0.875rem;">Idhinisha Gawio (3%)</div>
+                    <div style="font-size:0.75rem; color:#5C7268; margin-top:2px;">{{ pending_payouts }} maombi yanasubiri</div>
+                </a>
 
-            <a href="{{ url_for('admin.tax_rules') }}" class="btn btn-secondary" style="padding:16px; text-align:center; display:block;">
-                <div>{{ icon('settings', 'icon-gold') }}</div>
-                <div style="font-weight:700; margin-top:4px;">Marekebisho ya Bands</div>
-                <div style="font-size:0.75rem; color:#5C7268;">Maker-Checker audit trails</div>
-            </a>
+                <a href="{{ url_for('admin.tax_rules') }}" class="btn btn-secondary quick-action-card">
+                    <div>{{ icon('settings', 'icon-gold') }}</div>
+                    <div style="font-weight:700; margin-top:4px; font-size:0.875rem;">Marekebisho ya Bands</div>
+                    <div style="font-size:0.75rem; color:#5C7268; margin-top:2px;">Maker-Checker audit trails</div>
+                </a>
 
-            <a href="{{ url_for('admin.compliance') }}" class="btn btn-secondary" style="padding:16px; text-align:center; display:block;">
-                <div>{{ icon('target', 'icon-gold') }}</div>
-                <div style="font-weight:700; margin-top:4px;">Uchambuzi wa Hatari</div>
-                <div style="font-size:0.75rem; color:#5C7268;">Alama za hatari za walipakodi</div>
-            </a>
+                <a href="{{ url_for('admin.compliance') }}" class="btn btn-secondary quick-action-card">
+                    <div>{{ icon('target', 'icon-gold') }}</div>
+                    <div style="font-weight:700; margin-top:4px; font-size:0.875rem;">Uchambuzi wa Hatari</div>
+                    <div style="font-size:0.75rem; color:#5C7268; margin-top:2px;">Alama za hatari za walipakodi</div>
+                </a>
+            </div>
         </div>
     </div>
 </div>

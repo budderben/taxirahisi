@@ -55,12 +55,12 @@
                 <span class="badge badge-gold" style="font-size:0.675rem;">Hakuna Password</span>
             </div>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-                <a href="{{ url_for('public.demo_login', role_or_key='juma') }}" class="demo-btn" style="text-decoration:none; text-align:left; background:#FFFFFF; border:1px solid #E2E8F0; padding:10px; border-radius:6px; cursor:pointer; font-size:0.75rem; color:var(--text-dark); transition:all 0.15s ease; display:block;">
+                <a href="{{ url_for('public.demo_login', role_or_key='admin') }}" class="demo-btn" style="text-decoration:none; text-align:left; background:#FFFFFF; border:1px solid #E2E8F0; padding:10px; border-radius:6px; cursor:pointer; font-size:0.75rem; color:var(--text-dark); transition:all 0.15s ease; display:block;">
                     <div style="display:flex; align-items:center; gap:6px; font-weight:700; color:var(--primary-dark);">
-                        {{ icon('user', 'icon-sm') }} Juma Rashid
+                        {{ icon('shield', 'icon-sm') }} Dr. Emmanuel Mwakyusa
                     </div>
-                    <div style="color:var(--gold-dark); font-weight:700; font-size:0.72rem; margin-top:2px;">Mlipakodi (Miezi 6 Neema)</div>
-                    <div style="color:var(--primary); font-weight:600; margin-top:3px; font-size:0.725rem;">Jina: <strong>Juma Rashid</strong> &bull; Bofya Kuingia &rarr;</div>
+                    <div style="color:var(--gold-dark); font-weight:700; font-size:0.72rem; margin-top:2px;">Kamishna wa Mapato (TRA Administrator)</div>
+                    <div style="color:var(--primary); font-weight:600; margin-top:3px; font-size:0.725rem;">Jina: <strong>Dr. Emmanuel Mwakyusa</strong> (au <strong>tra.admin</strong>) &bull; Bofya Kuingia &rarr;</div>
                 </a>
 
                 <a href="{{ url_for('public.demo_login', role_or_key='neema') }}" class="demo-btn" style="text-decoration:none; text-align:left; background:#FFFFFF; border:1px solid #E2E8F0; padding:10px; border-radius:6px; cursor:pointer; font-size:0.75rem; color:var(--text-dark); transition:all 0.15s ease; display:block;">
@@ -85,14 +85,6 @@
                     </div>
                     <div style="color:var(--primary); font-weight:700; font-size:0.72rem; margin-top:2px;">Wakala wa Ushuru Masokoni</div>
                     <div style="color:var(--primary); font-weight:600; margin-top:3px; font-size:0.725rem;">Jina: <strong>Juma Bakari</strong> &bull; Bofya Kuingia &rarr;</div>
-                </a>
-
-                <a href="{{ url_for('public.demo_login', role_or_key='admin') }}" class="demo-btn" style="grid-column: span 2; text-decoration:none; text-align:left; background:#FFFFFF; border:1px solid #E2E8F0; padding:10px; border-radius:6px; cursor:pointer; font-size:0.75rem; color:var(--text-dark); transition:all 0.15s ease; display:block;">
-                    <div style="display:flex; align-items:center; gap:6px; font-weight:700; color:var(--primary-dark);">
-                        {{ icon('shield', 'icon-sm') }} Dr. Emmanuel Mwakyusa
-                    </div>
-                    <div style="color:var(--gold-dark); font-weight:700; font-size:0.72rem; margin-top:2px;">Kamishna wa Mapato (TRA Administrator)</div>
-                    <div style="color:var(--primary); font-weight:600; margin-top:3px; font-size:0.725rem;">Jina: <strong>Dr. Emmanuel Mwakyusa</strong> (au <strong>tra.admin</strong>) &bull; Bofya Kuingia &rarr;</div>
                 </a>
             </div>
             <div style="text-align:center; margin-top:10px; font-size:0.725rem; color:var(--text-muted);">

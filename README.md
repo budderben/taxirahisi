@@ -118,7 +118,7 @@ For prototype demonstration on Render, passwords are not required. Simply enter 
 | :--- | :--- | :--- | :--- |
 | **TRA Administrator (Kamishna)** | `Dr. Emmanuel Mwakyusa` | `tra.admin`, `Kamishna` | `/admin/dashboard` |
 | **Taxpayer (Mama Neema)** | `Mama Neema` | `Neema Mwamba`, `0755123456` | `/portal/dashboard` |
-| **Taxpayer (Juma - Miezi 6 Neema)** | `Juma Rashid` | `Juma`, `0712345678` | `/portal/dashboard` |
+| **Taxpayer (Juma Rashid)** | `Juma Rashid` | `Juma`, `0712345678` | `/portal/dashboard` |
 | **Association Admin (VIBINDO)** | `Gaston Kikuwi` | `vibindo.admin`, `VIBINDO` | `/association/dashboard` |
 | **Market Agent** | `Juma Bakari` | `agent.mwangi`, `Wakala Mwangi` | `/agent/dashboard` |
 | **Senior Revenue Officer** | `Mariam Mtoro` | `officer@tra.go.tz` | `/admin/dashboard` |

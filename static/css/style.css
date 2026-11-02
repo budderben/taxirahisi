@@ -1581,6 +1581,36 @@ body {
   }
 }
 
+/* Two-Column Responsive Grid & Quick Operational Actions */
+.grid-2-col,
+.admin-dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.quick-action-card {
+  padding: 16px 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 105px;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s ease;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
 /* ==============================================================================
    RESPONSIVE DESIGN
    ============================================================================== */
@@ -1600,10 +1630,29 @@ body {
   .ussd-showcase-container {
     grid-template-columns: 1fr;
   }
+  .grid-2-col,
+  .admin-dashboard-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
 }
 
 @media (max-width: 480px) {
   .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .quick-actions-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .quick-action-card {
+    padding: 12px 6px;
+    min-height: 95px;
+  }
+}
+
+@media (max-width: 360px) {
+  .quick-actions-grid {
     grid-template-columns: 1fr;
   }
 }
